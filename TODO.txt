@@ -1,0 +1,13 @@
+TODO:
+Fix Walk and Run animation
+
+
+Base:
+1: Not Done (Map is already done, but need props)
+2: Not Done (Need a fsm, not animator fsm, iugh)
+3: 
+
+Note:
+CamFwrd = new Vector3(sin(yaw) * cos(pitch), sin(pitch), cos(yaw) * sin(pitch));
+
+Bug:
