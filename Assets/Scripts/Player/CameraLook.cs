@@ -45,6 +45,7 @@ public class CameraLook : MonoBehaviour
 
     private void LateUpdate()
     {
+        // 
         // yaw = InputX * yawRotationSpeed * Time.deltaTime;
         // pitch = InputY * pitchRotationSpeed * Time*deltaTime;
         // pitch = Mathf.Clamp(pitch, minPitch, maxPitch);
