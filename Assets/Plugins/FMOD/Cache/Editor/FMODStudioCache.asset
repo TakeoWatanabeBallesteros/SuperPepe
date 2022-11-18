@@ -1,5 +1,25 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-5863480747248320533
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.bank
+  m_EditorClassIdentifier: 
+  Path: C:/Users/takeo/OneDrive/Documentos/GitHub/SuperPepe/Assets/Audio/FMOD_Banks/Desktop/Master.bank
+  Name: Master
+  StudioPath: bank:/Master
+  lastModified: 638043854086755119
+  FileSizes:
+  - Name: 
+    Value: 3712
+  Exists: 1
 --- !u!114 &-4453190597803668616
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14,37 +34,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Path: event:/Step_Floor
   Guid:
-    Data1: 963747185
-    Data2: 1155137202
-    Data3: -1452644695
-    Data4: -824599445
+    Data1: -1154367771
+    Data2: 1214684656
+    Data3: -465408867
+    Data4: 1113356063
   Banks:
-  - {fileID: -1309430175528948784}
+  - {fileID: -5863480747248320533}
   IsStream: 0
-  Is3D: 0
+  Is3D: 1
   IsOneShot: 1
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 0
---- !u!114 &-1309430175528948784
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
-  m_Name: bank:/Desktop/Master.bank
-  m_EditorClassIdentifier: 
-  Path: Assets/Audio/FMOD_Banks/Desktop/Master.bank
-  Name: Desktop/Master
-  StudioPath: bank:/Master
-  lastModified: 638043361710544754
-  FileSizes: []
-  Exists: 1
+  Length: 64
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -58,18 +60,18 @@ MonoBehaviour:
   m_Name: FMODStudioCache
   m_EditorClassIdentifier: 
   EditorBanks:
-  - {fileID: 3090032569270906215}
-  - {fileID: -1309430175528948784}
+  - {fileID: 8277102306079070158}
+  - {fileID: -5863480747248320533}
   EditorEvents:
   - {fileID: -4453190597803668616}
   EditorParameters: []
   MasterBanks:
-  - {fileID: -1309430175528948784}
+  - {fileID: -5863480747248320533}
   StringsBanks:
-  - {fileID: 3090032569270906215}
-  cacheTime: 638043361710564783
+  - {fileID: 8277102306079070158}
+  cacheTime: 638043854086785138
   cacheVersion: 131593
---- !u!114 &3090032569270906215
+--- !u!114 &8277102306079070158
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -79,12 +81,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
-  m_Name: bank:/Desktop/Master.strings.bank
+  m_Name: bank:/Master.strings.bank
   m_EditorClassIdentifier: 
-  Path: Assets/Audio/FMOD_Banks/Desktop/Master.strings.bank
-  Name: Desktop/Master.strings
+  Path: C:/Users/takeo/OneDrive/Documentos/GitHub/SuperPepe/Assets/Audio/FMOD_Banks/Desktop/Master.strings.bank
+  Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638043361710564783
+  lastModified: 638043854086785138
   FileSizes:
   - Name: 
     Value: 760

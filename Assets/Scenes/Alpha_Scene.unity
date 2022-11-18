@@ -216,6 +216,55 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 90, y: 31.42, z: 0}
+--- !u!1 &953366182
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 953366183}
+  - component: {fileID: 953366184}
+  m_Layer: 0
+  m_Name: =====AudioManager=====
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &953366183
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 953366182}
+  m_LocalRotation: {x: 0.07158036, y: -0.70347446, z: 0.07158036, w: 0.70347446}
+  m_LocalPosition: {x: 30.23, y: 10.957001, z: 28.75}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 11.62, y: 0, z: 0}
+--- !u!114 &953366184
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 953366182}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9468c5f457ace64f8d4df6d642b107f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LoadEvent: 1
+  UnloadEvent: 2
+  Banks:
+  - Master
+  CollisionTag: 
+  PreloadSamples: 0
 --- !u!1 &958565416
 GameObject:
   m_ObjectHideFlags: 0
@@ -563,6 +612,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5054645070857590040}
   - component: {fileID: 5054645070866922138}
+  - component: {fileID: 5054645070857423097}
   m_Layer: 0
   m_Name: =====SuperMario=====
   m_TagString: Untagged
@@ -570,6 +620,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!54 &5054645070857423097
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5054645070857423096}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 1
+  m_Constraints: 0
+  m_CollisionDetection: 1
 --- !u!1 &5054645070857423098
 GameObject:
   m_ObjectHideFlags: 0
@@ -890,6 +956,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5054645070857590084}
   - component: {fileID: 5054645070871020632}
+  - component: {fileID: 5054645070857423141}
   m_Layer: 0
   m_Name: face
   m_TagString: Untagged
@@ -897,6 +964,20 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!136 &5054645070857423141
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5054645070857423140}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.29822898
+  m_Height: 0.66620487
+  m_Direction: 1
+  m_Center: {x: 0.0071030105, y: -0.09443255, z: 1.1137898}
 --- !u!1 &5054645070857423142
 GameObject:
   m_ObjectHideFlags: 0
@@ -1071,6 +1152,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5054645070857590106}
   - component: {fileID: 5054645070871020634}
+  - component: {fileID: 5054645070857423163}
   m_Layer: 0
   m_Name: body
   m_TagString: Untagged
@@ -1078,6 +1160,20 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!136 &5054645070857423163
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5054645070857423162}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.23647577
+  m_Height: 0.92819816
+  m_Direction: 2
+  m_Center: {x: -0.000028536944, y: -0.013824986, z: 0.4495162}
 --- !u!1 &5054645070857423164
 GameObject:
   m_ObjectHideFlags: 0
