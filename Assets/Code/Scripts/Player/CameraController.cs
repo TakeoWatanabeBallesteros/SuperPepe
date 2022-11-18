@@ -17,13 +17,6 @@ public class CameraController : MonoBehaviour
     public float minPitch = 30.0f;
     public float maxPitch = -60.0f;
 
-    public KeyCode m_DebugLockAngleKeyCode = KeyCode.I;
-    public KeyCode m_DebugLockKeyCode = KeyCode.O;
-
-    [Header("MouseSettings")]
-    bool m_AngleLocked = false;
-    bool m_AimLocked = true;
-
     public LayerMask avoidObjectsLayer;
     public float avoidObjectsOffset;
 
@@ -31,6 +24,7 @@ public class CameraController : MonoBehaviour
     public float maxDistance;
     
     private bool cameraLocked;
+    private Vector2 mouseInput;
 
     private void Start()
     {
@@ -40,16 +34,14 @@ public class CameraController : MonoBehaviour
 
     private void LateUpdate()
     {
-        float mouseX = Input.GetAxis("Mouse X");
-        float mouseY = Input.GetAxis("Mouse Y");
         transform.LookAt(LookTransform.position);
         float distance = Vector3.Distance(transform.position, LookTransform.position);
         distance = Mathf.Clamp(distance, minDistance, maxDistance);
         Vector3 eulerAngels = transform.rotation.eulerAngles;
         float yaw = eulerAngels.y;
 
-        yaw += mouseX * yawRotationalSpeed * Time.deltaTime;
-        pitch += mouseY * pitchRotationalSpeed * Time.deltaTime;
+        yaw += mouseInput.x * yawRotationalSpeed * Time.deltaTime;
+        pitch += mouseInput.y * pitchRotationalSpeed * Time.deltaTime;
         pitch = Mathf.Clamp(pitch, minPitch, maxPitch);
 
 
@@ -68,7 +60,7 @@ public class CameraController : MonoBehaviour
         transform.LookAt(LookTransform.position);
     }
 #if UNITY_EDITOR
-    public void LockMouse()
+    public void LockMouse(InputAction.CallbackContext context)
     {
         cameraLocked = !cameraLocked;
         if (cameraLocked)
@@ -84,4 +76,9 @@ public class CameraController : MonoBehaviour
         Cursor.visible = cameraLocked;
     }
 #endif
+
+    public void ReadMouseInput(InputAction.CallbackContext context)
+    {
+        mouseInput = context.ReadValue<Vector2>();
+    }
 }
