@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-5863480747248320533
+--- !u!114 &-7269847271126881785
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -12,13 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
   m_Name: bank:/Master.bank
   m_EditorClassIdentifier: 
-  Path: C:/Users/takeo/OneDrive/Documentos/GitHub/SuperPepe/Assets/Audio/FMOD_Banks/Desktop/Master.bank
+  Path: Assets/Audio/FMOD_Banks/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638043854086755119
-  FileSizes:
-  - Name: 
-    Value: 3712
+  lastModified: 638044547134655810
+  FileSizes: []
   Exists: 1
 --- !u!114 &-4453190597803668616
 MonoBehaviour:
@@ -39,7 +37,7 @@ MonoBehaviour:
     Data3: -465408867
     Data4: 1113356063
   Banks:
-  - {fileID: -5863480747248320533}
+  - {fileID: -7269847271126881785}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -60,18 +58,18 @@ MonoBehaviour:
   m_Name: FMODStudioCache
   m_EditorClassIdentifier: 
   EditorBanks:
-  - {fileID: 8277102306079070158}
-  - {fileID: -5863480747248320533}
+  - {fileID: 14092727188165589}
+  - {fileID: -7269847271126881785}
   EditorEvents:
   - {fileID: -4453190597803668616}
   EditorParameters: []
   MasterBanks:
-  - {fileID: -5863480747248320533}
+  - {fileID: -7269847271126881785}
   StringsBanks:
-  - {fileID: 8277102306079070158}
-  cacheTime: 638043854086785138
+  - {fileID: 14092727188165589}
+  cacheTime: 638044547134690291
   cacheVersion: 131593
---- !u!114 &8277102306079070158
+--- !u!114 &14092727188165589
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -83,10 +81,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
   m_Name: bank:/Master.strings.bank
   m_EditorClassIdentifier: 
-  Path: C:/Users/takeo/OneDrive/Documentos/GitHub/SuperPepe/Assets/Audio/FMOD_Banks/Desktop/Master.strings.bank
+  Path: Assets/Audio/FMOD_Banks/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638043854086785138
+  lastModified: 638044547134690291
   FileSizes:
   - Name: 
     Value: 760

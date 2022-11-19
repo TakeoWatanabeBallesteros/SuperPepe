@@ -151,8 +151,8 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.9984906, g: 1, b: 0.94716984, a: 1}
-  m_Intensity: 4
+  m_Color: {r: 1, g: 1, b: 0.8820755, a: 1}
+  m_Intensity: 2
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -164,7 +164,7 @@ Light:
     m_Strength: 1
     m_Bias: 0.05
     m_NormalBias: 0.4
-    m_NearPlane: 0.2
+    m_NearPlane: 0.1
     m_CullingMatrixOverride:
       e00: 1
       e01: 0
@@ -279,7 +279,7 @@ GameObject:
   - component: {fileID: 958565417}
   - component: {fileID: 958565421}
   m_Layer: 0
-  m_Name: Main Camera
+  m_Name: =====Main Camera=====
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -349,7 +349,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 958565416}
   m_LocalRotation: {x: 0.07158036, y: -0.70347446, z: 0.07158036, w: 0.70347446}
-  m_LocalPosition: {x: 30.23, y: 10.957001, z: 28.75}
+  m_LocalPosition: {x: 32.71, y: 11.46, z: 28.75}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -400,18 +400,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lookInput: {fileID: -157715672235557779, guid: 072f8763a5198914385a70f7aa12c39a, type: 3}
-  LookTransform: {fileID: 1643340021}
-  distance: 15
+  lookTransform: {fileID: 1643340021}
+  distance: 30
   yawRotationalSpeed: 10
   pitchRotationalSpeed: 10
-  minPitch: 30
+  minPitch: 60
   maxPitch: -60
   avoidObjectsLayer:
     serializedVersion: 2
     m_Bits: 119
-  avoidObjectsOffset: 5
-  minDistance: 10
-  maxDistance: 20
+  avoidObjectsOffset: 0
+  minDistance: 5
+  maxDistance: 30
 --- !u!1 &1643340020
 GameObject:
   m_ObjectHideFlags: 0
