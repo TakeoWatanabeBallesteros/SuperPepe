@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 
 public class CameraController : MonoBehaviour
 {
+    [SerializeField] private GameObject thirdPersonCharacterBase;
     [SerializeField] private InputActionReference lookInput;
     [SerializeField] private Transform lookAtTransform;
     [SerializeField] private float minDistance;
@@ -36,7 +37,7 @@ public class CameraController : MonoBehaviour
         transform.LookAt(lookAtTransform.position);
         float distance = Vector3.Distance(transform.position, lookAtTransform.position);
         distance = Mathf.Clamp(distance, minDistance, maxDistance);
-
+        
         Vector3 eulerAngles = transform.rotation.eulerAngles;
         float yaw = eulerAngles.y;
 
@@ -56,6 +57,12 @@ public class CameraController : MonoBehaviour
 
         transform.position = desiredPosition;
         transform.LookAt(lookAtTransform.position);
+        distance = Vector3.Distance(transform.position, lookAtTransform.position);
+        // float newOpacity = (actualDistance - shadowOnlyDistance) / (ditherDistance - minCameraDistance);
+        // float lerpPosition = transitionTime > 0 ? deltaTime * 1 / transitionTime : 1;
+        // previousOpacity = Mathf.Lerp(previousOpacity, newOpacity, lerpPosition);
+        // Set opacity of character based on how close the camera is
+        RecursiveSetFloatProperty(thirdPersonCharacterBase, "_Opacity", distance > 1.0f ? 1.0f : Scale(0.6f, 1.0f, distance));
     }
     
 #if UNITY_EDITOR
@@ -79,5 +86,28 @@ public class CameraController : MonoBehaviour
     public void ReadMouseInput(InputAction.CallbackContext context)
     {
         mouseInput = context.ReadValue<Vector2>();
+    }
+    
+    /// <summary>
+    /// Recursively set a float property for each Renderer components'
+    /// materials for a given object and its children.
+    /// </summary>
+    /// <param name="original">Base game object to start operation from.</param>
+    /// <param name="property">Name of property to modify.</param>
+    /// <param name="value">Value to set for float property.</param>
+    /// <param name="sharedMaterial">Should the shared materials be modified.</param>
+    private static void RecursiveSetFloatProperty(GameObject original, string property, float value, bool sharedMaterial = false)
+    {
+        foreach (SkinnedMeshRenderer renderer in original.GetComponentsInChildren<SkinnedMeshRenderer>())
+        {
+            foreach (Material mat in sharedMaterial ? renderer.sharedMaterials : renderer.materials)
+            {
+                mat.SetFloat(property, value);
+            }
+        }
+    }
+    private static float Scale(float min, float max, float value)
+    {
+        return Mathf.Clamp(1 / (max - min) * (value - max) + 1, 0, 1);
     }
 }
