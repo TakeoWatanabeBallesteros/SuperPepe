@@ -8,6 +8,7 @@ public class CameraController : MonoBehaviour
     [SerializeField] private GameObject thirdPersonCharacterBase;
     [SerializeField] private InputActionReference lookInput;
     [SerializeField] private Transform lookAtTransform;
+    [SerializeField] private Transform cameraTransform;
     [SerializeField] private float minDistance;
     [SerializeField] private float maxDistance;
     [SerializeField] private float yawRotationalSpeed;
@@ -34,11 +35,11 @@ public class CameraController : MonoBehaviour
     
     public void LateUpdate()
     {
-        transform.LookAt(lookAtTransform.position);
-        float distance = Vector3.Distance(transform.position, lookAtTransform.position);
+        cameraTransform.LookAt(lookAtTransform.position);
+        float distance = Vector3.Distance(cameraTransform.position, lookAtTransform.position);
         distance = Mathf.Clamp(distance, minDistance, maxDistance);
         
-        Vector3 eulerAngles = transform.rotation.eulerAngles;
+        Vector3 eulerAngles = cameraTransform.rotation.eulerAngles;
         float yaw = eulerAngles.y;
 
         yaw += mouseInput.x * yawRotationalSpeed * Time.deltaTime;
@@ -55,12 +56,9 @@ public class CameraController : MonoBehaviour
         if (Physics.Raycast(ray, out l_RaycastHit, distance, avoidObjectsLayerMask.value))
             desiredPosition = l_RaycastHit.point + forwardCamera * avoidObjectsOffset;
 
-        transform.position = desiredPosition;
-        transform.LookAt(lookAtTransform.position);
-        distance = Vector3.Distance(transform.position, lookAtTransform.position);
-        // float newOpacity = (actualDistance - shadowOnlyDistance) / (ditherDistance - minCameraDistance);
-        // float lerpPosition = transitionTime > 0 ? deltaTime * 1 / transitionTime : 1;
-        // previousOpacity = Mathf.Lerp(previousOpacity, newOpacity, lerpPosition);
+        cameraTransform.position = desiredPosition;
+        cameraTransform.LookAt(lookAtTransform.position);
+        distance = Vector3.Distance(cameraTransform.position, lookAtTransform.position);
         // Set opacity of character based on how close the camera is
         RecursiveSetFloatProperty(thirdPersonCharacterBase, "_Opacity", distance > 1.0f ? 1.0f : Scale(0.6f, 1.0f, distance));
     }
