@@ -9,7 +9,7 @@
                     "name": "Move",
                     "type": "PassThrough",
                     "id": "8ea09493-fee6-42c4-ac08-4022f4cc5408",
-                    "expectedControlType": "Axis",
+                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": ""
                 },
@@ -25,22 +25,6 @@
                     "name": "Interact",
                     "type": "Button",
                     "id": "0ed934b6-561e-48cb-a120-77501fb43610",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "BluePortalShoot",
-                    "type": "Button",
-                    "id": "e1d5dee9-5e26-4579-9d27-657776fa136c",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "OrangePortalShoot",
-                    "type": "Button",
-                    "id": "ec26d5dc-2574-4790-8c3d-3072c78e8823",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
@@ -62,25 +46,9 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Zoom",
-                    "type": "PassThrough",
-                    "id": "3320648e-a821-491f-bb3b-9cde6b475a53",
-                    "expectedControlType": "Vector2",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
                     "name": "MouseLock",
                     "type": "Button",
                     "id": "a107d89f-9301-43f1-84e5-6866c73f0ecf",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "TP",
-                    "type": "Button",
-                    "id": "8dc87a00-546b-4f67-81f9-cf6a97f2a231",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
@@ -92,21 +60,13 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
-                },
-                {
-                    "name": "ScalePortal",
-                    "type": "Button",
-                    "id": "94a61dbf-dfb9-46bc-9b1e-27b538b08463",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
                 }
             ],
             "bindings": [
                 {
                     "name": "WASD",
                     "id": "ba844eaa-8235-496d-8398-78922b320325",
-                    "path": "2DVector",
+                    "path": "2DVector(mode=1)",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -120,7 +80,7 @@
                     "path": "<Keyboard>/w",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Keyboard&Mouse",
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -131,7 +91,7 @@
                     "path": "<Keyboard>/s",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Keyboard&Mouse",
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -142,7 +102,7 @@
                     "path": "<Keyboard>/a",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Keyboard&Mouse",
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -153,15 +113,15 @@
                     "path": "<Keyboard>/d",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Keyboard&Mouse",
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "Arrow",
+                    "name": "Left Stick",
                     "id": "64f5afba-baa8-4ba3-9b09-d71ee08dd2fc",
-                    "path": "2DVector",
+                    "path": "2DVector(mode=1)",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -172,10 +132,10 @@
                 {
                     "name": "up",
                     "id": "de57ef0a-2aac-40a0-b574-1c94e3bc29ec",
-                    "path": "<Keyboard>/upArrow",
+                    "path": "<Gamepad>/leftStick/up",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Gamepad",
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -183,10 +143,10 @@
                 {
                     "name": "down",
                     "id": "f86d982f-3fc2-40b8-8715-04d369e025cf",
-                    "path": "<Keyboard>/downArrow",
+                    "path": "<Gamepad>/leftStick/down",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Gamepad",
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -194,10 +154,10 @@
                 {
                     "name": "left",
                     "id": "c07e6760-1eb2-46a8-b135-45912b77dd04",
-                    "path": "<Keyboard>/leftArrow",
+                    "path": "<Gamepad>/leftStick/left",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Gamepad",
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -205,10 +165,10 @@
                 {
                     "name": "right",
                     "id": "05450c1e-42c7-4a19-a547-e4f99c46a027",
-                    "path": "<Keyboard>/rightArrow",
+                    "path": "<Gamepad>/leftStick/right",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Gamepad",
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -219,7 +179,18 @@
                     "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2722eed1-eab7-4dbb-bd75-3a1577ef5ce1",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
                     "action": "Jump",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -232,17 +203,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "Interact",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "6ef13908-b9cf-4e5c-8a60-6da07d34c7b6",
-                    "path": "<Mouse>/leftButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "BluePortalShoot",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -270,45 +230,12 @@
                 },
                 {
                     "name": "",
-                    "id": "fcc9e0cd-ac60-4c9c-b2e7-e381d1bf0632",
-                    "path": "<Joystick>/{Hatswitch}",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Joystick",
-                    "action": "Look",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "9ec47b3c-5107-415d-91c5-15a50508f281",
                     "path": "<Keyboard>/leftShift",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Sprint",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "65be4679-cf19-42f2-ba82-87a224159c07",
-                    "path": "<Mouse>/scroll",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Zoom",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "d516c9f7-1137-4758-8274-13945021c1d1",
-                    "path": "<Mouse>/rightButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "OrangePortalShoot",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -325,34 +252,12 @@
                 },
                 {
                     "name": "",
-                    "id": "db603340-18b7-4454-a615-575c229527db",
-                    "path": "<Keyboard>/t",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "TP",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "0ea6711a-5c7f-43a7-87db-eea06501a39b",
                     "path": "<Keyboard>/leftCtrl",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Crouch",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "53c6a419-ba02-4ed6-a382-f62a5ce6d30c",
-                    "path": "<Keyboard>/q",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ScalePortal",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -876,5 +781,33 @@
             ]
         }
     ],
-    "controlSchemes": []
+    "controlSchemes": [
+        {
+            "name": "Keyboard&Mouse",
+            "bindingGroup": "Keyboard&Mouse",
+            "devices": [
+                {
+                    "devicePath": "<Keyboard>",
+                    "isOptional": false,
+                    "isOR": false
+                },
+                {
+                    "devicePath": "<Mouse>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        },
+        {
+            "name": "Gamepad",
+            "bindingGroup": "Gamepad",
+            "devices": [
+                {
+                    "devicePath": "<Gamepad>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        }
+    ]
 }

@@ -400,18 +400,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lookInput: {fileID: -157715672235557779, guid: 072f8763a5198914385a70f7aa12c39a, type: 3}
-  lookTransform: {fileID: 1643340021}
-  distance: 30
-  yawRotationalSpeed: 10
-  pitchRotationalSpeed: 10
-  minPitch: 60
-  maxPitch: -60
-  avoidObjectsLayer:
+  lookAtTransform: {fileID: 1643340021}
+  minDistance: 3
+  maxDistance: 5
+  yawRotationalSpeed: 180
+  pitchRotationalSpeed: 180
+  minPitch: -60
+  maxPitch: 60
+  avoidObjectsLayerMask:
     serializedVersion: 2
     m_Bits: 119
-  avoidObjectsOffset: 0
-  minDistance: 5
-  maxDistance: 30
+  avoidObjectsOffset: 0.1
 --- !u!1 &1643340020
 GameObject:
   m_ObjectHideFlags: 0
@@ -692,7 +691,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 1
-  m_Constraints: 112
+  m_Constraints: 80
   m_CollisionDetection: 1
 --- !u!1 &5054645070857423098
 GameObject:
@@ -737,7 +736,19 @@ MonoBehaviour:
       m_Calls: []
   m_ActionEvents:
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5054645070857423100}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: ReadMoveInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 8ea09493-fee6-42c4-ac08-4022f4cc5408
     m_ActionName: Player/Move[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d,/Keyboard/upArrow,/Keyboard/downArrow,/Keyboard/leftArrow,/Keyboard/rightArrow]
   - m_PersistentCalls:
@@ -748,14 +759,6 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 0ed934b6-561e-48cb-a120-77501fb43610
     m_ActionName: Player/Interact[/Keyboard/e]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: e1d5dee9-5e26-4579-9d27-657776fa136c
-    m_ActionName: Player/BluePortalShoot[/Mouse/leftButton]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: ec26d5dc-2574-4790-8c3d-3072c78e8823
-    m_ActionName: Player/OrangePortalShoot[/Mouse/rightButton]
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 7bafe59b-a70f-48e9-ac67-802ef9097aef
@@ -777,10 +780,6 @@ MonoBehaviour:
     m_ActionId: fb8d5e39-01f1-46e5-98de-be5b1d1f8f23
     m_ActionName: Player/Look[/Mouse/delta]
   - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 3320648e-a821-491f-bb3b-9cde6b475a53
-    m_ActionName: Player/Zoom[/Mouse/scroll]
-  - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 958565421}
         m_TargetAssemblyTypeName: CameraController, Assembly-CSharp
@@ -798,16 +797,8 @@ MonoBehaviour:
     m_ActionName: Player/MouseLock[/Keyboard/o]
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: 8dc87a00-546b-4f67-81f9-cf6a97f2a231
-    m_ActionName: Player/TP[/Keyboard/t]
-  - m_PersistentCalls:
-      m_Calls: []
     m_ActionId: 1290ecef-a909-4a79-9e06-2b9266800dad
     m_ActionName: Player/Crouch[/Keyboard/leftCtrl]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 94a61dbf-dfb9-46bc-9b1e-27b538b08463
-    m_ActionName: Player/ScalePortal[/Keyboard/q]
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: e9ea2153-a41c-4da0-9c54-c767c562bb40
@@ -849,10 +840,10 @@ MonoBehaviour:
     m_ActionId: d7430d8f-71d9-483c-8731-3fd065fcf16e
     m_ActionName: UI/TrackedDeviceOrientation
   m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
+  m_DefaultControlScheme: Keyboard&Mouse
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
+  m_Camera: {fileID: 958565418}
 --- !u!114 &5054645070857423100
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -860,17 +851,17 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5054645070857423096}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c8238a9490a324e438a428e427620dbd, type: 3}
+  m_Script: {fileID: 11500000, guid: 99a2a06c4032b4a4d8dd59facfd60899, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 5054645070866922138}
-  rigidbody: {fileID: 5054645070857423097}
-  m_Camera: {fileID: 958565418}
-  m_LerpRotationPct: 0
-  m_WalkSpeed: 0
-  m_RunSpeed: 0
+  rb: {fileID: 5054645070857423097}
+  cameraTransform: {fileID: 958565419}
+  lerpRotationPct: 5
+  walkSpeed: 10
+  runSpeed: 20
 --- !u!1 &5054645070857423104
 GameObject:
   m_ObjectHideFlags: 0
