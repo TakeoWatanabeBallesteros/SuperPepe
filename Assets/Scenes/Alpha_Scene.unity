@@ -893,12 +893,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99a2a06c4032b4a4d8dd59facfd60899, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 5054645070866922138}
-  rb: {fileID: 5054645070857423097}
-  cameraTransform: {fileID: 958565419}
-  lerpRotationPct: 5
-  walkSpeed: 10
-  runSpeed: 20
+  <animator>k__BackingField: {fileID: 5054645070866922138}
+  <rb>k__BackingField: {fileID: 5054645070857423097}
+  <cameraTransform>k__BackingField: {fileID: 958565419}
+  <lerpRotationPct>k__BackingField: 5
+  <walkSpeed>k__BackingField: 0
+  <runSpeed>k__BackingField: 0
+  <jumpTimeout>k__BackingField: 0.5
+  <groundedOffset>k__BackingField: -0.14
+  <groundedRadius>k__BackingField: 0.28
+  <groundLayers>k__BackingField:
+    serializedVersion: 2
+    m_Bits: 0
+  <grounded>k__BackingField: 1
+  <fallTimeout>k__BackingField: 0.15
+  <jumpHeight>k__BackingField: 1.2
+  <gravity>k__BackingField: -15
 --- !u!114 &5054645070857423101
 MonoBehaviour:
   m_ObjectHideFlags: 0

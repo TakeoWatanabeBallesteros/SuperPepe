@@ -14,8 +14,6 @@ public class PlayerFSM : MonoBehaviour, IReset
     [field:SerializeField] public float walkSpeed { private set; get; }
     [field:SerializeField] public float runSpeed { private set; get; }
 
-    private Vector2 moveInput;
-    private int animSpeedID;
     
     [field:Space(10)]
     [field:Tooltip("Time required to pass before being able to jump again. Set to 0f to instantly jump again")]
@@ -47,10 +45,21 @@ public class PlayerFSM : MonoBehaviour, IReset
 
     private StateMachine fsm;
 
+    private Vector2 moveInput;
+    
+    private int animIDSpeed;
+    private int animIDGrounded;
+    private int animIDJump;
+    private int nimIDFreeFall;
+    private int animIDMotionSpeed;
+
+    private bool jump;
+    private bool crouch;
+    
+
     // Start is called before the first frame update
     void Start()
     {
-        // tpPosition = transform.position;
         fsm = new StateMachine();
         
         AddStates();
@@ -61,17 +70,12 @@ public class PlayerFSM : MonoBehaviour, IReset
         
         GameManager.GetGameManager().SetPlayer(transform);
     }
+    
     // Update is called once per frame
     void Update()
     {
+        GroundedCheck();
         fsm.OnLogic();
-        
-        // Always keep "pushing it" to maintain contact
-        // if (controller.isGrounded)  
-        //     _verticalVelocity = gravity;
-        // // Accelerate
-        // else
-        //     _verticalVelocity += gravity * Time.deltaTime;
     }
 
     private void AddStates()
@@ -86,15 +90,27 @@ public class PlayerFSM : MonoBehaviour, IReset
 
     private void AddTransitions()
     {
-        // fsm.AddTwoWayTransition("Idle", "Walk", t => moveInput.action.ReadValue<Vector2>() != Vector2.zero && crouchInput.action.ReadValue<float>() == 0);
-        // fsm.AddTwoWayTransition("Idle", "Crouch", t => crouchInput.action.ReadValue<float>() > 0);
-        // fsm.AddTwoWayTransition("Walk", "Crouch", t => crouchInput.action.ReadValue<float>() > 0);
-        // fsm.AddTransition("Fall", "Land", t => grounded);
-        // fsm.AddTransitionFromAny(new Transition("", "Jump", t => jumpInput.action.triggered && grounded));
+        fsm.AddTwoWayTransition("Idle", "Walk", t => moveInput != Vector2.zero);
+        fsm.AddTwoWayTransition("Idle", "Crouch", t => crouch);
+        fsm.AddTwoWayTransition("Walk", "Crouch", t => crouch);
+        fsm.AddTransition("Fall", "Land", t => grounded);
+        fsm.AddTransitionFromAny(new Transition("", "Jump", t => jump && grounded));
         fsm.AddTransitionFromAny(new Transition("", "Fall", t => _verticalVelocity <= 0 && !grounded));
         fsm.AddTriggerTransitionFromAny(
             "Reset"
             ,new Transition("", "Idle", t => true));
+    }
+    
+    private void GroundedCheck()
+    {
+        // set sphere position, with offset
+        Vector3 spherePosition = new Vector3(transform.position.x, transform.position.y - groundedOffset,
+            transform.position.z);
+        grounded = Physics.CheckSphere(spherePosition, groundedRadius, groundLayers,
+            QueryTriggerInteraction.Ignore);
+
+        // update animator if using character
+        animator.SetBool(animIDGrounded, grounded);
     }
 
     public void Reset()
@@ -105,5 +121,24 @@ public class PlayerFSM : MonoBehaviour, IReset
     public void ReadMoveInput(InputAction.CallbackContext context)
     {
         moveInput = context.ReadValue<Vector2>();
+    }
+
+    public void ReadCrouchInput(InputAction.CallbackContext context)
+    {
+        crouch = !(context.ReadValue<float>() < 1);
+    }
+    
+    public void ReadJumpInput(InputAction.CallbackContext context)
+    {
+        jump = !(context.ReadValue<float>() < 1);
+    }
+    
+    private void AssignAnimationIDs()
+    {
+        animIDSpeed = Animator.StringToHash("Speed");
+        animIDGrounded = Animator.StringToHash("Grounded");
+        animIDJump = Animator.StringToHash("Jump");
+        nimIDFreeFall = Animator.StringToHash("FreeFall");
+        animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
     }
 }
