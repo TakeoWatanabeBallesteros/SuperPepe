@@ -63,12 +63,13 @@ public class PlayerFSM : MonoBehaviour, IReset
         fsm = new StateMachine();
         
         AddStates();
-        AddTransitions();
+        // AddTransitions();
         
         fsm.SetStartState("Idle");
         fsm.Init();
-        
-        GameManager.GetGameManager().SetPlayer(transform);
+
+        AssignAnimationIDs();
+        // GameManager.GetGameManager().SetPlayer(transform);
     }
     
     // Update is called once per frame
@@ -76,6 +77,9 @@ public class PlayerFSM : MonoBehaviour, IReset
     {
         GroundedCheck();
         fsm.OnLogic();
+        if (!jump) return;
+        jump = false;
+        Debug.Log("jump");
     }
 
     private void AddStates()
@@ -84,6 +88,8 @@ public class PlayerFSM : MonoBehaviour, IReset
         fsm.AddState("Walk", new Walk(this));
         fsm.AddState("Crouch", new Crouch(this));
         fsm.AddState("Jump", new Jump(this));
+        fsm.AddState("DoubleJump", new DoubleJump(this));
+        fsm.AddState("TripleJump", new TripleJump(this));
         fsm.AddState("Fall", new Fall(this));
         fsm.AddState("Land", new Land(this));
     }
@@ -115,7 +121,7 @@ public class PlayerFSM : MonoBehaviour, IReset
 
     public void Reset()
     {
-        fsm.Trigger("Reset");
+        // fsm.Trigger("Reset");
     }
     
     public void ReadMoveInput(InputAction.CallbackContext context)
@@ -130,7 +136,7 @@ public class PlayerFSM : MonoBehaviour, IReset
     
     public void ReadJumpInput(InputAction.CallbackContext context)
     {
-        jump = !(context.ReadValue<float>() < 1);
+        jump = context.action.triggered;
     }
     
     private void AssignAnimationIDs()

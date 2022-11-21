@@ -5,11 +5,11 @@ using FSM;
 
 public class Land : StateBase
 {
-    private PlayerFSM playerFsm;
+    private PlayerFSM _fsm;
     
     public Land(PlayerFSM fsm) : base(needsExitTime: false)
     {
-        this.playerFsm = fsm;
+        this._fsm = fsm;
     }
 
     public override void OnEnter()

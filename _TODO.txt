@@ -8,6 +8,7 @@ Base:
 3: 
 
 Note:
-CamFwrd = new Vector3(sin(yaw) * cos(pitch), sin(pitch), cos(yaw) * sin(pitch));
+walkInput needs to know which type is using,
+omg how many states are there?
 
 Bug:

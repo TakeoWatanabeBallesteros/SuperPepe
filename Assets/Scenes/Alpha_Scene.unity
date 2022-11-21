@@ -775,7 +775,7 @@ MonoBehaviour:
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 5054645070857423100}
-        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_TargetAssemblyTypeName: PlayerFSM, Assembly-CSharp
         m_MethodName: ReadMoveInput
         m_Mode: 0
         m_Arguments:
@@ -789,7 +789,19 @@ MonoBehaviour:
     m_ActionId: 8ea09493-fee6-42c4-ac08-4022f4cc5408
     m_ActionName: Player/Move[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d,/Keyboard/upArrow,/Keyboard/downArrow,/Keyboard/leftArrow,/Keyboard/rightArrow]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5054645070857423100}
+        m_TargetAssemblyTypeName: PlayerFSM, Assembly-CSharp
+        m_MethodName: ReadJumpInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: bca05cba-8116-4a1d-9624-dc2929c1d827
     m_ActionName: Player/Jump[/Keyboard/space]
   - m_PersistentCalls:
@@ -890,7 +902,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5054645070857423096}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 99a2a06c4032b4a4d8dd59facfd60899, type: 3}
+  m_Script: {fileID: 11500000, guid: db972c988691caa4d8ab6d7a0722385e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   <animator>k__BackingField: {fileID: 5054645070866922138}
@@ -904,11 +916,12 @@ MonoBehaviour:
   <groundedRadius>k__BackingField: 0.28
   <groundLayers>k__BackingField:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   <grounded>k__BackingField: 1
   <fallTimeout>k__BackingField: 0.15
   <jumpHeight>k__BackingField: 1.2
   <gravity>k__BackingField: -15
+  _verticalVelocity: 0
 --- !u!114 &5054645070857423101
 MonoBehaviour:
   m_ObjectHideFlags: 0

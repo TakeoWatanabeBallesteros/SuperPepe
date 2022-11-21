@@ -1,13 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using FSM;
 
-public class Walk : StateBase
+public class Punch3 : StateBase
 {
     private PlayerFSM _fsm;
-    
-    public Walk(PlayerFSM fsm) : base(needsExitTime: false)
+
+    public Punch3(PlayerFSM fsm) : base(needsExitTime: false)
     {
         this._fsm = fsm;
     }

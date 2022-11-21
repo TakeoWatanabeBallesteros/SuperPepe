@@ -5,22 +5,22 @@ using FSM;
 
 public class Jump : StateBase
 {
-    private PlayerFSM playerFsm;
+    private PlayerFSM _fsm;
     
     public Jump(PlayerFSM fsm) : base(needsExitTime: false)
     {
-        this.playerFsm = fsm;
+        this._fsm = fsm;
     }
 
     public override void OnEnter()
     {
-        playerFsm._verticalVelocity = Mathf.Sqrt(playerFsm.jumpHeight * -2f * playerFsm.gravity);
+        _fsm._verticalVelocity = Mathf.Sqrt(_fsm.jumpHeight * -2f * _fsm.gravity);
         base.OnEnter();
     }
 
     public override void OnLogic()
     {
-        playerFsm._verticalVelocity += playerFsm.gravity * Time.deltaTime;
+        _fsm._verticalVelocity += _fsm.gravity * Time.deltaTime;
         base.OnLogic();
     }
 
