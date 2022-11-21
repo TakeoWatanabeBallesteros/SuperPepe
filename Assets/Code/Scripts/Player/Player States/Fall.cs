@@ -14,21 +14,13 @@ public class Fall : StateBase
 
     public override void OnEnter()
     {
-
-        playerFsm.verticalVelocity += 0;
+        playerFsm._verticalVelocity += 0;
         base.OnEnter();
     }
 
     public override void OnLogic()
     {
-        playerFsm.verticalVelocity += playerFsm.gravity * Time.deltaTime;
-        
-        playerFsm.currentSpeed = Mathf.Lerp(playerFsm.currentSpeed, playerFsm.walkSpeed, Time.deltaTime * 10);
-        
-        Vector3 inputDirection = playerFsm.transform.right * playerFsm.MoveInput.x + playerFsm.transform.forward * playerFsm.MoveInput.y;
-        
-        playerFsm.collisionFlags =  playerFsm.controller.Move(inputDirection.normalized * (playerFsm.currentSpeed * Time.deltaTime) +
-                                                              new Vector3(0.0f, playerFsm.verticalVelocity, 0.0f) * Time.deltaTime);
+        playerFsm._verticalVelocity += playerFsm.gravity * Time.deltaTime;
         base.OnLogic();
     }
 
