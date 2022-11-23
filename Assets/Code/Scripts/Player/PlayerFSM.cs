@@ -13,12 +13,7 @@ public class PlayerFSM : MonoBehaviour, IReset
 
     [field:SerializeField] public Transform cameraTransform { private set; get; }
     [field:SerializeField] public float lerpRotationPct { private set; get; }
-    
-    [field:SerializeField] public float walkSpeed { private set; get; }
-    
-    [field:SerializeField] public float runSpeed { private set; get; }
 
-    
     [field:Space(10)]
     [field:Tooltip("Time required to pass before being able to jump again. Set to 0f to instantly jump again")]
     [field:SerializeField] public float jumpTimeout { private set; get; } = 0.50f;
@@ -65,7 +60,7 @@ public class PlayerFSM : MonoBehaviour, IReset
     private StateMachine fsm;
 
     private Vector2 moveInput;
-    private Vector3 movement;
+    private Vector3 movement = Vector3.zero;
     
     private int animIDSpeed;
     private int animIDGrounded;
@@ -82,6 +77,7 @@ public class PlayerFSM : MonoBehaviour, IReset
     // Start is called before the first frame update
     void Start()
     {
+        
         fsm = new StateMachine();
         
         AddStates();
@@ -101,6 +97,7 @@ public class PlayerFSM : MonoBehaviour, IReset
         GravityForce();
         fsm.OnLogic();
         animator.SetBool(animIDCrouch, crouch);
+        Move();
     }
 
     private void AddStates()
@@ -141,16 +138,15 @@ public class PlayerFSM : MonoBehaviour, IReset
 
         targetMovement = forwardCamera * moveInput.y + rightCamera * moveInput.x;
         targetMovement.y = 0.0f;
-        movement = Vector3.Slerp(movement, targetMovement, lerpRotationPct * Time.deltaTime);
-
+        movement = targetMovement;
         if (moveInput != Vector2.zero)
         {
             Quaternion lookRotation = Quaternion.LookRotation(targetMovement);
             transform.rotation = Quaternion.Lerp(transform.rotation, lookRotation, lerpRotationPct * Time.deltaTime);
         }
-
+        
         animator.SetFloat(animIDSpeed, movement.magnitude);
-        movement = movement * 1600 * Time.deltaTime + new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime;
+        movement = movement * 1200 * Time.deltaTime + new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime;
         rb.velocity = movement;
     }
     
@@ -269,5 +265,19 @@ public class PlayerFSM : MonoBehaviour, IReset
     {
         if(moveInput.magnitude > velocity) return;
         FMODUnity.RuntimeManager.PlayOneShot(playerStepEvent, transform.position);
+    }
+    
+    private void OnDrawGizmosSelected()
+    {
+        Color transparentGreen = new Color(0.0f, 1.0f, 0.0f, 0.35f);
+        Color transparentRed = new Color(1.0f, 0.0f, 0.0f, 0.35f);
+
+        if (grounded) Gizmos.color = transparentGreen;
+        else Gizmos.color = transparentRed;
+
+        // when selected, draw a gizmo in the position of, and matching radius of, the grounded collider
+        Gizmos.DrawSphere(
+            new Vector3(transform.position.x, transform.position.y - groundedOffset, transform.position.z),
+            groundedRadius);
     }
 }
