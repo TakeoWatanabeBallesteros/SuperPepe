@@ -857,7 +857,19 @@ MonoBehaviour:
     m_ActionId: a107d89f-9301-43f1-84e5-6866c73f0ecf
     m_ActionName: Player/MouseLock[/Keyboard/o]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5054645070857423100}
+        m_TargetAssemblyTypeName: PlayerFSM, Assembly-CSharp
+        m_MethodName: ReadCrouchInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 1290ecef-a909-4a79-9e06-2b9266800dad
     m_ActionName: Player/Crouch[/Keyboard/leftCtrl]
   - m_PersistentCalls:
@@ -931,7 +943,9 @@ MonoBehaviour:
     m_Bits: 64
   <grounded>k__BackingField: 1
   <fallTimeout>k__BackingField: 0.15
-  <jumpHeight>k__BackingField: 1.2
+  <jump01Height>k__BackingField: 1.2
+  <jump02Height>k__BackingField: 1.2
+  <jump03Height>k__BackingField: 1.2
   <gravity>k__BackingField: -15
   playerStepEvent:
     Guid:
@@ -1387,7 +1401,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5054645070857590096}
-  - component: {fileID: 5054645070857423153}
   m_Layer: 3
   m_Name: Ctrl_hip
   m_TagString: Untagged
@@ -1395,20 +1408,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!136 &5054645070857423153
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5054645070857423152}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 1.9219657
-  m_Height: 3.843933
-  m_Direction: 1
-  m_Center: {x: 0, y: 0.7247744, z: 0.30653444}
 --- !u!1 &5054645070857423154
 GameObject:
   m_ObjectHideFlags: 0
@@ -1434,7 +1433,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5054645070857590100}
-  - component: {fileID: 5054645070857423157}
   m_Layer: 3
   m_Name: Ctrl_Knee_R
   m_TagString: Untagged
@@ -1442,20 +1440,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!136 &5054645070857423157
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5054645070857423156}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.23765157
-  m_Height: 0.9588808
-  m_Direction: 2
-  m_Center: {x: 0.009919218, y: 0.35791075, z: -0.08281553}
 --- !u!1 &5054645070857423158
 GameObject:
   m_ObjectHideFlags: 0
@@ -1465,7 +1449,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5054645070857590102}
-  - component: {fileID: 5054645070857423159}
   m_Layer: 3
   m_Name: Ctrl_Knee_L
   m_TagString: Untagged
@@ -1473,20 +1456,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!136 &5054645070857423159
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5054645070857423158}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.23765157
-  m_Height: 0.9588808
-  m_Direction: 2
-  m_Center: {x: 0.009919218, y: 0.35791075, z: -0.08281553}
 --- !u!1 &5054645070857423160
 GameObject:
   m_ObjectHideFlags: 0
@@ -1561,6 +1530,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5054645070857590112}
+  - component: {fileID: 5054645070857423169}
   m_Layer: 3
   m_Name: bn_R_hand
   m_TagString: Untagged
@@ -1568,6 +1538,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!135 &5054645070857423169
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5054645070857423168}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.14
+  m_Center: {x: -0.11, y: -0.01, z: -0.01}
 --- !u!1 &5054645070857423170
 GameObject:
   m_ObjectHideFlags: 0
@@ -1577,6 +1560,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5054645070857590114}
+  - component: {fileID: 5054645070857423171}
   m_Layer: 3
   m_Name: bn_R_foot
   m_TagString: Untagged
@@ -1584,6 +1568,20 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!136 &5054645070857423171
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5054645070857423170}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.11119475
+  m_Height: 0.3949825
+  m_Direction: 0
+  m_Center: {x: -0.055114396, y: -0.015469082, z: -0.0025214476}
 --- !u!1 &5054645070857423172
 GameObject:
   m_ObjectHideFlags: 0
@@ -1593,6 +1591,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5054645070857590116}
+  - component: {fileID: 5054645070857423173}
   m_Layer: 3
   m_Name: bn_R_thigh
   m_TagString: Untagged
@@ -1600,6 +1599,20 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!136 &5054645070857423173
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5054645070857423172}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.11592012
+  m_Height: 0.23184024
+  m_Direction: 0
+  m_Center: {x: -0.07960202, y: 0.00488485, z: -0.0032641992}
 --- !u!1 &5054645070857423174
 GameObject:
   m_ObjectHideFlags: 0
@@ -1609,6 +1622,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5054645070857590118}
+  - component: {fileID: 5054645070857423175}
   m_Layer: 3
   m_Name: bn_R_shin
   m_TagString: Untagged
@@ -1616,6 +1630,20 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!136 &5054645070857423175
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5054645070857423174}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.11581423
+  m_Height: 0.23162843
+  m_Direction: 0
+  m_Center: {x: -0.07008045, y: -0.01028809, z: -0.003264194}
 --- !u!1 &5054645070857423176
 GameObject:
   m_ObjectHideFlags: 0
@@ -1641,6 +1669,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5054645070857590122}
+  - component: {fileID: 5054645070857423179}
   m_Layer: 3
   m_Name: bn_L_thigh
   m_TagString: Untagged
@@ -1648,6 +1677,20 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!136 &5054645070857423179
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5054645070857423178}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.11592012
+  m_Height: 0.23184024
+  m_Direction: 0
+  m_Center: {x: -0.07960202, y: 0.00488485, z: -0.0032641992}
 --- !u!1 &5054645070857423180
 GameObject:
   m_ObjectHideFlags: 0
@@ -1657,6 +1700,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5054645070857590124}
+  - component: {fileID: 5054645070857423181}
   m_Layer: 3
   m_Name: bn_R_armupper
   m_TagString: Untagged
@@ -1664,6 +1708,20 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!136 &5054645070857423181
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5054645070857423180}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.08028098
+  m_Height: 0.2873682
+  m_Direction: 0
+  m_Center: {x: -0.105617516, y: -0.007873641, z: -0.009141325}
 --- !u!1 &5054645070857423182
 GameObject:
   m_ObjectHideFlags: 0
@@ -1673,6 +1731,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5054645070857590126}
+  - component: {fileID: 5054645070857423183}
   m_Layer: 3
   m_Name: bn_R_armlower
   m_TagString: Untagged
@@ -1680,6 +1739,20 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!136 &5054645070857423183
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5054645070857423182}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.08028098
+  m_Height: 0.25268415
+  m_Direction: 0
+  m_Center: {x: -0.08827528, y: -0.007873637, z: -0.009141324}
 --- !u!1 &5054645070857423184
 GameObject:
   m_ObjectHideFlags: 0
@@ -1689,6 +1762,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5054645070857590128}
+  - component: {fileID: 5054645070857423185}
   m_Layer: 3
   m_Name: bn_L_foot
   m_TagString: Untagged
@@ -1696,6 +1770,20 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!136 &5054645070857423185
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5054645070857423184}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.11119475
+  m_Height: 0.3949825
+  m_Direction: 0
+  m_Center: {x: -0.055114396, y: -0.015469082, z: -0.0025214476}
 --- !u!1 &5054645070857423186
 GameObject:
   m_ObjectHideFlags: 0
@@ -1705,6 +1793,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5054645070857590130}
+  - component: {fileID: 5054645070857423187}
   m_Layer: 3
   m_Name: bn_L_armupper
   m_TagString: Untagged
@@ -1712,6 +1801,20 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!136 &5054645070857423187
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5054645070857423186}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.08028098
+  m_Height: 0.2873682
+  m_Direction: 0
+  m_Center: {x: -0.105617516, y: -0.007873641, z: -0.009141325}
 --- !u!1 &5054645070857423188
 GameObject:
   m_ObjectHideFlags: 0
@@ -1721,6 +1824,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5054645070857590132}
+  - component: {fileID: 5054645070857423189}
   m_Layer: 3
   m_Name: bn_L_shin
   m_TagString: Untagged
@@ -1728,6 +1832,20 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!136 &5054645070857423189
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5054645070857423188}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.11084564
+  m_Height: 0.2216913
+  m_Direction: 0
+  m_Center: {x: -0.07802307, y: 0.010566968, z: -0.0032641992}
 --- !u!1 &5054645070857423190
 GameObject:
   m_ObjectHideFlags: 0
@@ -1737,6 +1855,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5054645070857590134}
+  - component: {fileID: 5054645070857423191}
   m_Layer: 3
   m_Name: bn_L_hand
   m_TagString: Untagged
@@ -1744,6 +1863,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!135 &5054645070857423191
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5054645070857423190}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.14
+  m_Center: {x: -0.11, y: -0.01, z: -0.01}
 --- !u!1 &5054645070857423192
 GameObject:
   m_ObjectHideFlags: 0
@@ -1753,6 +1885,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5054645070857590136}
+  - component: {fileID: 5054645070857423193}
   m_Layer: 3
   m_Name: bn_head
   m_TagString: Untagged
@@ -1760,6 +1893,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!135 &5054645070857423193
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5054645070857423192}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.26864946
+  m_Center: {x: -0.08545829, y: 0.10165903, z: -0.0026021812}
 --- !u!1 &5054645070857423194
 GameObject:
   m_ObjectHideFlags: 0
@@ -1769,6 +1915,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5054645070857590138}
+  - component: {fileID: 5054645070857423195}
   m_Layer: 3
   m_Name: bn_chest
   m_TagString: Untagged
@@ -1776,6 +1923,20 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!136 &5054645070857423195
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5054645070857423194}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.22741868
+  m_Height: 0.49310538
+  m_Direction: 0
+  m_Center: {x: -0.046177913, y: 0.039346237, z: -0.0074863206}
 --- !u!1 &5054645070857423196
 GameObject:
   m_ObjectHideFlags: 0
@@ -1785,6 +1946,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5054645070857590140}
+  - component: {fileID: 5054645070857423197}
   m_Layer: 3
   m_Name: bn_L_armlower
   m_TagString: Untagged
@@ -1792,6 +1954,20 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!136 &5054645070857423197
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5054645070857423196}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.08028098
+  m_Height: 0.25268415
+  m_Direction: 0
+  m_Center: {x: -0.08827528, y: -0.007873637, z: -0.009141324}
 --- !u!1 &5054645070857423198
 GameObject:
   m_ObjectHideFlags: 0

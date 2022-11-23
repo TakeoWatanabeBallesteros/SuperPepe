@@ -225,7 +225,7 @@ public class PlayerFSM : MonoBehaviour, IReset
 
     public void Reset()
     {
-        // fsm.Trigger("Reset");
+        fsm.Trigger("Reset");
     }
     
     public void ReadMoveInput(InputAction.CallbackContext context)
