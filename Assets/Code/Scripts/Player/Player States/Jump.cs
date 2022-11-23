@@ -14,13 +14,11 @@ public class Jump : StateBase
 
     public override void OnEnter()
     {
-        _fsm._verticalVelocity = Mathf.Sqrt(_fsm.jumpHeight * -2f * _fsm.gravity);
         base.OnEnter();
     }
 
     public override void OnLogic()
     {
-        _fsm._verticalVelocity += _fsm.gravity * Time.deltaTime;
         base.OnLogic();
     }
 

@@ -770,7 +770,19 @@ MonoBehaviour:
       m_Calls: []
   m_ControlsChangedEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5054645070857423100}
+        m_TargetAssemblyTypeName: PlayerFSM, Assembly-CSharp
+        m_MethodName: OnDeviceChanged
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_ActionEvents:
   - m_PersistentCalls:
       m_Calls:
@@ -921,6 +933,13 @@ MonoBehaviour:
   <fallTimeout>k__BackingField: 0.15
   <jumpHeight>k__BackingField: 1.2
   <gravity>k__BackingField: -15
+  playerStepEvent:
+    Guid:
+      Data1: -1154367771
+      Data2: 1214684656
+      Data3: -465408867
+      Data4: 1113356063
+    Path: event:/Step_Floor
   _verticalVelocity: 0
 --- !u!114 &5054645070857423101
 MonoBehaviour:

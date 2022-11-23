@@ -14,13 +14,11 @@ public class Fall : StateBase
 
     public override void OnEnter()
     {
-        _fsm._verticalVelocity += 0;
         base.OnEnter();
     }
 
     public override void OnLogic()
     {
-        _fsm._verticalVelocity += _fsm.gravity * Time.deltaTime;
         base.OnLogic();
     }
 

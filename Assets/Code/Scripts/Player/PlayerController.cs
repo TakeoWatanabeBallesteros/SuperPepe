@@ -61,19 +61,16 @@ public class PlayerController : MonoBehaviour
 
         movement = forwardCamera * moveInput.y + rightCamera * moveInput.x;
         movement.y = 0.0f;
-        movement.Normalize();
+        movement = movement.normalized;
 
         float movementSpeed = 0.0f;
         if (moveInput != Vector2.zero)
         {
             Quaternion lookRotation = Quaternion.LookRotation(movement);
             transform.rotation = Quaternion.Lerp(transform.rotation, lookRotation, lerpRotationPct * Time.deltaTime);
-
-            speed = 1f;
-            movementSpeed = walkSpeed;
         }
 
-        animator.SetFloat(animSpeedID, speed);
+        animator.SetFloat(animSpeedID, movement.magnitude);
         movement = movement * 800 * Time.deltaTime + new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime;
         rb.velocity = movement;
     }
