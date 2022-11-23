@@ -65,6 +65,7 @@ public class PlayerFSM : MonoBehaviour, IReset
     private StateMachine fsm;
 
     private Vector2 moveInput;
+    private Vector3 movement;
     
     private int animIDSpeed;
     private int animIDGrounded;
@@ -136,14 +137,15 @@ public class PlayerFSM : MonoBehaviour, IReset
         Vector3 forwardCamera = cameraTransform.forward.normalized;
         Vector3 rightCamera = cameraTransform.right.normalized;
 
-        Vector3 movement = Vector3.zero;
+        Vector3 targetMovement = Vector3.zero;
 
-        movement = forwardCamera * moveInput.y + rightCamera * moveInput.x;
-        movement.y = 0.0f;
+        targetMovement = forwardCamera * moveInput.y + rightCamera * moveInput.x;
+        targetMovement.y = 0.0f;
+        movement = Vector3.Slerp(movement, targetMovement, lerpRotationPct * Time.deltaTime);
 
         if (moveInput != Vector2.zero)
         {
-            Quaternion lookRotation = Quaternion.LookRotation(movement);
+            Quaternion lookRotation = Quaternion.LookRotation(targetMovement);
             transform.rotation = Quaternion.Lerp(transform.rotation, lookRotation, lerpRotationPct * Time.deltaTime);
         }
 
