@@ -14,12 +14,13 @@ public class Idle : StateBase
 
     public override void OnEnter()
     {
+        _fsm.rb.velocity = Vector3.zero;
         base.OnEnter();
     }
 
     public override void OnLogic()
     {
-        
+        _fsm.animator.SetFloat(_fsm.animIDSpeed, 0);
         base.OnLogic();
     }
 

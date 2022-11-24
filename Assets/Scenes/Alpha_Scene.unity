@@ -934,8 +934,10 @@ MonoBehaviour:
   <cameraTransform>k__BackingField: {fileID: 958565419}
   <lerpRotationPct>k__BackingField: 5
   <jumpTimeout>k__BackingField: 0.3
-  <groundedOffset>k__BackingField: -0.16
-  <groundedRadius>k__BackingField: 0.22
+  foot01: {fileID: 5054645070857590128}
+  foot02: {fileID: 5054645070857590114}
+  <groundedOffset>k__BackingField: 0.2
+  <groundedRadius>k__BackingField: 0.13
   <groundLayers>k__BackingField:
     serializedVersion: 2
     m_Bits: 64
@@ -944,7 +946,7 @@ MonoBehaviour:
   <jump01Height>k__BackingField: 1.2
   <jump02Height>k__BackingField: 1.6
   <jump03Height>k__BackingField: 2
-  <gravity>k__BackingField: -4000
+  <gravity>k__BackingField: 0
   playerStepEvent:
     Guid:
       Data1: -1154367771
@@ -953,6 +955,9 @@ MonoBehaviour:
       Data4: 1113356063
     Path: event:/Step_Floor
   _verticalVelocity: 0
+  movement: {x: 0, y: 0, z: 0}
+  <crouch>k__BackingField: 0
+  jumpCombo: 0
 --- !u!114 &5054645070857423101
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1544,7 +1549,7 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5054645070857423168}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.14
@@ -1714,7 +1719,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5054645070857423180}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.08028098
   m_Height: 0.2873682
@@ -1745,7 +1750,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5054645070857423182}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.08028098
   m_Height: 0.25268415
@@ -1807,7 +1812,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5054645070857423186}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.08028098
   m_Height: 0.2873682
@@ -1869,7 +1874,7 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5054645070857423190}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.14
@@ -1960,7 +1965,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5054645070857423196}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.08028098
   m_Height: 0.25268415

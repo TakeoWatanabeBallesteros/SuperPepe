@@ -104,7 +104,7 @@ public class PlayerController : MonoBehaviour
                 _verticalVelocity = -2f;
             }
  
-            // Jump
+            // Jump01
             // if (_input.jump && _jumpTimeoutDelta <= 0.0f)
             // {
             //     // the square root of H * -2 * G = how much velocity needed to reach desired height
@@ -155,7 +155,7 @@ public class PlayerController : MonoBehaviour
     {
         // animIDSpeed = Animator.StringToHash("Speed");
         // animIDGrounded = Animator.StringToHash("Grounded");
-        // animIDJump = Animator.StringToHash("Jump");
+        // animIDJump = Animator.StringToHash("Jump01");
         // animIDFreeFall = Animator.StringToHash("FreeFall");
         // animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
     }

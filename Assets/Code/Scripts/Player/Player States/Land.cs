@@ -14,12 +14,16 @@ public class Land : StateBase
 
     public override void OnEnter()
     {
-        fsm.RequestStateChange("Idle");
         base.OnEnter();
     }
 
     public override void OnLogic()
     {
+        if (_fsm.animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1)
+        {
+            _fsm.jumpCombo = 0;
+            fsm.RequestStateChange("Idle");
+        }
         base.OnLogic();
     }
 

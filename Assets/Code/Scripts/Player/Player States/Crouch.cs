@@ -15,15 +15,18 @@ public class Crouch : StateBase
     public override void OnEnter()
     {
         base.OnEnter();
+        _fsm.animator.SetBool(_fsm.animIDCrouch, _fsm.crouch);
     }
 
     public override void OnLogic()
     {
+        _fsm.Move();
         base.OnLogic();
     }
 
     public override void OnExit()
     {
         base.OnExit();
+        _fsm.animator.SetBool(_fsm.animIDCrouch, _fsm.crouch);
     }
 }

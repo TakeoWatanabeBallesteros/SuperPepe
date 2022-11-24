@@ -3,29 +3,29 @@ using System.Collections.Generic;
 using UnityEngine;
 using FSM;
 
-public class Walk : StateBase
+public class Jump03 : StateBase
 {
     private PlayerFSM _fsm;
     
-    public Walk(PlayerFSM fsm) : base(needsExitTime: false)
+    public Jump03(PlayerFSM fsm) : base(needsExitTime: false)
     {
         this._fsm = fsm;
     }
 
     public override void OnEnter()
     {
+        _fsm.jumpCombo = 0;
+        _fsm.Jump(_fsm.jump03Height);
         base.OnEnter();
     }
 
     public override void OnLogic()
     {
-        _fsm.Move();
         base.OnLogic();
     }
 
     public override void OnExit()
     {
-        _fsm.rb.velocity = Vector3.zero;
         base.OnExit();
     }
 }
