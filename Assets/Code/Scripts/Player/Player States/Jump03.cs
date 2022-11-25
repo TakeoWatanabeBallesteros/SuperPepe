@@ -14,18 +14,20 @@ public class Jump03 : StateBase
 
     public override void OnEnter()
     {
-        _fsm.jumpCombo = 0;
         _fsm.Jump(_fsm.jump03Height);
         base.OnEnter();
     }
 
     public override void OnLogic()
     {
+        _fsm.Move();
         base.OnLogic();
     }
 
     public override void OnExit()
     {
+        _fsm.jumpCombo += _fsm.jumpCombo == 2 ? -2 : 1;
+        _fsm.animator.SetInteger(_fsm.animIDJumpCombo, _fsm.jumpCombo);
         base.OnExit();
     }
 }

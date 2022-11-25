@@ -17,9 +17,6 @@ public class PlayerFSM : MonoBehaviour, IReset
     [field:Space(10)]
     [field:Tooltip("Time required to pass before being able to jump again. Set to 0f to instantly jump again")]
     [field:SerializeField] public float jumpTimeout { private set; get; } = 0.50f;
-
-    [SerializeField] private Transform foot01;
-    [SerializeField] private Transform foot02;
     
     [field:Tooltip("Useful for rough ground")]
     [field:SerializeField] public float groundedOffset { private set; get; } = -0.14f;
@@ -50,6 +47,8 @@ public class PlayerFSM : MonoBehaviour, IReset
     [field:Tooltip("The character uses its own gravity value. The engine default is -9.81f")]
     [field:SerializeField] public float gravity { private set; get; } = -15.0f;
     
+    [SerializeField] private float speed = 0.0f;
+    
     [Header("Audios")]
     [SerializeField] private FMODUnity.EventReference playerStepEvent;
     
@@ -62,21 +61,24 @@ public class PlayerFSM : MonoBehaviour, IReset
 
     private StateMachine fsm;
 
-    private Vector2 moveInput;
-    public Vector3 movement = Vector3.zero;
+    public Vector2 moveInput { private set; get; }
+    private bool run;
+    private Vector3 movement = Vector3.zero;
     
     public int animIDSpeed { private set; get; }
     public int animIDGrounded { private set; get; }
     public int animIDJump { private set; get; }
+    public int animIDJumpCombo { private set; get; }
     public int animIDCrouch { private set; get; }
     public int animIDFreeFall { private set; get; }
+    public int animIDLand { private set; get; }
 
     private bool jump;
     [field: SerializeField] public bool crouch { private set; get; }
 
     private bool isAnalog = true;
 
-    [HideInInspector]public int jumpCombo;
+    [HideInInspector] public int jumpCombo;
     
     // Start is called before the first frame update
     void Start()
@@ -100,7 +102,7 @@ public class PlayerFSM : MonoBehaviour, IReset
         GroundedCheck();
         GravityForce();
         fsm.OnLogic();
-        Debug.Log(fsm.ActiveState.name);
+        // Debug.Log(fsm.ActiveState.name);
     }
 
     private void AddStates()
@@ -128,7 +130,7 @@ public class PlayerFSM : MonoBehaviour, IReset
             ,new Transition("", "Fall", t => true));
         fsm.AddTriggerTransitionFromAny(
             "Jump01"
-            ,new Transition("", "Jump01", t => grounded));
+            ,new Transition("", "Jump01", t => grounded && jumpCombo == 0));
         fsm.AddTriggerTransitionFromAny(
             "Jump02"
             ,new Transition("", "Jump02", t => grounded && jumpCombo == 1 && fsm.ActiveState.name == "Land"));
@@ -142,11 +144,11 @@ public class PlayerFSM : MonoBehaviour, IReset
 
     public void Move()
     {
-        float speed = 0.0f;
-
         Vector3 forwardCamera = cameraTransform.forward.normalized;
         Vector3 rightCamera = cameraTransform.right.normalized;
-
+        
+        
+        
         Vector3 targetMovement = Vector3.zero;
 
         targetMovement = forwardCamera * moveInput.y + rightCamera * moveInput.x;
@@ -157,22 +159,28 @@ public class PlayerFSM : MonoBehaviour, IReset
             Quaternion lookRotation = Quaternion.LookRotation(targetMovement);
             transform.rotation = Quaternion.Lerp(transform.rotation, lookRotation, lerpRotationPct * Time.deltaTime);
         }
-        
-        animator.SetFloat(animIDSpeed, movement.magnitude);
-        // movement = movement * 1200 * Time.deltaTime + new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime;
-        movement = movement * 1200 * Time.deltaTime;
+
+        switch (isAnalog)
+        {
+            case true when !run:
+                animator.SetFloat(animIDSpeed, moveInput.magnitude/2);
+                movement = movement / 2 * speed * Time.deltaTime;
+                break;
+            case true when run:
+            case false:
+                animator.SetFloat(animIDSpeed, moveInput.magnitude);
+                movement = movement * speed * Time.deltaTime;
+                break;
+        }
         rb.velocity = movement + new Vector3(0, rb.velocity.y, 0);
     }
     
     private void GroundedCheck()
     {
         // set sphere position, with offset
-        Vector3 spherePosition01 = new Vector3(foot01.position.x, foot01.position.y - groundedOffset,
-            foot01.position.z);
-        Vector3 spherePosition02 = new Vector3(foot02.position.x, foot02.position.y - groundedOffset,
-            foot02.position.z);
-        grounded = Physics.CheckSphere(spherePosition01, groundedRadius, groundLayers,
-            QueryTriggerInteraction.Ignore) || Physics.CheckSphere(spherePosition02, groundedRadius, groundLayers,
+        Vector3 spherePosition = new Vector3(transform.position.x, transform.position.y - groundedOffset,
+            transform.position.z);
+        grounded = Physics.CheckSphere(spherePosition, groundedRadius, groundLayers,
             QueryTriggerInteraction.Ignore);
 
         // update animator if using character
@@ -188,39 +196,43 @@ public class PlayerFSM : MonoBehaviour, IReset
 
             // update animator if using character
             animator.SetBool(animIDFreeFall, false);
-            
-            // jump timeout
-            if (_jumpTimeoutDelta >= 0.0f)
-            {
-                _jumpTimeoutDelta -= Time.deltaTime;
-            }
         }
         else
         {
-            // reset the jump timeout timer
-            _jumpTimeoutDelta = jumpTimeout;
-
             // fall timeout
             if (_fallTimeoutDelta >= 0.0f)
             {
                 _fallTimeoutDelta -= Time.deltaTime;
             }
-            else
+            else if(rb.velocity.y < 0)
             {
                 fsm.Trigger("Fall");
                 // update animator if using character
                 animator.SetBool(animIDFreeFall, true);
             }
         }
+        // jump timeout
+        if (_jumpTimeoutDelta >= 0.0f)
+        {
+            _jumpTimeoutDelta -= Time.deltaTime;
+        }
+        rb.AddForce(new Vector3(0, gravity, 0) * Time.deltaTime, ForceMode.Acceleration);
     }
 
     public void Jump(float JumpHeight)
     {
-        if (!(_jumpTimeoutDelta <= 0.0f)) return;
-        // Jump01
+        Vector3 forwardCamera = cameraTransform.forward.normalized;
+        Vector3 rightCamera = cameraTransform.right.normalized;
+        
+        // reset the jump timeout timer
+        _jumpTimeoutDelta = jumpTimeout;
+        
+        Vector3 targetMovement = forwardCamera * moveInput.y + rightCamera * moveInput.x;
+        
         // the square root of H * -2 * G = how much velocity needed to reach desired height
-        _verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * gravity);
-        rb.AddForce(new Vector3(0, _verticalVelocity, 0));
+        // rb.AddForce(new Vector3(targetMovement.x*200, JumpHeight, targetMovement.z*200));
+        rb.AddForce(new Vector3(0, JumpHeight, 0));
+        
         // update animator if using character
         animator.SetTrigger(animIDJump);
     }
@@ -234,6 +246,15 @@ public class PlayerFSM : MonoBehaviour, IReset
     {
         moveInput = isAnalog ? context.ReadValue<Vector2>().normalized : context.ReadValue<Vector2>();
     }
+    
+    public void ReadRunInput(InputAction.CallbackContext context)
+    {
+        if (!run && context.performed)
+        {
+            run = true;
+        }
+        else if (context.canceled) run = false;
+    }
 
     public void ReadCrouchInput(InputAction.CallbackContext context)
     {
@@ -246,7 +267,7 @@ public class PlayerFSM : MonoBehaviour, IReset
 
     public void ReadJumpInput(InputAction.CallbackContext context)
     {
-        if (!context.action.triggered) return;
+        if (!context.action.triggered || _jumpTimeoutDelta >= 0) return;
         fsm.Trigger("Jump01");
         fsm.Trigger("Jump02");
         fsm.Trigger("Jump03");
@@ -257,8 +278,10 @@ public class PlayerFSM : MonoBehaviour, IReset
         animIDSpeed = Animator.StringToHash("Speed");
         animIDGrounded = Animator.StringToHash("Grounded");
         animIDJump = Animator.StringToHash("Jump");
+        animIDJumpCombo = Animator.StringToHash("JumpCombo");
         animIDCrouch = Animator.StringToHash("Crouch");
         animIDFreeFall = Animator.StringToHash("FreeFall");
+        animIDLand = Animator.StringToHash("Land");
     }
 
     public void OnDeviceChanged(PlayerInput playerInput)
@@ -284,14 +307,7 @@ public class PlayerFSM : MonoBehaviour, IReset
 
         // when selected, draw a gizmo in the position of, and matching radius of, the grounded collider
         Gizmos.DrawSphere(
-            new Vector3(foot01.position.x, foot01.position.y - groundedOffset, foot01.position.z),
-            groundedRadius);
-        
-        Gizmos.color = grounded ? transparentGreen : transparentRed;
-
-        // when selected, draw a gizmo in the position of, and matching radius of, the grounded collider
-        Gizmos.DrawSphere(
-            new Vector3(foot02.position.x, foot02.position.y - groundedOffset, foot02.position.z),
+            new Vector3(transform.position.x, transform.position.y - groundedOffset, transform.position.z),
             groundedRadius);
     }
 }

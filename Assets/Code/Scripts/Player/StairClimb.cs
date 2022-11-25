@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class StairClimb : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class StairClimb : MonoBehaviour
     [SerializeField] private float stepHeight = 0.3f;
     [SerializeField] private float stepSmooth = 2f;
 
+    private Vector2 moveInput;
+
     private void Awake()
     {
         stepRayUpper.transform.localPosition = new Vector3(stepRayUpper.transform.localPosition.x, stepHeight, stepRayUpper.transform.localPosition.z);
@@ -17,7 +20,7 @@ public class StairClimb : MonoBehaviour
     
     private void FixedUpdate()
     {
-        if (rigidBody.velocity == Vector3.zero) return;
+        if (moveInput == Vector2.zero) return;
         stepClimb();
     }
 
@@ -42,5 +45,10 @@ public class StairClimb : MonoBehaviour
                 }
             }
         }
+    }
+    
+    public void ReadMoveInput(InputAction.CallbackContext context)
+    {
+        moveInput = context.ReadValue<Vector2>().normalized;
     }
 }

@@ -10,6 +10,7 @@ public class Land : StateBase
     public Land(PlayerFSM fsm) : base(needsExitTime: false)
     {
         this._fsm = fsm;
+        _fsm.animator.SetTrigger(_fsm.animIDLand);
     }
 
     public override void OnEnter()
@@ -19,10 +20,11 @@ public class Land : StateBase
 
     public override void OnLogic()
     {
-        if (_fsm.animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1)
+        if (_fsm.animator.GetCurrentAnimatorStateInfo(0).IsName("Idle/Walk/Run"))
         {
             _fsm.jumpCombo = 0;
-            fsm.RequestStateChange("Idle");
+            _fsm.animator.SetInteger(_fsm.animIDJumpCombo, _fsm.jumpCombo);
+            fsm.RequestStateChange(_fsm.moveInput != Vector2.zero ? "Walk" : "Idle");
         }
         base.OnLogic();
     }
