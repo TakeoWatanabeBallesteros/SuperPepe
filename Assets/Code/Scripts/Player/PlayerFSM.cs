@@ -142,12 +142,13 @@ public class PlayerFSM : MonoBehaviour, IReset
 
     public void Move()
     {
-        Vector3 forwardCamera = cameraTransform.forward.normalized;
-        Vector3 rightCamera = cameraTransform.right.normalized;
-
+        Vector3 forwardCamera = cameraTransform.forward;
+        Vector3 rightCamera = cameraTransform.right;
+        forwardCamera.y = 0;
+        rightCamera.y = 0;
         Vector3 targetMovement = Vector3.zero;
 
-        targetMovement = forwardCamera * moveInput.y + rightCamera * moveInput.x;
+        targetMovement = forwardCamera.normalized * moveInput.y + rightCamera.normalized * moveInput.x;
         targetMovement.y = 0.0f;
         movement = targetMovement;
         if (moveInput != Vector2.zero)
