@@ -14,6 +14,8 @@ public class Fall : StateBase
 
     public override void OnEnter()
     {
+        // update animator if using character
+        _fsm.animator.SetTrigger(_fsm.animIDFreeFall);
         base.OnEnter();
     }
 

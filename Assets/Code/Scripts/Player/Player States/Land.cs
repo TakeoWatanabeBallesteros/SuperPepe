@@ -6,6 +6,7 @@ using FSM;
 public class Land : StateBase
 {
     private PlayerFSM _fsm;
+    private float comboTime = 0.24f;
     
     public Land(PlayerFSM fsm) : base(needsExitTime: false)
     {
@@ -14,18 +15,21 @@ public class Land : StateBase
 
     public override void OnEnter()
     {
+        comboTime = 0.24f;
+        _fsm.animator.SetTrigger(_fsm.animIDLand);
         base.OnEnter();
     }
 
     public override void OnLogic()
     {
-        if (_fsm.animator.GetCurrentAnimatorStateInfo(0).IsName("Idle/Walk/Run"))
+        if (comboTime >= 0f)
         {
-            _fsm.jumpCombo = 0;
-            _fsm.animator.SetInteger(_fsm.animIDJumpCombo, _fsm.jumpCombo);
-            fsm.RequestStateChange(_fsm.moveInput != Vector2.zero ? "Walk" : "Idle");
-            _fsm.animator.SetTrigger(_fsm.animIDLand);
+            comboTime -= Time.deltaTime;
+            return;
         }
+        _fsm.jumpCombo = 0;
+        _fsm.animator.SetInteger(_fsm.animIDJumpCombo, _fsm.jumpCombo);
+        fsm.RequestStateChange(_fsm.moveInput != Vector2.zero ? "Walk" : "Idle");
         base.OnLogic();
     }
 

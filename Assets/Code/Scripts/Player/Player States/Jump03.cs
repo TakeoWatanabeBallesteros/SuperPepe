@@ -15,6 +15,8 @@ public class Jump03 : StateBase
     public override void OnEnter()
     {
         _fsm.Jump(_fsm.jump03Height);
+        // update animator if using character
+        _fsm.animator.SetTrigger(_fsm.animIDJump);
         base.OnEnter();
     }
 
@@ -22,6 +24,8 @@ public class Jump03 : StateBase
     {
         _fsm.Move();
         base.OnLogic();
+        if (!(_fsm.rb.velocity.y < 0)) return;
+        fsm.RequestStateChange("Fall");
     }
 
     public override void OnExit()

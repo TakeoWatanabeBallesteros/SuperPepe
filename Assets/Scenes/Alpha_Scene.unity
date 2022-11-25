@@ -946,13 +946,13 @@ MonoBehaviour:
   <cameraTransform>k__BackingField: {fileID: 958565419}
   <lerpRotationPct>k__BackingField: 5
   <jumpTimeout>k__BackingField: 0.3
-  <groundedOffset>k__BackingField: -0.06
+  <groundedOffset>k__BackingField: -0.13
   <groundedRadius>k__BackingField: 0.2
   <groundLayers>k__BackingField:
     serializedVersion: 2
     m_Bits: 64
   <grounded>k__BackingField: 1
-  <fallTimeout>k__BackingField: 0.15
+  <fallTimeout>k__BackingField: 0.2
   <jump01Height>k__BackingField: 700
   <jump02Height>k__BackingField: 950
   <jump03Height>k__BackingField: 1050

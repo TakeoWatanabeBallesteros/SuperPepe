@@ -83,7 +83,6 @@ public class PlayerFSM : MonoBehaviour, IReset
     // Start is called before the first frame update
     void Start()
     {
-        
         fsm = new StateMachine();
         
         AddStates();
@@ -102,7 +101,6 @@ public class PlayerFSM : MonoBehaviour, IReset
         GroundedCheck();
         GravityForce();
         fsm.OnLogic();
-        // Debug.Log(fsm.ActiveState.name);
     }
 
     private void AddStates()
@@ -146,9 +144,7 @@ public class PlayerFSM : MonoBehaviour, IReset
     {
         Vector3 forwardCamera = cameraTransform.forward.normalized;
         Vector3 rightCamera = cameraTransform.right.normalized;
-        
-        
-        
+
         Vector3 targetMovement = Vector3.zero;
 
         targetMovement = forwardCamera * moveInput.y + rightCamera * moveInput.x;
@@ -192,10 +188,10 @@ public class PlayerFSM : MonoBehaviour, IReset
         if (grounded)
         {
             // reset the fall timeout timer
-            _fallTimeoutDelta = fallTimeout;
-
-            // update animator if using character
-            animator.SetBool(animIDFreeFall, false);
+            if(_fallTimeoutDelta < fallTimeout){
+                // Debug.Log("Grounded");
+                _fallTimeoutDelta = fallTimeout;
+            }
         }
         else
         {
@@ -204,37 +200,29 @@ public class PlayerFSM : MonoBehaviour, IReset
             {
                 _fallTimeoutDelta -= Time.deltaTime;
             }
-            else if(rb.velocity.y < 0)
-            {
-                fsm.Trigger("Fall");
-                // update animator if using character
-                animator.SetBool(animIDFreeFall, true);
-            }
+            // else if(fsm.ActiveState.name != "Jump01" && fsm.ActiveState.name != "Jump02" && fsm.ActiveState.name != "Jump03" && fsm.ActiveState.name != "Fall")
+            // {
+            //     Debug.Log("why");
+            //     fsm.Trigger("Fall");
+            // }
+            rb.AddForce(new Vector3(0, gravity, 0) * Time.deltaTime, ForceMode.Acceleration);
         }
         // jump timeout
         if (_jumpTimeoutDelta >= 0.0f)
         {
             _jumpTimeoutDelta -= Time.deltaTime;
         }
-        rb.AddForce(new Vector3(0, gravity, 0) * Time.deltaTime, ForceMode.Acceleration);
     }
 
     public void Jump(float JumpHeight)
     {
-        Vector3 forwardCamera = cameraTransform.forward.normalized;
-        Vector3 rightCamera = cameraTransform.right.normalized;
         
         // reset the jump timeout timer
         _jumpTimeoutDelta = jumpTimeout;
-        
-        Vector3 targetMovement = forwardCamera * moveInput.y + rightCamera * moveInput.x;
-        
+
         // the square root of H * -2 * G = how much velocity needed to reach desired height
-        // rb.AddForce(new Vector3(targetMovement.x*200, JumpHeight, targetMovement.z*200));
+        rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
         rb.AddForce(new Vector3(0, JumpHeight, 0));
-        
-        // update animator if using character
-        animator.SetTrigger(animIDJump);
     }
 
     public void Reset()
