@@ -821,7 +821,19 @@ MonoBehaviour:
     m_ActionId: 0ed934b6-561e-48cb-a120-77501fb43610
     m_ActionName: Player/Interact[/Keyboard/e]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5054645070857423100}
+        m_TargetAssemblyTypeName: PlayerFSM, Assembly-CSharp
+        m_MethodName: ReadRunInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 7bafe59b-a70f-48e9-ac67-802ef9097aef
     m_ActionName: Player/Sprint[/Keyboard/leftShift]
   - m_PersistentCalls:
@@ -954,7 +966,6 @@ MonoBehaviour:
       Data4: 1113356063
     Path: event:/Step_Floor
   _verticalVelocity: 0
-  movement: {x: 0, y: 0, z: 0}
   <crouch>k__BackingField: 0
   jumpCombo: 0
 --- !u!114 &5054645070857423101
