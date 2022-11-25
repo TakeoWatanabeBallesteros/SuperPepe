@@ -20,7 +20,7 @@ public class HealthDisplay : MonoBehaviour
     }
     void SetHealth(int currentHealth)
     {
-        int colorIndex = Mathf.CeilToInt(currentHealth * colors.Length/maxHealth) - 1;
+        int colorIndex = Mathf.Clamp(Mathf.CeilToInt(currentHealth * colors.Length/maxHealth) - 1,0,colors.Length - 1);
         healthImageDisplay.fillAmount = (float) currentHealth/maxHealth;
         healthImageDisplay.color = colors[colorIndex];
         healthImageBackDisplay.color = colors[colorIndex];
