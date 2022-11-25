@@ -7,10 +7,9 @@ using System.Linq;
 
 public class GameManager : MonoBehaviour
 {
-    public bool reset;
     private static GameManager instance;
     private List<IReset> resetObjects;
-    private int checkPoinReference;
+    private int checkpointReference;
     private Vector3 currentCheckpointPos;
     private Quaternion currentCheckpointRot;
     private Transform player;
@@ -30,48 +29,31 @@ public class GameManager : MonoBehaviour
     }
     public static GameManager GetGameManager()
     {
-        return instance == null ? null : instance;
+        if(instance == null)
+        {
+            instance = new GameObject("GameManager").AddComponent<GameManager>();
+            instance.resetObjects = new List<IReset>();
+        }
+        return instance;
     }
-
-    private void Update()
+    public void SetPlayer(Transform _player)
     {
-        if(!reset) return;
-        ResetGame();
-        reset = false;
-    }
-
-    public void SetPlayer(Transform player)
-    {
-        this.player = player;
+        this.player = _player;
         currentCheckpointPos = player.position;
         currentCheckpointRot = player.rotation;
-        checkPoinReference = 0;
+        checkpointReference = 0;
         resetObjects = new List<IReset>();
-        resetObjects = AddResetObjects();
     }
-
+    public void GameOver()
+    {
+        //
+    }
     public void ResetGame()
     {
-        StartCoroutine(TeleportToCheckpoint());
-        player.position = currentCheckpointPos;
-        player.rotation = currentCheckpointRot;
-        foreach (var other in resetObjects.ToList())
+        foreach (var other in resetObjects)
         {
             other.Reset();
         }
-    }
-
-    private IEnumerator TeleportToCheckpoint()
-    {
-        yield return new WaitForFixedUpdate();
-        player.position = currentCheckpointPos;
-        player.rotation = currentCheckpointRot;
-    }
-
-    private static List<IReset> AddResetObjects()
-    {
-        var resetObj = FindObjectsOfType<MonoBehaviour>().OfType<IReset>();
-        return resetObj.ToList();
     }
 
     public void AddResetObject(IReset obj)
@@ -86,10 +68,10 @@ public class GameManager : MonoBehaviour
     
     public void SetCheckpoint(Transform checkpoint, int reference)
     {
-        if(reference < checkPoinReference) return;
+        if(reference < checkpointReference) return;
         currentCheckpointPos = checkpoint.position;
         currentCheckpointRot = checkpoint.rotation;
-        checkPoinReference = reference;
+        checkpointReference = reference;
     }
 
     public void SetSensibility(float sensibility)
