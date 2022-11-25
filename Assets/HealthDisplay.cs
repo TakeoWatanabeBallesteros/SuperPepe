@@ -7,12 +7,15 @@ public class HealthDisplay : MonoBehaviour
 {
     [SerializeField] Color[] colors;
     [SerializeField] float timeForPortionDecay;
+    [SerializeField] float timeToHide;
     [SerializeField] Image healthImageDisplay;
     [SerializeField] Image healthImageBackDisplay;
+    Animator anim;
     int maxHealth;
     private void OnEnable() {
         HealthSystem.OnSetUI += InitializeAll;
         HealthSystem.OnHealthChanged += UpdateHealthBar;
+        anim = GetComponent<Animator>();
     }
     private void OnDisable() {
         HealthSystem.OnSetUI -= InitializeAll;
@@ -30,6 +33,7 @@ public class HealthDisplay : MonoBehaviour
     {
         maxHealth = maxHP;
         SetHealth(health);
+        StartCoroutine(StartHealth());
     }
     void UpdateHealthBar(int actualHealth,int previousHealth,bool damage)
     {
@@ -38,13 +42,22 @@ public class HealthDisplay : MonoBehaviour
     }
     IEnumerator UpdateHelath(int currentHealth, int previousHealth,bool damage)
     {
+        anim.SetBool("Show",true);
         int counter = Mathf.Abs(currentHealth - previousHealth);
+        yield return new WaitForSeconds(0.5f);
         while(counter > 0)
         {
-            SetHealth(currentHealth + (damage? counter : -counter));
             counter--;
+            SetHealth(currentHealth + (damage? counter : -counter));
             yield return new WaitForSeconds(timeForPortionDecay);
         }
-        SetHealth(currentHealth);
+        yield return new WaitForSeconds(timeToHide);
+        anim.SetBool("Show",false);
+    }
+    IEnumerator StartHealth()
+    {
+        anim.SetBool("Show",true);
+        yield return new WaitForSeconds(2f);
+        anim.SetBool("Show",false);
     }
 }
