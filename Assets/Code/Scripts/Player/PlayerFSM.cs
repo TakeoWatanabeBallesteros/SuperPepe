@@ -112,6 +112,7 @@ public class PlayerFSM : MonoBehaviour, IReset
         fsm.AddState("Jump03", new Jump03(this));
         fsm.AddState("DoubleJump", new DoubleJump(this));
         fsm.AddState("TripleJump", new TripleJump(this));
+        fsm.AddState("CrouchJump", new CrouchJump(this));
         fsm.AddState("Fall", new Fall(this));
         fsm.AddState("Land", new Land(this));
     }
@@ -128,13 +129,16 @@ public class PlayerFSM : MonoBehaviour, IReset
             ,new Transition("", "Fall", t => true));
         fsm.AddTriggerTransitionFromAny(
             "Jump01"
-            ,new Transition("", "Jump01", t => grounded && jumpCombo == 0));
+            ,new Transition("", "Jump01", t => grounded && jumpCombo == 0 && fsm.ActiveState.name != "Crouch"));
         fsm.AddTriggerTransitionFromAny(
             "Jump02"
             ,new Transition("", "Jump02", t => grounded && jumpCombo == 1 && fsm.ActiveState.name == "Land"));
         fsm.AddTriggerTransitionFromAny(
             "Jump03"
             ,new Transition("", "Jump03", t => grounded && jumpCombo == 2 && fsm.ActiveState.name == "Land"));
+        fsm.AddTriggerTransitionFromAny(
+            "CrouchJump"
+            ,new Transition("", "CrouchJump", t => grounded && fsm.ActiveState.name == "Crouch"));
         fsm.AddTriggerTransitionFromAny(
             "Reset"
             ,new Transition("", "Idle", t => true));
@@ -249,7 +253,11 @@ public class PlayerFSM : MonoBehaviour, IReset
         {
             crouch = true;
         }
-        else if (context.canceled) crouch = false;
+        else if (!context.performed)
+        {
+            crouch = false;
+            animator.SetBool(animIDCrouch, crouch);
+        }
     }
 
     public void ReadJumpInput(InputAction.CallbackContext context)
@@ -258,6 +266,7 @@ public class PlayerFSM : MonoBehaviour, IReset
         fsm.Trigger("Jump01");
         fsm.Trigger("Jump02");
         fsm.Trigger("Jump03");
+        fsm.Trigger("CrouchJump");
     }
 
     private void AssignAnimationIDs()
