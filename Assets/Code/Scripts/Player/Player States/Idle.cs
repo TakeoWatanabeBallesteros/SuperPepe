@@ -14,7 +14,6 @@ public class Idle : StateBase
 
     public override void OnEnter()
     {
-        _fsm.rb.velocity = Vector3.zero;
         base.OnEnter();
     }
 

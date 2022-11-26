@@ -25,7 +25,6 @@ public class Walk : StateBase
 
     public override void OnExit()
     {
-        _fsm.rb.velocity = Vector3.zero;
         base.OnExit();
     }
 }

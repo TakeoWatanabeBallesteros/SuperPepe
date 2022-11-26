@@ -9,7 +9,7 @@ using UnityEngine.InputSystem.XInput;
 public class PlayerFSM : MonoBehaviour, IReset
 {
     [field:SerializeField] public Animator animator { private set; get; }
-    [field:SerializeField] public Rigidbody rb { private set; get; }
+    [field:SerializeField] public CharacterController characterController { private set; get; }
 
     [field:SerializeField] public Transform cameraTransform { private set; get; }
     [field:SerializeField] public float lerpRotationPct { private set; get; }
@@ -57,7 +57,6 @@ public class PlayerFSM : MonoBehaviour, IReset
     private float _fallTimeoutDelta;
 
     public float _verticalVelocity;
-    private float _terminalVelocity = 53.0f;
 
     private StateMachine fsm;
 
@@ -122,6 +121,7 @@ public class PlayerFSM : MonoBehaviour, IReset
         fsm.AddTwoWayTransition("Idle", "Walk", t => moveInput != Vector2.zero);
         fsm.AddTwoWayTransition("Idle", "Crouch", t => crouch);
         fsm.AddTwoWayTransition("Walk", "Crouch", t => crouch);
+        fsm.AddTransitionFromAny("Fall",t => !grounded && characterController.velocity.y < 0 && _fallTimeoutDelta <= 0);
         fsm.AddTransition("Fall", "Land", t => grounded);
         fsm.AddTriggerTransitionFromAny(
             "Fall"
@@ -169,7 +169,8 @@ public class PlayerFSM : MonoBehaviour, IReset
                 movement = movement * speed * Time.deltaTime;
                 break;
         }
-        rb.velocity = movement + new Vector3(0, rb.velocity.y, 0);
+        characterController.Move(movement +
+                                    new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
     }
     
     private void GroundedCheck()
@@ -201,12 +202,9 @@ public class PlayerFSM : MonoBehaviour, IReset
             {
                 _fallTimeoutDelta -= Time.deltaTime;
             }
-            // else if(fsm.ActiveState.name != "Jump01" && fsm.ActiveState.name != "Jump02" && fsm.ActiveState.name != "Jump03" && fsm.ActiveState.name != "Fall")
-            // {
-            //     Debug.Log("why");
-            //     fsm.Trigger("Fall");
-            // }
-            rb.AddForce(new Vector3(0, gravity, 0) * Time.deltaTime, ForceMode.Acceleration);
+            
+            // apply gravity over time if under terminal (multiply by delta time twice to linearly speed up over time)
+            _verticalVelocity += gravity * Time.deltaTime;
         }
         // jump timeout
         if (_jumpTimeoutDelta >= 0.0f)
@@ -217,13 +215,13 @@ public class PlayerFSM : MonoBehaviour, IReset
 
     public void Jump(float JumpHeight)
     {
+        _verticalVelocity = 0;
         
         // reset the jump timeout timer
         _jumpTimeoutDelta = jumpTimeout;
 
         // the square root of H * -2 * G = how much velocity needed to reach desired height
-        rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
-        rb.AddForce(new Vector3(0, JumpHeight, 0));
+        _verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * gravity);
     }
 
     public void Reset()

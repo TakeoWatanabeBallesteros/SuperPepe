@@ -24,8 +24,8 @@ public class Jump03 : StateBase
     {
         _fsm.Move();
         base.OnLogic();
-        if (!(_fsm.rb.velocity.y < 0)) return;
-        fsm.RequestStateChange("Fall");
+        // if (!(_fsm.characterController.velocity.y < 0)) return;
+        // fsm.RequestStateChange("Fall");
     }
 
     public override void OnExit()

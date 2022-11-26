@@ -6,7 +6,7 @@ using FSM;
 public class Land : StateBase
 {
     private PlayerFSM _fsm;
-    private float comboTime = 0.24f;
+    private float comboTime = 0.2f;
     
     public Land(PlayerFSM fsm) : base(needsExitTime: false)
     {
@@ -15,7 +15,7 @@ public class Land : StateBase
 
     public override void OnEnter()
     {
-        comboTime = 0.24f;
+        comboTime = 0.2f;
         _fsm.animator.SetTrigger(_fsm.animIDLand);
         base.OnEnter();
     }
