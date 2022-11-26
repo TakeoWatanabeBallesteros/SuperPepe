@@ -23,7 +23,7 @@ public class CrouchJump : StateBase
     public override void OnLogic()
     {
         Vector3 direction = -_fsm.transform.forward.normalized + _fsm.transform.right.normalized;
-        _fsm.characterController.Move(new Vector3(direction.x * 8, _fsm._verticalVelocity, 0) * Time.deltaTime);
+        _fsm.characterController.Move(new Vector3(direction.x * 5, _fsm._verticalVelocity, 0) * Time.deltaTime);
         base.OnLogic();
         // if (!(_fsm.characterController.velocity.y < 0)) return;
         // fsm.RequestStateChange("Fall");
