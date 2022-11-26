@@ -27,6 +27,7 @@ public class Platform : MonoBehaviour
     {
         attachedObjects.Remove(target);
         target.SetParent(null);
+        target.rotation = Quaternion.Euler(0.0f, transform.rotation.eulerAngles.y, 0.0f);
     }
     bool FacingUpwards()
     {

@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour
     private Vector3 currentCheckpointPos;
     private Quaternion currentCheckpointRot;
     private Transform player;
+    public delegate void GameOverEvent(bool hasLifes);
+    public static event GameOverEvent OnGameOverEvent;
     private void OnEnable() {
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
@@ -52,8 +54,7 @@ public class GameManager : MonoBehaviour
     }
     public void GameOver(bool hasLifes)
     {
-        /*Invoke del evento de muerte, donde se suscribira el GameOverDisplay, que activara el 
-        restartButon segun parametro de entrada hasLifes y metera animacion con fade a negro i los botones despues*/
+        OnGameOverEvent.Invoke(hasLifes);
     }
     public void ResetGame()
     {

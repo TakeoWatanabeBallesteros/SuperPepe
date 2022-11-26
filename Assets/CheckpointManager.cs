@@ -17,6 +17,7 @@ public class CheckpointManager : MonoBehaviour,IReset
         init_rotation = _player.rotation;
         _position = init_position;
         _rotation = init_rotation;
+        GameManager.GetGameManager().AddResetObject(this);
     }
     private void Awake() {
         instance = this;

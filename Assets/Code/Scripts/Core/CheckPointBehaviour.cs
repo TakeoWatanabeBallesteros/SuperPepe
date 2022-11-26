@@ -7,6 +7,9 @@ public class CheckPointBehaviour : MonoBehaviour, IReset
 {
     [SerializeField] int checkpointNumber;
 
+    private void Start() {
+        GameManager.GetGameManager().AddResetObject(this);
+    }
     private void OnTriggerEnter(Collider other)
     {
         CheckpointManager.instance.SetCheckpoint(transform, checkpointNumber);
