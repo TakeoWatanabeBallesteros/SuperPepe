@@ -5,18 +5,16 @@ using UnityEngine;
 
 public class CheckPointBehaviour : MonoBehaviour, IReset
 {
-    [SerializeField] private int checkpointNumber;
-    private bool taken = false;
+    [SerializeField] int checkpointNumber;
 
     private void OnTriggerEnter(Collider other)
     {
-        GameManager.GetGameManager().SetCheckpoint(transform, checkpointNumber);
+        CheckpointManager.instance.SetCheckpoint(transform, checkpointNumber);
         gameObject.SetActive(false);
-        taken = true;
     }
 
     public void Reset()
     {
-        gameObject.SetActive(!taken);
+        gameObject.SetActive(true);
     }
 }

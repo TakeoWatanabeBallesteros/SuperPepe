@@ -13,10 +13,12 @@ public class GameManager : MonoBehaviour
     private Vector3 currentCheckpointPos;
     private Quaternion currentCheckpointRot;
     private Transform player;
-    
-    //settings
-    public float sensibility { get; private set; } = 10;
-    
+    private void OnEnable() {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+    private void OnDisable() {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
     private void Awake()
     {
         if (instance)
@@ -36,17 +38,22 @@ public class GameManager : MonoBehaviour
         }
         return instance;
     }
+    void OnSceneLoaded(Scene a,LoadSceneMode b)
+    {
+        resetObjects = new List<IReset>();
+    }
     public void SetPlayer(Transform _player)
     {
         this.player = _player;
-        currentCheckpointPos = player.position;
-        currentCheckpointRot = player.rotation;
-        checkpointReference = 0;
-        resetObjects = new List<IReset>();
     }
-    public void GameOver()
+    public Transform GetPlayer()
     {
-        //
+        return player != null? player : FindObjectOfType<PlayerFSM>().transform;
+    }
+    public void GameOver(bool hasLifes)
+    {
+        /*Invoke del evento de muerte, donde se suscribira el GameOverDisplay, que activara el 
+        restartButon segun parametro de entrada hasLifes y metera animacion con fade a negro i los botones despues*/
     }
     public void ResetGame()
     {
@@ -64,18 +71,5 @@ public class GameManager : MonoBehaviour
     public void RemoveResetObject(IReset obj)
     {
         resetObjects.Remove(obj);
-    }
-    
-    public void SetCheckpoint(Transform checkpoint, int reference)
-    {
-        if(reference < checkpointReference) return;
-        currentCheckpointPos = checkpoint.position;
-        currentCheckpointRot = checkpoint.rotation;
-        checkpointReference = reference;
-    }
-
-    public void SetSensibility(float sensibility)
-    {
-        this.sensibility = sensibility;
     }
 }

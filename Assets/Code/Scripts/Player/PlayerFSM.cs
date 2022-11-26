@@ -92,7 +92,7 @@ public class PlayerFSM : MonoBehaviour, IReset
         fsm.Init();
 
         AssignAnimationIDs();
-        // GameManager.GetGameManager().SetPlayer(transform);
+        GameManager.GetGameManager().SetPlayer(transform);
     }
     
     // Update is called once per frame

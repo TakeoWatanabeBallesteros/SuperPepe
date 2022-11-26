@@ -5,9 +5,11 @@ using UnityEngine;
 public class HealthSystem : MonoBehaviour, ITakeDamage, IReset
 {
     [SerializeField]int maxHealth;
+    [SerializeField] int startingLifes;
     int currentHealth;
+    int currentLifes;
     bool isAlive;
-    public delegate void SetHealthUI(int health,int maxHealth);
+    public delegate void SetHealthUI(int health,int maxHealth, int lifes);
     public delegate void HealthChanged(int actualHealth,int previousHealth,bool damage);
     public static event SetHealthUI OnSetUI;
     public static event HealthChanged OnHealthChanged;
@@ -17,7 +19,8 @@ public class HealthSystem : MonoBehaviour, ITakeDamage, IReset
     {
         isAlive = true;
         currentHealth = maxHealth;
-        OnSetUI?.Invoke(currentHealth,maxHealth);
+        currentLifes = startingLifes;
+        OnSetUI?.Invoke(currentHealth,maxHealth,currentLifes);
         GameManager.GetGameManager().AddResetObject(this);
     }
     private void Update() {
@@ -44,7 +47,7 @@ public class HealthSystem : MonoBehaviour, ITakeDamage, IReset
         OnHealthChanged?.Invoke(currentHealth,previousHealth,true);
         //Comprobación de posible final de partida
         isAlive = currentHealth > 0;
-        if(!isAlive)GameManager.GetGameManager().GameOver();
+        if(!isAlive)GameManager.GetGameManager().GameOver(currentLifes>0);
     }
     public void Heal(int amount)
     {
@@ -61,7 +64,8 @@ public class HealthSystem : MonoBehaviour, ITakeDamage, IReset
     public void Reset()
     {
         currentHealth = maxHealth;
+        currentLifes--;
         isAlive = true;
-        OnSetUI?.Invoke(currentHealth,maxHealth);
+        OnSetUI?.Invoke(currentHealth,maxHealth,currentLifes);
     }
 }

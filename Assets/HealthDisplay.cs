@@ -29,7 +29,7 @@ public class HealthDisplay : MonoBehaviour
         healthImageBackDisplay.color = colors[colorIndex];
         //sound cambiando el pitch en base a la vida a la que estas
     }
-    void InitializeAll(int health,int maxHP)
+    void InitializeAll(int health,int maxHP,int lifes)
     {
         maxHealth = maxHP;
         SetHealth(health);
