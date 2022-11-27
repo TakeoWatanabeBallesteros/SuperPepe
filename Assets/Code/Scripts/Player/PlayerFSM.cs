@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Configuration;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using FSM;
@@ -81,7 +82,7 @@ public class PlayerFSM : MonoBehaviour, IReset
     private bool isAnalog = true;
 
     [HideInInspector] public int jumpCombo;
-    [HideInInspector] public int punchCombo;
+    public int punchCombo;
     
     // Start is called before the first frame update
     void Start()
@@ -115,9 +116,7 @@ public class PlayerFSM : MonoBehaviour, IReset
         fsm.AddState("Jump02", new Jump02(this));
         fsm.AddState("Jump03", new Jump03(this));
         fsm.AddState("DoubleJump", new DoubleJump(this));
-        fsm.AddState("Punch01", new Punch1(this));
-        fsm.AddState("Punch02", new Punch2(this));
-        fsm.AddState("Punch03", new Punch3(this));
+        fsm.AddState("Punch", new Punch(this));
         fsm.AddState("CrouchJump", new CrouchJump(this));
         fsm.AddState("Fall", new Fall(this));
         fsm.AddState("Land", new Land(this));
@@ -149,14 +148,8 @@ public class PlayerFSM : MonoBehaviour, IReset
             "Reset"
             ,new Transition("", "Idle", t => true));
         fsm.AddTriggerTransitionFromAny(
-            "Punch01"
-            ,new Transition("", "Punch01", t => grounded && fsm.ActiveState.name != "Crouch"));
-        fsm.AddTriggerTransitionFromAny(
-            "Punch02"
-            ,new Transition("", "Punch02", t => grounded && fsm.ActiveState.name != "Crouch"));
-        fsm.AddTriggerTransitionFromAny(
-            "Punch03"
-            ,new Transition("", "Punch03", t => grounded && fsm.ActiveState.name != "Crouch"));
+            "Punch"
+            ,new Transition("", "Punch", t => grounded && fsm.ActiveState.name != "Crouch"));
     }
 
     public void Move()
@@ -300,13 +293,13 @@ public class PlayerFSM : MonoBehaviour, IReset
         {
             case 0:
                 punchCombo++;
-                fsm.Trigger("Punch01");
+                animator.SetInteger(animIDPunchCombo, punchCombo);
+                fsm.Trigger("Punch");
                 break;
-            case 1:
+            case 1 when fsm.ActiveState.name == "Punch":
+            case 2 when (fsm.ActiveState.name == "Punch"):
                 punchCombo++;
-                break;
-            case 2:
-                punchCombo++;
+                animator.SetInteger(animIDPunchCombo, punchCombo);
                 break;
         }
     }
@@ -349,5 +342,10 @@ public class PlayerFSM : MonoBehaviour, IReset
         Gizmos.DrawSphere(
             new Vector3(transform.position.x, transform.position.y - groundedOffset, transform.position.z),
             groundedRadius);
+    }
+
+    public void FinishPunch(int punchNumb)
+    {
+        if(punchCombo <= punchNumb)fsm.RequestStateChange(moveInput != Vector2.zero ? "Walk" : "Idle");
     }
 }

@@ -4607,9 +4607,9 @@ ModelImporter:
       - time: 1
         functionName: FinishPunch
         data: 
-        objectReferenceParameter: {fileID: 11500000, guid: fa7ad1cdd24f13549aa20e4d285ba743, type: 3}
+        objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
-        intParameter: 0
+        intParameter: 1
         messageOptions: 0
       - time: 0.14566678
         functionName: PunchSound1
@@ -4750,9 +4750,9 @@ ModelImporter:
       - time: 1
         functionName: FinishPunch
         data: 
-        objectReferenceParameter: {fileID: 11500000, guid: fa7ad1cdd24f13549aa20e4d285ba743, type: 3}
+        objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
-        intParameter: 0
+        intParameter: 2
         messageOptions: 0
       - time: 0.110418096
         functionName: PunchSound2
@@ -4893,9 +4893,9 @@ ModelImporter:
       - time: 1
         functionName: FinishPunch
         data: 
-        objectReferenceParameter: {fileID: 11500000, guid: fa7ad1cdd24f13549aa20e4d285ba743, type: 3}
+        objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
-        intParameter: 0
+        intParameter: 3
         messageOptions: 0
       - time: 0.092729434
         functionName: PunchSound3

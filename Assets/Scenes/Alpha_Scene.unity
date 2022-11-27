@@ -925,6 +925,22 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: d7430d8f-71d9-483c-8731-3fd065fcf16e
     m_ActionName: UI/TrackedDeviceOrientation
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5054645070857423100}
+        m_TargetAssemblyTypeName: PlayerFSM, Assembly-CSharp
+        m_MethodName: ReadPunchInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 28714ce3-154e-464c-b2da-588324213c49
+    m_ActionName: Player/Punch[/Mouse/leftButton,/XInputControllerWindows/buttonWest,/XInputControllerWindows/buttonNorth]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard&Mouse
   m_DefaultActionMap: Player
@@ -969,6 +985,7 @@ MonoBehaviour:
   _verticalVelocity: 0
   <crouch>k__BackingField: 0
   jumpCombo: 0
+  punchCombo: 0
 --- !u!114 &5054645070857423101
 MonoBehaviour:
   m_ObjectHideFlags: 0

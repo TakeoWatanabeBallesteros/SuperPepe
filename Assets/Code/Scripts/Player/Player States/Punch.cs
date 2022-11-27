@@ -1,12 +1,11 @@
 using UnityEngine;
 using FSM;
 
-public class Punch3 : StateBase
+public class Punch : StateBase
 {
     private PlayerFSM _fsm;
-    private float punchTime = 0.13f;
 
-    public Punch3(PlayerFSM fsm) : base(needsExitTime: false)
+    public Punch(PlayerFSM fsm) : base(needsExitTime: false)
     {
         this._fsm = fsm;
     }
@@ -20,13 +19,12 @@ public class Punch3 : StateBase
     public override void OnLogic()
     {
         base.OnLogic();
-        if (punchTime >= 0) punchTime -= Time.deltaTime;
-        else fsm.RequestStateChange(_fsm.moveInput != Vector2.zero ? "Walk" : "Idle");
     }
 
     public override void OnExit()
     {
         _fsm.punchCombo = 0;
+        _fsm.animator.SetInteger(_fsm.animIDPunchCombo, _fsm.punchCombo);
         base.OnExit();
     }
 }
