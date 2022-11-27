@@ -55,6 +55,7 @@ public class PlayerFSM : MonoBehaviour, IReset
     // timeout deltatime
     private float _jumpTimeoutDelta;
     private float _fallTimeoutDelta;
+    private float _punchTimeoutDelta;
 
     public float _verticalVelocity;
 
@@ -68,6 +69,8 @@ public class PlayerFSM : MonoBehaviour, IReset
     public int animIDGrounded { private set; get; }
     public int animIDJump { private set; get; }
     public int animIDJumpCombo { private set; get; }
+    public int animIDPunch { private set; get; }
+    public int animIDPunchCombo { private set; get; }
     public int animIDCrouch { private set; get; }
     public int animIDFreeFall { private set; get; }
     public int animIDLand { private set; get; }
@@ -78,6 +81,7 @@ public class PlayerFSM : MonoBehaviour, IReset
     private bool isAnalog = true;
 
     [HideInInspector] public int jumpCombo;
+    [HideInInspector] public int punchCombo;
     
     // Start is called before the first frame update
     void Start()
@@ -111,7 +115,9 @@ public class PlayerFSM : MonoBehaviour, IReset
         fsm.AddState("Jump02", new Jump02(this));
         fsm.AddState("Jump03", new Jump03(this));
         fsm.AddState("DoubleJump", new DoubleJump(this));
-        fsm.AddState("TripleJump", new TripleJump(this));
+        fsm.AddState("Punch01", new Punch1(this));
+        fsm.AddState("Punch02", new Punch2(this));
+        fsm.AddState("Punch03", new Punch3(this));
         fsm.AddState("CrouchJump", new CrouchJump(this));
         fsm.AddState("Fall", new Fall(this));
         fsm.AddState("Land", new Land(this));
@@ -129,19 +135,28 @@ public class PlayerFSM : MonoBehaviour, IReset
             ,new Transition("", "Fall", t => true));
         fsm.AddTriggerTransitionFromAny(
             "Jump01"
-            ,new Transition("", "Jump01", t => grounded && jumpCombo == 0 && fsm.ActiveState.name != "Crouch"));
+            ,new Transition("", "Jump01", t => grounded && fsm.ActiveState.name != "Crouch"));
         fsm.AddTriggerTransitionFromAny(
             "Jump02"
-            ,new Transition("", "Jump02", t => grounded && jumpCombo == 1 && fsm.ActiveState.name == "Land"));
+            ,new Transition("", "Jump02", t => grounded && fsm.ActiveState.name == "Land"));
         fsm.AddTriggerTransitionFromAny(
             "Jump03"
-            ,new Transition("", "Jump03", t => grounded && jumpCombo == 2 && fsm.ActiveState.name == "Land"));
+            ,new Transition("", "Jump03", t => grounded && fsm.ActiveState.name == "Land"));
         fsm.AddTriggerTransitionFromAny(
             "CrouchJump"
             ,new Transition("", "CrouchJump", t => grounded && fsm.ActiveState.name == "Crouch"));
         fsm.AddTriggerTransitionFromAny(
             "Reset"
             ,new Transition("", "Idle", t => true));
+        fsm.AddTriggerTransitionFromAny(
+            "Punch01"
+            ,new Transition("", "Punch01", t => grounded && fsm.ActiveState.name != "Crouch"));
+        fsm.AddTriggerTransitionFromAny(
+            "Punch02"
+            ,new Transition("", "Punch02", t => grounded && fsm.ActiveState.name != "Crouch"));
+        fsm.AddTriggerTransitionFromAny(
+            "Punch03"
+            ,new Transition("", "Punch03", t => grounded && fsm.ActiveState.name != "Crouch"));
     }
 
     public void Move()
@@ -263,10 +278,37 @@ public class PlayerFSM : MonoBehaviour, IReset
     public void ReadJumpInput(InputAction.CallbackContext context)
     {
         if (!context.action.triggered || _jumpTimeoutDelta >= 0) return;
-        fsm.Trigger("Jump01");
-        fsm.Trigger("Jump02");
-        fsm.Trigger("Jump03");
+        switch (jumpCombo)
+        {
+            case 0:
+                fsm.Trigger("Jump01");
+                break;
+            case 1:
+                fsm.Trigger("Jump02");
+                break;
+            case 2:
+                fsm.Trigger("Jump03");
+                break;
+        }
         fsm.Trigger("CrouchJump");
+    }
+    
+    public void ReadPunchInput(InputAction.CallbackContext context)
+    {
+        if (!context.action.triggered) return;
+        switch (punchCombo)
+        {
+            case 0:
+                punchCombo++;
+                fsm.Trigger("Punch01");
+                break;
+            case 1:
+                punchCombo++;
+                break;
+            case 2:
+                punchCombo++;
+                break;
+        }
     }
 
     private void AssignAnimationIDs()
@@ -275,6 +317,8 @@ public class PlayerFSM : MonoBehaviour, IReset
         animIDGrounded = Animator.StringToHash("Grounded");
         animIDJump = Animator.StringToHash("Jump");
         animIDJumpCombo = Animator.StringToHash("JumpCombo");
+        animIDPunch = Animator.StringToHash("Punch");
+        animIDPunchCombo = Animator.StringToHash("PunchCombo");
         animIDCrouch = Animator.StringToHash("Crouch");
         animIDFreeFall = Animator.StringToHash("FreeFall");
         animIDLand = Animator.StringToHash("Land");
