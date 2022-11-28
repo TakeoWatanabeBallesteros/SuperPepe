@@ -148,7 +148,7 @@ public class PlayerFSM : MonoBehaviour, IReset
             ,new Transition("", "Fall", t => true));
         fsm.AddTriggerTransitionFromAny(
             "Jump01"
-            ,new Transition("", "Jump01", t => grounded && fsm.ActiveStateName != "Crouch"));
+            ,new Transition("", "Jump01", t => grounded && fsm.ActiveStateName != "Crouch" && fsm.ActiveStateName != "Punch"));
         fsm.AddTriggerTransitionFromAny(
             "Jump02"
             ,new Transition("", "Jump02", t => grounded && fsm.ActiveStateName == "Land"));
