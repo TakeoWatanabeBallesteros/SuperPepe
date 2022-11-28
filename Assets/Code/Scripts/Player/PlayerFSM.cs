@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using FSM;
 using UnityEngine.InputSystem.XInput;
+using UnityEngine.Events;
 
 public class PlayerFSM : MonoBehaviour, IReset
 {
@@ -34,6 +35,8 @@ public class PlayerFSM : MonoBehaviour, IReset
     
     [field:Tooltip("Time required to pass before entering the fall state. Useful for walking down stairs")]
     [field:SerializeField] public float fallTimeout { private set; get; } = 0.15f;
+    [field:Tooltip("Time required to pass before entering the fall state. Useful for walking down stairs")]
+    [field:SerializeField] public float punchComboTimeout { private set; get; } = 0.2f;
     
     [field:Space(10)]
     [field:Tooltip("The height the player can jump")]
@@ -56,7 +59,7 @@ public class PlayerFSM : MonoBehaviour, IReset
     // timeout deltatime
     private float _jumpTimeoutDelta;
     private float _fallTimeoutDelta;
-    private float _punchTimeoutDelta;
+    private float _punchComboTimeoutDelta;
 
     public float _verticalVelocity;
 
@@ -83,6 +86,11 @@ public class PlayerFSM : MonoBehaviour, IReset
 
     [HideInInspector] public int jumpCombo;
     public int punchCombo;
+
+    [SerializeField] 
+    private UnityEvent<string, string> OnStateChange;
+    private string actualState = "none";
+    private string lastState = "none";
     
     // Start is called before the first frame update
     void Start()
@@ -102,6 +110,12 @@ public class PlayerFSM : MonoBehaviour, IReset
     // Update is called once per frame
     void Update()
     {
+        if (fsm.ActiveStateName != actualState)
+        {
+            lastState = actualState;
+            actualState = fsm.ActiveStateName;
+            OnStateChange?.Invoke(lastState, actualState);
+        }
         GroundedCheck();
         GravityForce();
         fsm.OnLogic();
@@ -134,22 +148,22 @@ public class PlayerFSM : MonoBehaviour, IReset
             ,new Transition("", "Fall", t => true));
         fsm.AddTriggerTransitionFromAny(
             "Jump01"
-            ,new Transition("", "Jump01", t => grounded && fsm.ActiveState.name != "Crouch"));
+            ,new Transition("", "Jump01", t => grounded && fsm.ActiveStateName != "Crouch"));
         fsm.AddTriggerTransitionFromAny(
             "Jump02"
-            ,new Transition("", "Jump02", t => grounded && fsm.ActiveState.name == "Land"));
+            ,new Transition("", "Jump02", t => grounded && fsm.ActiveStateName == "Land"));
         fsm.AddTriggerTransitionFromAny(
             "Jump03"
-            ,new Transition("", "Jump03", t => grounded && fsm.ActiveState.name == "Land"));
+            ,new Transition("", "Jump03", t => grounded && fsm.ActiveStateName == "Land"));
         fsm.AddTriggerTransitionFromAny(
             "CrouchJump"
-            ,new Transition("", "CrouchJump", t => grounded && fsm.ActiveState.name == "Crouch"));
+            ,new Transition("", "CrouchJump", t => grounded && fsm.ActiveStateName == "Crouch"));
         fsm.AddTriggerTransitionFromAny(
             "Reset"
             ,new Transition("", "Idle", t => true));
         fsm.AddTriggerTransitionFromAny(
             "Punch"
-            ,new Transition("", "Punch", t => grounded && fsm.ActiveState.name != "Crouch"));
+            ,new Transition("", "Punch", t => grounded && fsm.ActiveStateName != "Crouch"));
     }
 
     public void Move()
@@ -206,6 +220,8 @@ public class PlayerFSM : MonoBehaviour, IReset
                 // Debug.Log("Grounded");
                 _fallTimeoutDelta = fallTimeout;
             }
+
+            if(_verticalVelocity < gravity) _verticalVelocity = gravity;
         }
         else
         {
@@ -291,13 +307,13 @@ public class PlayerFSM : MonoBehaviour, IReset
         if (!context.action.triggered) return;
         switch (punchCombo)
         {
-            case 0:
+            case 0 when fsm.ActiveStateName == "Idle" || fsm.ActiveStateName == "Walk":
                 punchCombo++;
                 animator.SetInteger(animIDPunchCombo, punchCombo);
                 fsm.Trigger("Punch");
                 break;
-            case 1 when fsm.ActiveState.name == "Punch":
-            case 2 when (fsm.ActiveState.name == "Punch"):
+            case 1 when fsm.ActiveStateName == "Punch":
+            case 2 when (fsm.ActiveStateName == "Punch"):
                 punchCombo++;
                 animator.SetInteger(animIDPunchCombo, punchCombo);
                 break;
@@ -346,6 +362,8 @@ public class PlayerFSM : MonoBehaviour, IReset
 
     public void FinishPunch(int punchNumb)
     {
-        if(punchCombo <= punchNumb)fsm.RequestStateChange(moveInput != Vector2.zero ? "Walk" : "Idle");
+        if(punchCombo <= punchNumb || animator.GetCurrentAnimatorStateInfo(0).IsName("Player.Idle/Walk/Run"))fsm.RequestStateChange(moveInput != Vector2.zero ? "Walk" : "Idle");
+        punchComboTimeout = _punchComboTimeoutDelta;
+        // else animator.SetTrigger(animIDPunch);
     }
 }
