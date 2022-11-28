@@ -47,7 +47,7 @@ public class HealthSystem : MonoBehaviour, ITakeDamage, IReset
         OnHealthChanged?.Invoke(currentHealth,previousHealth,true);
         //Comprobación de posible final de partida
         isAlive = currentHealth > 0;
-        if(!isAlive)GameManager.GetGameManager().GameOver(currentLifes>0);
+        if(!isAlive)GameManager.GetGameManager().GameOver(currentLifes);
     }
     public void Heal(int amount)
     {

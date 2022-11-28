@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
     private Vector3 currentCheckpointPos;
     private Quaternion currentCheckpointRot;
     private Transform player;
-    public delegate void GameOverEvent(bool hasLifes);
+    public delegate void GameOverEvent(int hasLifes);
     public static event GameOverEvent OnGameOverEvent;
     private void OnEnable() {
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -52,7 +52,7 @@ public class GameManager : MonoBehaviour
     {
         return player != null? player : FindObjectOfType<PlayerFSM>().transform;
     }
-    public void GameOver(bool hasLifes)
+    public void GameOver(int hasLifes)
     {
         OnGameOverEvent.Invoke(hasLifes);
     }
