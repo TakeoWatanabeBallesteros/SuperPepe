@@ -10,6 +10,7 @@ public class HealthDisplay : MonoBehaviour
     [SerializeField] float timeToHide;
     [SerializeField] Image healthImageDisplay;
     [SerializeField] Image healthImageBackDisplay;
+    float colorRange;
     Animator anim;
     int maxHealth;
     private void OnEnable() {
@@ -23,7 +24,7 @@ public class HealthDisplay : MonoBehaviour
     }
     void SetHealth(int currentHealth)
     {
-        int colorIndex = Mathf.Clamp(Mathf.CeilToInt(currentHealth * colors.Length/maxHealth) - 1,0,colors.Length - 1);
+        int colorIndex = currentHealth > 0 ? Mathf.CeilToInt(currentHealth * colorRange) - 1 : 0;
         healthImageDisplay.fillAmount = (float) currentHealth/maxHealth;
         healthImageDisplay.color = colors[colorIndex];
         healthImageBackDisplay.color = colors[colorIndex];
@@ -31,6 +32,7 @@ public class HealthDisplay : MonoBehaviour
     }
     void InitializeAll(int health,int maxHP,int lifes)
     {
+        colorRange = (float)colors.Length/maxHP;
         maxHealth = maxHP;
         SetHealth(health);
         StartCoroutine(StartHealth());

@@ -32,7 +32,6 @@ public class GameOver : MonoBehaviour, IReset
         Time.timeScale = 1f;
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
-        
     }
     public void RestartButton()
     {
