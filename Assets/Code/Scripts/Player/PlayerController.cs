@@ -159,5 +159,12 @@ public class PlayerController : MonoBehaviour
         // animIDFreeFall = Animator.StringToHash("FreeFall");
         // animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
     }
+    public void OnControllerColliderHit(ControllerColliderHit hit) {
+        if(hit.collider.tag == "Bridge")
+        {
+            Debug.Log("bridge detected");
+            hit.collider.GetComponent<Bridge>().AddForceToBridge(-hit.normal,hit.point);
+        }
+    }
 
 }
