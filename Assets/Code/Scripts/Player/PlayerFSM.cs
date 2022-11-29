@@ -35,8 +35,6 @@ public class PlayerFSM : MonoBehaviour, IReset
     
     [field:Tooltip("Time required to pass before entering the fall state. Useful for walking down stairs")]
     [field:SerializeField] public float fallTimeout { private set; get; } = 0.15f;
-    [field:Tooltip("Time required to pass before entering the fall state. Useful for walking down stairs")]
-    [field:SerializeField] public float punchComboTimeout { private set; get; } = 0.2f;
     
     [field:Space(10)]
     [field:Tooltip("The height the player can jump")]
@@ -59,7 +57,6 @@ public class PlayerFSM : MonoBehaviour, IReset
     // timeout deltatime
     private float _jumpTimeoutDelta;
     private float _fallTimeoutDelta;
-    private float _punchComboTimeoutDelta;
 
     public float _verticalVelocity;
 
@@ -363,7 +360,6 @@ public class PlayerFSM : MonoBehaviour, IReset
     public void FinishPunch(int punchNumb)
     {
         if(punchCombo <= punchNumb || animator.GetCurrentAnimatorStateInfo(0).IsName("Player.Idle/Walk/Run"))fsm.RequestStateChange(moveInput != Vector2.zero ? "Walk" : "Idle");
-        punchComboTimeout = _punchComboTimeoutDelta;
         // else animator.SetTrigger(animIDPunch);
     }
 }
