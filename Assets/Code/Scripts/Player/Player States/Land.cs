@@ -27,9 +27,6 @@ public class Land : StateBase
             comboTime -= Time.deltaTime;
             return;
         }
-        _fsm.jumpCombo = 0;
-        _fsm.animator.SetInteger(_fsm.animIDJumpCombo, _fsm.jumpCombo);
-        fsm.RequestStateChange(_fsm.moveInput != Vector2.zero ? "Walk" : "Idle");
         base.OnLogic();
     }
 

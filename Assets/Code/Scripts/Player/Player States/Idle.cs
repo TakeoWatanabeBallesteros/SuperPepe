@@ -19,6 +19,7 @@ public class Idle : StateBase
 
     public override void OnLogic()
     {
+        _fsm.ApplyGravity();
         _fsm.animator.SetFloat(_fsm.animIDSpeed, 0);
         base.OnLogic();
     }

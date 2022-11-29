@@ -75,6 +75,7 @@ public class PlayerFSM : MonoBehaviour, IReset
     public int animIDCrouch { private set; get; }
     public int animIDFreeFall { private set; get; }
     public int animIDLand { private set; get; }
+    public int animIDBumDrop { private set; get; }
 
     private bool jump;
     [field: SerializeField] public bool crouch { private set; get; }
@@ -130,6 +131,7 @@ public class PlayerFSM : MonoBehaviour, IReset
         fsm.AddState("Punch", new Punch(this));
         fsm.AddState("CrouchJump", new CrouchJump(this));
         fsm.AddState("Fall", new Fall(this));
+        fsm.AddState("BumDrop", new BumDrop(this));
         fsm.AddState("Land", new Land(this));
     }
 
@@ -138,14 +140,18 @@ public class PlayerFSM : MonoBehaviour, IReset
         fsm.AddTwoWayTransition("Idle", "Walk", t => moveInput != Vector2.zero);
         fsm.AddTwoWayTransition("Idle", "Crouch", t => crouch);
         fsm.AddTwoWayTransition("Walk", "Crouch", t => crouch);
-        fsm.AddTransitionFromAny("Fall",t => !grounded && characterController.velocity.y < 0 && _fallTimeoutDelta <= 0);
+        fsm.AddTransitionFromAny("Fall",t => !grounded && characterController.velocity.y < 0 && _fallTimeoutDelta <= 0 && fsm.ActiveStateName != "BumDrop");
         fsm.AddTransition("Fall", "Land", t => grounded);
+        fsm.AddTransition("BumDrop", "Land", t => grounded);
         fsm.AddTriggerTransitionFromAny(
             "Fall"
             ,new Transition("", "Fall", t => true));
         fsm.AddTriggerTransitionFromAny(
             "Jump01"
             ,new Transition("", "Jump01", t => grounded && fsm.ActiveStateName != "Crouch" && fsm.ActiveStateName != "Punch"));
+        fsm.AddTriggerTransitionFromAny(
+            "BumDrop"
+            ,new Transition("", "BumDrop", t => !grounded));
         fsm.AddTriggerTransitionFromAny(
             "Jump02"
             ,new Transition("", "Jump02", t => grounded && fsm.ActiveStateName == "Land"));
@@ -194,6 +200,11 @@ public class PlayerFSM : MonoBehaviour, IReset
         }
         characterController.Move(movement +
                                     new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
+    }
+
+    public void ApplyGravity()
+    {
+        characterController.Move(new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
     }
     
     private void GroundedCheck()
@@ -270,11 +281,13 @@ public class PlayerFSM : MonoBehaviour, IReset
 
     public void ReadCrouchInput(InputAction.CallbackContext context)
     {
+        if (context.action.triggered && !crouch)
+            fsm.Trigger("BumDrop");
         if (!crouch && context.performed)
         {
             crouch = true;
         }
-        else if (!context.performed)
+        else if (!context.performed && crouch)
         {
             crouch = false;
             animator.SetBool(animIDCrouch, crouch);
@@ -328,6 +341,7 @@ public class PlayerFSM : MonoBehaviour, IReset
         animIDCrouch = Animator.StringToHash("Crouch");
         animIDFreeFall = Animator.StringToHash("FreeFall");
         animIDLand = Animator.StringToHash("Land");
+        animIDBumDrop = Animator.StringToHash("BumDrop");
     }
 
     public void OnDeviceChanged(PlayerInput playerInput)
@@ -361,5 +375,12 @@ public class PlayerFSM : MonoBehaviour, IReset
     {
         if(punchCombo <= punchNumb || animator.GetCurrentAnimatorStateInfo(0).IsName("Player.Idle/Walk/Run"))fsm.RequestStateChange(moveInput != Vector2.zero ? "Walk" : "Idle");
         // else animator.SetTrigger(animIDPunch);
+    }
+
+    public void FinishRecover()
+    {
+        jumpCombo = 0;
+        animator.SetInteger(animIDJumpCombo, jumpCombo);
+        fsm.RequestStateChange(moveInput != Vector2.zero ? "Walk" : "Idle");
     }
 }
