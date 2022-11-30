@@ -16,6 +16,10 @@ public class PlayerFSM : MonoBehaviour, IReset
     [field:SerializeField] public Transform cameraTransform { private set; get; }
     [field:SerializeField] public float lerpRotationPct { private set; get; }
 
+    [SerializeField] private Transform headWallChecker;
+    [SerializeField] private Transform hipWallChecker;
+    [SerializeField] private Transform kneesWallChecker;
+
     [field:Space(10)]
     [field:Tooltip("Time required to pass before being able to jump again. Set to 0f to instantly jump again")]
     [field:SerializeField] public float jumpTimeout { private set; get; } = 0.50f;
@@ -144,6 +148,9 @@ public class PlayerFSM : MonoBehaviour, IReset
         fsm.AddTransitionFromAny("Fall",t => !grounded && characterController.velocity.y < 0 && _fallTimeoutDelta <= 0 && fsm.ActiveStateName != "BumDrop");
         fsm.AddTransition("Fall", "Land", t => grounded);
         fsm.AddTransition("BumDrop", "Land", t => grounded);
+        fsm.AddTransition("Jump01", "Land", t => grounded);
+        fsm.AddTransition("Jump02", "Land", t => grounded);
+        fsm.AddTransition("Jump03", "Land", t => grounded);
         fsm.AddTriggerTransitionFromAny(
             "Fall"
             ,new Transition("", "Fall", t => true));
@@ -360,6 +367,11 @@ public class PlayerFSM : MonoBehaviour, IReset
         {
             isAnalog = device.GetType() != typeof(Keyboard);
         }
+    }
+
+    private void CheckWallCollision()
+    {
+        
     }
 
     public void PlayStepAudio(float velocity)
