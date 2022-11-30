@@ -148,9 +148,9 @@ public class PlayerFSM : MonoBehaviour, IReset
         fsm.AddTransitionFromAny("Fall",t => !grounded && characterController.velocity.y < 0 && _fallTimeoutDelta <= 0 && fsm.ActiveStateName != "BumDrop");
         fsm.AddTransition("Fall", "Land", t => grounded);
         fsm.AddTransition("BumDrop", "Land", t => grounded);
-        fsm.AddTransition("Jump01", "Land", t => grounded);
-        fsm.AddTransition("Jump02", "Land", t => grounded);
-        fsm.AddTransition("Jump03", "Land", t => grounded);
+        fsm.AddTransition("Jump01", "Land", t => grounded && _fallTimeoutDelta < 0);
+        fsm.AddTransition("Jump02", "Land", t => grounded && _fallTimeoutDelta < 0);
+        fsm.AddTransition("Jump03", "Land", t => grounded && _fallTimeoutDelta < 0);
         fsm.AddTriggerTransitionFromAny(
             "Fall"
             ,new Transition("", "Fall", t => true));

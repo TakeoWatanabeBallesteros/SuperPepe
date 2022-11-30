@@ -1445,6 +1445,7 @@ MonoBehaviour:
     Path: event:/Step_Floor
   _verticalVelocity: 0
   <crouch>k__BackingField: 0
+  isAnalog: 0
   jumpCombo: 0
   punchCombo: 0
   OnStateChange:
