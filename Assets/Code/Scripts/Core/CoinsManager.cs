@@ -29,7 +29,6 @@ public class CoinsManager : MonoBehaviour, IReset
     }
     public void Reset()
     {
-        currentCoins = 0;
-        OnCoinsChanged.Invoke(currentCoins);
+        
     }
 }
