@@ -188,12 +188,12 @@ public class PlayerFSM : MonoBehaviour, IReset
 
         switch (isAnalog)
         {
-            case true when !run:
+            case false when !run:
                 animator.SetFloat(animIDSpeed, moveInput.magnitude/2);
                 movement = movement / 2 * speed * Time.deltaTime;
                 break;
-            case true when run:
-            case false:
+            case false when run:
+            case true:
                 animator.SetFloat(animIDSpeed, moveInput.magnitude);
                 movement = movement * speed * Time.deltaTime;
                 break;
@@ -267,7 +267,7 @@ public class PlayerFSM : MonoBehaviour, IReset
     
     public void ReadMoveInput(InputAction.CallbackContext context)
     {
-        moveInput = isAnalog ? context.ReadValue<Vector2>().normalized : context.ReadValue<Vector2>();
+        moveInput = isAnalog ? context.ReadValue<Vector2>() : context.ReadValue<Vector2>().normalized;
     }
     
     public void ReadRunInput(InputAction.CallbackContext context)
