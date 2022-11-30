@@ -85,7 +85,7 @@ public class PlayerFSM : MonoBehaviour, IReset
     private bool jump;
     [field: SerializeField] public bool crouch { private set; get; }
 
-    private bool isAnalog = true;
+    [SerializeField] private bool isAnalog = false;
 
     [HideInInspector] public int jumpCombo;
     public int punchCombo;
@@ -365,7 +365,7 @@ public class PlayerFSM : MonoBehaviour, IReset
     {
         foreach (var device in playerInput.devices)
         {
-            isAnalog = device.GetType() != typeof(Keyboard);
+            isAnalog = device.GetType() != typeof(Keyboard) || device.GetType() != typeof(Mouse);
         }
     }
 
