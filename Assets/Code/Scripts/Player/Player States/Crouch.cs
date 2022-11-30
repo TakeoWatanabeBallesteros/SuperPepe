@@ -20,6 +20,7 @@ public class Crouch : StateBase
 
     public override void OnLogic()
     {
+        _fsm.Move();
         base.OnLogic();
     }
 
