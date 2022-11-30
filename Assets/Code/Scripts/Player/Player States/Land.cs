@@ -22,6 +22,7 @@ public class Land : StateBase
 
     public override void OnLogic()
     {
+        _fsm.ApplyGravity();
         if (comboTime >= 0f)
         {
             comboTime -= Time.deltaTime;
