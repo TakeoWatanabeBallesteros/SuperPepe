@@ -5,9 +5,12 @@ using UnityEngine;
 public class Item : MonoBehaviour,IReset
 {
     Animator anim;
-    bool spawned = false;
+    [SerializeField] bool spawned = false;
     Vector3 initPos;
     bool collected = false;
+    private void Awake() {
+        anim.SetBool("Spawned",spawned);              
+    }
     private void Start() {
         anim = GetComponent<Animator>();
         initPos = transform.position;
