@@ -8,8 +8,4 @@ public class ItemCoin : Item
     {
         CoinsManager.instance.AddCoin();
     }
-    public void Spawned()
-    {
-        base.SetSpawned();
-    }
 }

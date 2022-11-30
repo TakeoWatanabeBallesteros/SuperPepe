@@ -13,8 +13,4 @@ public class ItemStar : Item
     {
         return _player.GetComponent<HealthSystem>().CanHeal();
     }
-    public void Spawned()
-    {
-        base.SetSpawned();
-    }
 }

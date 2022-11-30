@@ -50,9 +50,13 @@ public class Item : MonoBehaviour,IReset
         transform.position = initPos;
         transform.localScale = new Vector3(1,1,1);
     }
-    public void SetSpawned()
+    public void Spawned()
     {
         spawned = true;
+    }
+    public void SetCollected(bool _collected)
+    {
+        collected = _collected;
     }
     private void OnTriggerEnter(Collider other) {
         if(collected) return;
