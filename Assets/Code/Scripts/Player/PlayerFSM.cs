@@ -69,6 +69,7 @@ public class PlayerFSM : MonoBehaviour, IReset
     public int animIDSpeed { private set; get; }
     public int animIDGrounded { private set; get; }
     public int animIDJump { private set; get; }
+    public int animIDLongJump { private set; get; }
     public int animIDJumpCombo { private set; get; }
     public int animIDPunch { private set; get; }
     public int animIDPunchCombo { private set; get; }
@@ -127,6 +128,7 @@ public class PlayerFSM : MonoBehaviour, IReset
         fsm.AddState("Jump01", new Jump01(this));
         fsm.AddState("Jump02", new Jump02(this));
         fsm.AddState("Jump03", new Jump03(this));
+        fsm.AddState("LongJump", new LongJump(this));
         fsm.AddState("DoubleJump", new DoubleJump(this));
         fsm.AddState("Punch", new Punch(this));
         fsm.AddState("CrouchJump", new CrouchJump(this));
@@ -139,7 +141,6 @@ public class PlayerFSM : MonoBehaviour, IReset
     {
         fsm.AddTwoWayTransition("Idle", "Walk", t => moveInput != Vector2.zero);
         fsm.AddTwoWayTransition("Idle", "Crouch", t => crouch);
-        fsm.AddTwoWayTransition("Walk", "Crouch", t => crouch);
         fsm.AddTransitionFromAny("Fall",t => !grounded && characterController.velocity.y < 0 && _fallTimeoutDelta <= 0 && fsm.ActiveStateName != "BumDrop");
         fsm.AddTransition("Fall", "Land", t => grounded);
         fsm.AddTransition("BumDrop", "Land", t => grounded);
@@ -147,17 +148,20 @@ public class PlayerFSM : MonoBehaviour, IReset
             "Fall"
             ,new Transition("", "Fall", t => true));
         fsm.AddTriggerTransitionFromAny(
+            "LongJump"
+            ,new Transition("", "LongJump", t => grounded ));
+        fsm.AddTriggerTransitionFromAny(
             "Jump01"
             ,new Transition("", "Jump01", t => grounded && fsm.ActiveStateName != "Crouch" && fsm.ActiveStateName != "Punch"));
-        fsm.AddTriggerTransitionFromAny(
-            "BumDrop"
-            ,new Transition("", "BumDrop", t => !grounded));
         fsm.AddTriggerTransitionFromAny(
             "Jump02"
             ,new Transition("", "Jump02", t => grounded && fsm.ActiveStateName == "Land"));
         fsm.AddTriggerTransitionFromAny(
             "Jump03"
             ,new Transition("", "Jump03", t => grounded && fsm.ActiveStateName == "Land"));
+        fsm.AddTriggerTransitionFromAny(
+            "BumDrop"
+            ,new Transition("", "BumDrop", t => !grounded));
         fsm.AddTriggerTransitionFromAny(
             "CrouchJump"
             ,new Transition("", "CrouchJump", t => grounded && fsm.ActiveStateName == "Crouch"));
@@ -229,7 +233,7 @@ public class PlayerFSM : MonoBehaviour, IReset
                 _fallTimeoutDelta = fallTimeout;
             }
 
-            if(_verticalVelocity < gravity) _verticalVelocity = gravity;
+            if(_verticalVelocity < -1.0f) _verticalVelocity = -1.0f;
         }
         else
         {
@@ -297,6 +301,11 @@ public class PlayerFSM : MonoBehaviour, IReset
     public void ReadJumpInput(InputAction.CallbackContext context)
     {
         if (!context.action.triggered || _jumpTimeoutDelta >= 0) return;
+        if(fsm.ActiveStateName == "Walk" && crouch)
+        {
+            fsm.Trigger("LongJump");
+            return;
+        }
         switch (jumpCombo)
         {
             case 0:
@@ -335,6 +344,7 @@ public class PlayerFSM : MonoBehaviour, IReset
         animIDSpeed = Animator.StringToHash("Speed");
         animIDGrounded = Animator.StringToHash("Grounded");
         animIDJump = Animator.StringToHash("Jump");
+        animIDLongJump = Animator.StringToHash("LongJump");
         animIDJumpCombo = Animator.StringToHash("JumpCombo");
         animIDPunch = Animator.StringToHash("Punch");
         animIDPunchCombo = Animator.StringToHash("PunchCombo");
@@ -348,7 +358,7 @@ public class PlayerFSM : MonoBehaviour, IReset
     {
         foreach (var device in playerInput.devices)
         {
-            isAnalog = device.GetType() == typeof(Keyboard);
+            isAnalog = device.GetType() != typeof(Keyboard);
         }
     }
 

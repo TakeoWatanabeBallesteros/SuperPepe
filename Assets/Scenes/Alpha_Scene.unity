@@ -1183,7 +1183,7 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 2
   m_Height: 1.52
-  m_Radius: 0.46
+  m_Radius: 0.24
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.0001
@@ -1421,8 +1421,8 @@ MonoBehaviour:
   <cameraTransform>k__BackingField: {fileID: 958565419}
   <lerpRotationPct>k__BackingField: 5
   <jumpTimeout>k__BackingField: 0.3
-  <groundedOffset>k__BackingField: -0.18
-  <groundedRadius>k__BackingField: 0.29
+  <groundedOffset>k__BackingField: -0.16
+  <groundedRadius>k__BackingField: 0.23
   <groundLayers>k__BackingField:
     serializedVersion: 2
     m_Bits: 64
