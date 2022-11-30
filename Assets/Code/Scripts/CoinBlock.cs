@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CoinBlock : MonoBehaviour,IReset
 {
-    [SerializeField] GameObject[] items;
+    [SerializeField] GameObject item;
     [SerializeField] float riseDistance;
     [SerializeField] float riseSpeed;
     [SerializeField] Renderer blockRenderer;
@@ -18,30 +18,13 @@ public class CoinBlock : MonoBehaviour,IReset
     private void OnTriggerEnter(Collider other) {
         if(other.gameObject.layer == LayerMask.NameToLayer("Player") && !picked)
         {
-            StartCoroutine(SpawnItem(items[Random.Range(0,items.Length)],other.transform));
+            Instantiate(item,transform.position,Quaternion.identity);
             blockRenderer.material = blockOffMaterial;
             picked = true;
         }
     }
-    IEnumerator SpawnItem(GameObject prefab,Transform _player)
-    {
-        GameObject coin = Instantiate(prefab,transform.position,Quaternion.identity);
-        Item item = coin.GetComponent<Item>();
-        item.Spawned();
-        item.SetCollected(true);
-
-        while(coin.transform.position.y < transform.position.y + riseDistance)
-        {
-            coin.transform.position += new Vector3(0,riseSpeed*Time.deltaTime,0);
-            yield return null;
-        }
-        coin.transform.position = new Vector3(coin.transform.position.x,transform.position.y + riseDistance,coin.transform.position.z);
-        item.SetCollected(false);
-        item.Collect(_player);
-    }
     public void Reset()
     {
-        StopAllCoroutines();
         blockRenderer.material = blockOnMaterial;
         picked = false;
     }
