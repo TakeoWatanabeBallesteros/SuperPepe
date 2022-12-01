@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 using UnityEditor.SceneManagement;
 static class ItemManager
 {
-    [MenuItem("Items/Set scene Items not spawned")]
+    [MenuItem("Items/Set Scene Items")]
     static void SetNotSpawnedItems()
     {
         Item[] items = MonoBehaviour.FindObjectsOfType<Item>();
