@@ -53,9 +53,9 @@ public class Item : MonoBehaviour,IReset
         transform.position = initPos;
         transform.localScale = new Vector3(1,1,1);
     }
-    public void Spawned()
+    public void SetSpawned(bool _spawned)
     {
-        spawned = true;
+        spawned = _spawned;
     }
     public void SetCollected(bool _collected)
     {

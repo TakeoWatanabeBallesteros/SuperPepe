@@ -1,11 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
-
-public class ItemManager : MonoBehaviour
+using UnityEngine.SceneManagement;
+using UnityEditor.SceneManagement;
+static class ItemManager
 {
-    public void SetNotSpawnedItems()
+    [MenuItem("Items/Set scene Items not spawned")]
+    static void SetNotSpawnedItems()
     {
-        
+        Item[] items = MonoBehaviour.FindObjectsOfType<Item>();
+        foreach (var item in items)
+        {
+            item.SetSpawned(false);
+            EditorUtility.SetDirty(item);
+        }
+        EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());
     }
 }
