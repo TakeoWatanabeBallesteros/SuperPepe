@@ -22,6 +22,7 @@ public class LongJump : StateBase
     {
         Vector3 direction = _fsm.transform.forward.normalized;
         _fsm.characterController.Move(new Vector3(direction.x * 8, _fsm._verticalVelocity, direction.z*8) * Time.deltaTime);
+        if(_fsm.grounded && _fsm._fallTimeoutDelta <= 0.0f) fsm.RequestStateChange("Land");
         base.OnLogic();
     }
 

@@ -30,6 +30,12 @@ public class PlayerFSM : MonoBehaviour, IReset
     [field:Tooltip("The radius of the grounded check. Should match the radius of the CharacterController")]
     [field:SerializeField] public float groundedRadius { private set; get; } = 0.28f;
     
+    [field:Tooltip("Useful for rough ground")]
+    [field:SerializeField] public float headHitOffset { private set; get; } = -0.14f;
+    
+    [field:Tooltip("The radius of the grounded check. Should match the radius of the CharacterController")]
+    [field:SerializeField] public float headHitRadius { private set; get; } = 0.28f;
+    
     [field:Tooltip("What layers the character uses as ground")]
     [field:SerializeField] public LayerMask groundLayers { private set; get; }
     
@@ -60,7 +66,7 @@ public class PlayerFSM : MonoBehaviour, IReset
     
     // timeout deltatime
     private float _jumpTimeoutDelta;
-    private float _fallTimeoutDelta;
+    [field:SerializeField] public float _fallTimeoutDelta { private set; get; }
 
     public float _verticalVelocity;
 
@@ -148,9 +154,6 @@ public class PlayerFSM : MonoBehaviour, IReset
         fsm.AddTransitionFromAny("Fall",t => !grounded && characterController.velocity.y < 0 && _fallTimeoutDelta <= 0 && fsm.ActiveStateName != "BumDrop");
         fsm.AddTransition("Fall", "Land", t => grounded);
         fsm.AddTransition("BumDrop", "Land", t => grounded);
-        fsm.AddTransition("Jump01", "Land", t => grounded && _fallTimeoutDelta < 0);
-        fsm.AddTransition("Jump02", "Land", t => grounded && _fallTimeoutDelta < 0);
-        fsm.AddTransition("Jump03", "Land", t => grounded && _fallTimeoutDelta < 0);
         fsm.AddTriggerTransitionFromAny(
             "Fall"
             ,new Transition("", "Fall", t => true));
@@ -229,6 +232,15 @@ public class PlayerFSM : MonoBehaviour, IReset
         // update animator if using character
         animator.SetBool(animIDGrounded, grounded);
     }
+    
+    private void HeadHitCheck()
+    {
+        // set sphere position, with offset
+        Vector3 spherePosition = new Vector3(transform.position.x, transform.position.y - headHitOffset,
+            transform.position.z);
+        _verticalVelocity = Physics.CheckSphere(spherePosition, headHitRadius, groundLayers,
+            QueryTriggerInteraction.Ignore) ? 0 : _verticalVelocity;
+    }
 
     private void GravityForce()
     {
@@ -244,6 +256,8 @@ public class PlayerFSM : MonoBehaviour, IReset
         }
         else
         {
+            if(_verticalVelocity > 0) HeadHitCheck();
+            
             // fall timeout
             if (_fallTimeoutDelta >= 0.0f)
             {
@@ -391,6 +405,12 @@ public class PlayerFSM : MonoBehaviour, IReset
         Gizmos.DrawSphere(
             new Vector3(transform.position.x, transform.position.y - groundedOffset, transform.position.z),
             groundedRadius);
+        
+        Gizmos.color = transparentGreen;
+        
+        Gizmos.DrawSphere(
+            new Vector3(transform.position.x, transform.position.y - headHitOffset, transform.position.z),
+            headHitRadius);
     }
 
     public void FinishPunch(int punchNumb)

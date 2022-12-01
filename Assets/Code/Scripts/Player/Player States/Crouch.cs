@@ -16,6 +16,8 @@ public class Crouch : StateBase
     {
         base.OnEnter();
         _fsm.animator.SetBool(_fsm.animIDCrouch, _fsm.crouch);
+        _fsm.characterController.height = 0.75f;
+        _fsm.characterController.center = new Vector3(0, 0.355f, 0);
     }
 
     public override void OnLogic()
@@ -28,5 +30,7 @@ public class Crouch : StateBase
     {
         base.OnExit();
         _fsm.animator.SetBool(_fsm.animIDCrouch, _fsm.crouch);
+        _fsm.characterController.height = 1.43f;
+        _fsm.characterController.center = new Vector3(0, 0.71f, 0);
     }
 }
