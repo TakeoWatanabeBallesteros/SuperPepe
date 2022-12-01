@@ -5,14 +5,14 @@ using UnityEngine;
 public class Item : MonoBehaviour,IReset
 {
     Animator anim;
-    [SerializeField] bool spawned = false;
+    [SerializeField] bool spawned;
     Vector3 initPos;
     bool collected = false;
     private void Awake() {
-        anim.SetBool("Spawned",spawned);              
+        anim = GetComponent<Animator>();
+        anim.SetBool("Spawned",spawned);
     }
     private void Start() {
-        anim = GetComponent<Animator>();
         initPos = transform.position;
         GameManager.GetGameManager().AddResetObject(this);
     }
