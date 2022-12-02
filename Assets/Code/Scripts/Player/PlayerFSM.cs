@@ -108,6 +108,9 @@ public class PlayerFSM : MonoBehaviour, IReset
     private UnityEvent<string, string> OnStateChange;
     private string actualState = "none";
     private string lastState = "none";
+
+    public bool pushWall = false;
+    private Rigidbody pushWallObj;
     
     // Start is called before the first frame update
     void Start()
@@ -157,6 +160,7 @@ public class PlayerFSM : MonoBehaviour, IReset
         fsm.AddState("BumDrop", new BumDrop(this));
         fsm.AddState("Land", new Land(this));
         fsm.AddState("PushWall", new PushWall(this));
+        fsm.AddState("WallJump", new WallJump(this));
     }
 
     private void AddTransitions()
@@ -166,7 +170,7 @@ public class PlayerFSM : MonoBehaviour, IReset
         fsm.AddTransitionFromAny("Fall",t => !grounded && characterController.velocity.y < 0 && _fallTimeoutDelta <= 0 && fsm.ActiveStateName != "BumDrop");
         fsm.AddTransition("Fall", "Land", t => grounded);
         fsm.AddTransition("BumDrop", "Land", t => grounded);
-        fsm.AddTransitionFromAny( "PushWall", t => grounded && !headWalling && chestWalling && kneesWalling);
+        fsm.AddTwoWayTransition("Walk", "PushWall", t => pushWall);
         fsm.AddTriggerTransitionFromAny(
             "Fall"
             ,new Transition("", "Fall", t => true));
@@ -184,7 +188,7 @@ public class PlayerFSM : MonoBehaviour, IReset
             ,new Transition("", "Jump03", t => fsm.ActiveStateName == "Land"));
         fsm.AddTriggerTransitionFromAny(
             "BumDrop"
-            ,new Transition("", "BumDrop", t => fsm.ActiveStateName == "Fall"));
+            ,new Transition("", "BumDrop", t => true));
         fsm.AddTriggerTransitionFromAny(
             "CrouchJump"
             ,new Transition("", "CrouchJump", t => fsm.ActiveStateName == "Crouch"));
@@ -320,13 +324,21 @@ public class PlayerFSM : MonoBehaviour, IReset
     public void ReadCrouchInput(InputAction.CallbackContext context)
     {
         if (context.action.triggered && !crouch)
-            fsm.Trigger("BumDrop");
-        if (!crouch && context.performed)
         {
+            if(fsm.ActiveStateName == "Fall") fsm.Trigger("BumDrop");
+        }
+        if ((!crouch && !pushWall) && context.performed)
+        {
+            if (fsm.ActiveStateName == "Walk" && !headWalling && chestWalling && kneesWalling)
+            {
+                pushWall = true;
+                return;
+            }
             crouch = true;
         }
-        else if (!context.performed && crouch)
+        else if (!context.performed && (crouch || pushWall))
         {
+            pushWall = false;
             crouch = false;
             animator.SetBool(animIDCrouch, crouch);
         }
@@ -451,6 +463,10 @@ public class PlayerFSM : MonoBehaviour, IReset
     {
         headWalling = Physics.Raycast(headWallChecker.position, transform.forward, wallDistance, groundLayers);
         chestWalling = Physics.Raycast(chestWallChecker.position, transform.forward, wallDistance, groundLayers);
-        kneesWalling = Physics.Raycast(kneesWallChecker.position, transform.forward, wallDistance, groundLayers);
+        kneesWalling = Physics.Raycast(kneesWallChecker.position, transform.forward, out var hitInfo, wallDistance, groundLayers);
+        if (kneesWalling && hitInfo.transform.CompareTag("Box") && pushWallObj == null)
+        {
+            pushWallObj = hitInfo.transform.GetComponent<Rigidbody>();
+        }
     }
 }

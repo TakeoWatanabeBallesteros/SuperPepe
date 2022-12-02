@@ -13,17 +13,21 @@ public class PushWall : StateBase
     public override void OnEnter()
     {
         base.OnEnter();
+        _fsm.animator.SetBool(_fsm.animIDPushWall, true);
     }
 
     public override void OnLogic()
     {
-        _fsm.Move();
-        _fsm.animator.SetBool(_fsm.animIDPushWall, _fsm.characterController.velocity.magnitude > 0);
+        // _fsm.Move();
+        if (_fsm.moveInput.y <= 0) _fsm.pushWall = false;
         base.OnLogic();
     }
 
     public override void OnExit()
     {
+        _fsm.animator.SetBool(_fsm.animIDPushWall, false);
         base.OnExit();
     }
+    
+    
 }
