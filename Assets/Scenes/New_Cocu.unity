@@ -3611,8 +3611,12 @@ MonoBehaviour:
   <cameraTransform>k__BackingField: {fileID: 958565419}
   <lerpRotationPct>k__BackingField: 5
   headWallChecker: {fileID: 854389918}
-  hipWallChecker: {fileID: 1483851427}
+  chestWallChecker: {fileID: 0}
   kneesWallChecker: {fileID: 401511188}
+  headWalling: 0
+  chestWalling: 0
+  kneesWalling: 0
+  wallDistance: 0
   <jumpTimeout>k__BackingField: 0.3
   <groundedOffset>k__BackingField: -0.18
   <groundedRadius>k__BackingField: 0.23
@@ -3656,6 +3660,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  pushWall: 0
 --- !u!95 &997695817
 Animator:
   serializedVersion: 3
