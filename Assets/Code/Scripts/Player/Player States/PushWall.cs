@@ -1,26 +1,24 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using FSM;
 
-public class Land : StateBase
+public class PushWall : StateBase
 {
     private PlayerFSM _fsm;
-    
-    public Land(PlayerFSM fsm) : base(needsExitTime: false)
+
+    public PushWall(PlayerFSM fsm) : base(needsExitTime: false)
     {
         this._fsm = fsm;
     }
 
     public override void OnEnter()
     {
-        _fsm.animator.SetTrigger(_fsm.animIDLand);
         base.OnEnter();
     }
 
     public override void OnLogic()
     {
-        _fsm.ApplyGravity();
+        _fsm.Move();
+        _fsm.animator.SetBool(_fsm.animIDPushWall, _fsm.characterController.velocity.magnitude > 0);
         base.OnLogic();
     }
 

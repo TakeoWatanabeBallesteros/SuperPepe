@@ -16,9 +16,16 @@ public class PlayerFSM : MonoBehaviour, IReset
     [field:SerializeField] public Transform cameraTransform { private set; get; }
     [field:SerializeField] public float lerpRotationPct { private set; get; }
 
+    [Header("Parkour Checkers")]
     [SerializeField] private Transform headWallChecker;
-    [SerializeField] private Transform hipWallChecker;
+    [SerializeField] private Transform chestWallChecker;
     [SerializeField] private Transform kneesWallChecker;
+
+    [SerializeField] private bool headWalling;
+    [SerializeField] private bool chestWalling;
+    [SerializeField] private bool kneesWalling;
+
+    [SerializeField] private float wallDistance;
 
     [field:Space(10)]
     [field:Tooltip("Time required to pass before being able to jump again. Set to 0f to instantly jump again")]
@@ -87,6 +94,7 @@ public class PlayerFSM : MonoBehaviour, IReset
     public int animIDFreeFall { private set; get; }
     public int animIDLand { private set; get; }
     public int animIDBumDrop { private set; get; }
+    public int animIDPushWall { private set; get; }
 
     private bool jump;
     [field: SerializeField] public bool crouch { private set; get; }
@@ -114,6 +122,8 @@ public class PlayerFSM : MonoBehaviour, IReset
 
         AssignAnimationIDs();
         GameManager.GetGameManager().SetPlayer(transform);
+
+        _fallTimeoutDelta = fallTimeout;
     }
     
     // Update is called once per frame
@@ -127,6 +137,7 @@ public class PlayerFSM : MonoBehaviour, IReset
         }
         GroundedCheck();
         GravityForce();
+        WallCheckers();
         fsm.OnLogic();
     }
 
@@ -145,6 +156,7 @@ public class PlayerFSM : MonoBehaviour, IReset
         fsm.AddState("Fall", new Fall(this));
         fsm.AddState("BumDrop", new BumDrop(this));
         fsm.AddState("Land", new Land(this));
+        fsm.AddState("PushWall", new PushWall(this));
     }
 
     private void AddTransitions()
@@ -154,33 +166,34 @@ public class PlayerFSM : MonoBehaviour, IReset
         fsm.AddTransitionFromAny("Fall",t => !grounded && characterController.velocity.y < 0 && _fallTimeoutDelta <= 0 && fsm.ActiveStateName != "BumDrop");
         fsm.AddTransition("Fall", "Land", t => grounded);
         fsm.AddTransition("BumDrop", "Land", t => grounded);
+        fsm.AddTransitionFromAny( "PushWall", t => grounded && !headWalling && chestWalling && kneesWalling);
         fsm.AddTriggerTransitionFromAny(
             "Fall"
             ,new Transition("", "Fall", t => true));
         fsm.AddTriggerTransitionFromAny(
             "LongJump"
-            ,new Transition("", "LongJump", t => grounded ));
+            ,new Transition("", "LongJump", t => fsm.ActiveStateName == "Walk"));
         fsm.AddTriggerTransitionFromAny(
             "Jump01"
-            ,new Transition("", "Jump01", t => grounded && fsm.ActiveStateName != "Crouch" && fsm.ActiveStateName != "Punch"));
+            ,new Transition("", "Jump01", t => fsm.ActiveStateName == "Walk" || fsm.ActiveStateName == "Idle"));
         fsm.AddTriggerTransitionFromAny(
             "Jump02"
-            ,new Transition("", "Jump02", t => grounded && fsm.ActiveStateName == "Land"));
+            ,new Transition("", "Jump02", t => fsm.ActiveStateName == "Land"));
         fsm.AddTriggerTransitionFromAny(
             "Jump03"
-            ,new Transition("", "Jump03", t => grounded && fsm.ActiveStateName == "Land"));
+            ,new Transition("", "Jump03", t => fsm.ActiveStateName == "Land"));
         fsm.AddTriggerTransitionFromAny(
             "BumDrop"
-            ,new Transition("", "BumDrop", t => !grounded));
+            ,new Transition("", "BumDrop", t => fsm.ActiveStateName == "Fall"));
         fsm.AddTriggerTransitionFromAny(
             "CrouchJump"
-            ,new Transition("", "CrouchJump", t => grounded && fsm.ActiveStateName == "Crouch"));
+            ,new Transition("", "CrouchJump", t => fsm.ActiveStateName == "Crouch"));
         fsm.AddTriggerTransitionFromAny(
             "Reset"
             ,new Transition("", "Idle", t => true));
         fsm.AddTriggerTransitionFromAny(
             "Punch"
-            ,new Transition("", "Punch", t => grounded && fsm.ActiveStateName != "Crouch"));
+            ,new Transition("", "Punch", t => fsm.ActiveStateName == "Walk" || fsm.ActiveStateName == "Idle"));
     }
 
     public void Move()
@@ -373,6 +386,7 @@ public class PlayerFSM : MonoBehaviour, IReset
         animIDFreeFall = Animator.StringToHash("FreeFall");
         animIDLand = Animator.StringToHash("Land");
         animIDBumDrop = Animator.StringToHash("BumDrop");
+        animIDPushWall = Animator.StringToHash("PushWall");
     }
 
     public void OnDeviceChanged(PlayerInput playerInput)
@@ -385,7 +399,9 @@ public class PlayerFSM : MonoBehaviour, IReset
 
     private void CheckWallCollision()
     {
-        
+        RaycastHit headHit;
+        headWalling = Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out headHit,
+            wallDistance, groundLayers);
     }
 
     public void PlayStepAudio(float velocity)
@@ -411,6 +427,11 @@ public class PlayerFSM : MonoBehaviour, IReset
         Gizmos.DrawSphere(
             new Vector3(transform.position.x, transform.position.y - headHitOffset, transform.position.z),
             headHitRadius);
+        var t = transform.position;
+        t.y = 0;
+        Gizmos.DrawRay(  t + new Vector3(0, headWallChecker.position.y, 0), transform.forward.normalized * wallDistance);
+        Gizmos.DrawRay(t + new Vector3(0, chestWallChecker.position.y, 0), transform.forward.normalized * wallDistance);
+        Gizmos.DrawRay(t + new Vector3(0, kneesWallChecker.position.y, 0), transform.forward.normalized * wallDistance);
     }
 
     public void FinishPunch(int punchNumb)
@@ -424,5 +445,12 @@ public class PlayerFSM : MonoBehaviour, IReset
         jumpCombo = 0;
         animator.SetInteger(animIDJumpCombo, jumpCombo);
         fsm.RequestStateChange(moveInput != Vector2.zero ? "Walk" : "Idle");
+    }
+
+    private void WallCheckers()
+    {
+        headWalling = Physics.Raycast(headWallChecker.position, transform.forward, wallDistance, groundLayers);
+        chestWalling = Physics.Raycast(chestWallChecker.position, transform.forward, wallDistance, groundLayers);
+        kneesWalling = Physics.Raycast(kneesWallChecker.position, transform.forward, wallDistance, groundLayers);
     }
 }
