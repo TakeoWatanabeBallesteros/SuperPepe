@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <objects serializationModel="Studio.02.02.00">
-	<object class="AudioFile" id="{c8109354-7f2e-4d63-8c6b-9e4e1eb0294b}">
+	<object class="AudioFile" id="{883b35ce-bbe5-4b41-942f-82a838522483}">
 		<property name="assetPath">
-			<value>step</value>
+			<value>Items/Star.wav</value>
 		</property>
 		<property name="frequencyInKHz">
 			<value>16</value>
@@ -11,7 +11,7 @@
 			<value>1</value>
 		</property>
 		<property name="length">
-			<value>0.064000000000000001</value>
+			<value>2.532</value>
 		</property>
 		<relationship name="masterAssetFolder">
 			<destination>{83ab7f96-f3a5-492c-9418-f12d58ccdc3e}</destination>

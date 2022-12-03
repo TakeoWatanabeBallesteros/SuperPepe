@@ -3560,7 +3560,7 @@ MonoBehaviour:
       Data2: 1214684656
       Data3: -465408867
       Data4: 1113356063
-    Path: event:/Step_Floor
+    Path: event:/Step
   <_fallTimeoutDelta>k__BackingField: 0
   _verticalVelocity: 0
   <crouch>k__BackingField: 0

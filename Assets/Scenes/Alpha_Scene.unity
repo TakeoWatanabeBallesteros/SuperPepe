@@ -1651,7 +1651,7 @@ MonoBehaviour:
       Data2: 1214684656
       Data3: -465408867
       Data4: 1113356063
-    Path: event:/Step_Floor
+    Path: event:/Step
   <_fallTimeoutDelta>k__BackingField: 0
   _verticalVelocity: 0
   <crouch>k__BackingField: 0
@@ -2694,7 +2694,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5054645070857423096}
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 26.72, y: 9.017, z: 28.75}
+  m_LocalPosition: {x: 26.72, y: 9.175, z: 28.75}
   m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
   m_Children:
   - {fileID: 5054645070857590106}

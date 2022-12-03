@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 using FSM;
 using UnityEngine.InputSystem.XInput;
 using UnityEngine.Events;
+using FMODUnity;
 
 public class PlayerFSM : MonoBehaviour, IReset
 {
@@ -69,7 +70,7 @@ public class PlayerFSM : MonoBehaviour, IReset
     [SerializeField] private float speed = 0.0f;
     
     [Header("Audios")]
-    [SerializeField] private FMODUnity.EventReference playerStepEvent;
+    [SerializeField] private EventReference playerStepEvent;
     
     // timeout deltatime
     private float _jumpTimeoutDelta;
