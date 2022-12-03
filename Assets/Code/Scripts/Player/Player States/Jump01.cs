@@ -24,7 +24,7 @@ public class Jump01 : StateBase
     {
         _fsm.Move();
         base.OnLogic();
-        if(_fsm.grounded && _fsm._fallTimeoutDelta <= 0.0f) fsm.RequestStateChange("Land");
+        if(_fsm.grounded && _fsm._verticalVelocity < 0f) fsm.RequestStateChange("Land");
         // if (!(_fsm.characterController.velocity.y < 0)) return;
         // fsm.RequestStateChange("Fall");
     }

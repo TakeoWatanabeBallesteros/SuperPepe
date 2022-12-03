@@ -82,6 +82,8 @@ public class PlayerFSM : MonoBehaviour, IReset
     public Vector2 moveInput { private set; get; }
     private bool run;
     private Vector3 movement = Vector3.zero;
+
+    private bool longJump = false;
     
     public int animIDSpeed { private set; get; }
     public int animIDGrounded { private set; get; }
@@ -153,7 +155,6 @@ public class PlayerFSM : MonoBehaviour, IReset
         fsm.AddState("Jump02", new Jump02(this));
         fsm.AddState("Jump03", new Jump03(this));
         fsm.AddState("LongJump", new LongJump(this));
-        fsm.AddState("DoubleJump", new DoubleJump(this));
         fsm.AddState("Punch", new Punch(this));
         fsm.AddState("CrouchJump", new CrouchJump(this));
         fsm.AddState("Fall", new Fall(this));
@@ -176,7 +177,7 @@ public class PlayerFSM : MonoBehaviour, IReset
             ,new Transition("", "Fall", t => true));
         fsm.AddTriggerTransitionFromAny(
             "LongJump"
-            ,new Transition("", "LongJump", t => fsm.ActiveStateName == "Walk"));
+            ,new Transition("", "LongJump", t => true));
         fsm.AddTriggerTransitionFromAny(
             "Jump01"
             ,new Transition("", "Jump01", t => fsm.ActiveStateName == "Walk" || fsm.ActiveStateName == "Idle"));
@@ -323,23 +324,29 @@ public class PlayerFSM : MonoBehaviour, IReset
 
     public void ReadCrouchInput(InputAction.CallbackContext context)
     {
-        if (context.action.triggered && !crouch)
+        if (context.action.triggered && (!crouch && !pushWall && !longJump))
         {
             if(fsm.ActiveStateName == "Fall") fsm.Trigger("BumDrop");
         }
-        if ((!crouch && !pushWall) && context.performed)
+        if ((!crouch && !pushWall && !longJump) && context.performed)
         {
-            if (fsm.ActiveStateName == "Walk" && !headWalling && chestWalling && kneesWalling)
+            if (fsm.ActiveStateName == "Walk")
             {
-                pushWall = true;
+                if (!headWalling && chestWalling && kneesWalling)
+                {
+                    pushWall = true;
+                    return;
+                }
+                longJump = true;
                 return;
             }
             crouch = true;
         }
-        else if (!context.performed && (crouch || pushWall))
+        else if (!context.performed && (crouch || pushWall || longJump))
         {
             pushWall = false;
             crouch = false;
+            longJump = false;
             animator.SetBool(animIDCrouch, crouch);
         }
     }
@@ -347,7 +354,7 @@ public class PlayerFSM : MonoBehaviour, IReset
     public void ReadJumpInput(InputAction.CallbackContext context)
     {
         if (!context.action.triggered || _jumpTimeoutDelta >= 0) return;
-        if(fsm.ActiveStateName == "Walk" && crouch)
+        if(longJump && fsm.ActiveStateName == "Walk")
         {
             fsm.Trigger("LongJump");
             return;
@@ -409,13 +416,6 @@ public class PlayerFSM : MonoBehaviour, IReset
         }
     }
 
-    private void CheckWallCollision()
-    {
-        RaycastHit headHit;
-        headWalling = Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out headHit,
-            wallDistance, groundLayers);
-    }
-
     public void PlayStepAudio(float velocity)
     {
         if(moveInput.magnitude > velocity) return;
@@ -456,7 +456,7 @@ public class PlayerFSM : MonoBehaviour, IReset
     {
         jumpCombo = 0;
         animator.SetInteger(animIDJumpCombo, jumpCombo);
-        fsm.RequestStateChange(moveInput != Vector2.zero ? "Walk" : "Idle");
+        fsm.RequestStateChange( crouch ? "Crouch" : moveInput != Vector2.zero ? "Walk" : "Idle");
     }
 
     private void WallCheckers()
