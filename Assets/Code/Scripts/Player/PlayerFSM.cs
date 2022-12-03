@@ -419,8 +419,8 @@ public class PlayerFSM : MonoBehaviour, IReset
 
     public void PlayStepAudio(float velocity)
     {
-        if(moveInput.magnitude > velocity) return;
-        FMODUnity.RuntimeManager.PlayOneShot(playerStepEvent, transform.position);
+        if(moveInput.magnitude > velocity && velocity > 0) return;
+        RuntimeManager.PlayOneShot(playerStepEvent, transform.position);
     }
     
     private void OnDrawGizmosSelected()

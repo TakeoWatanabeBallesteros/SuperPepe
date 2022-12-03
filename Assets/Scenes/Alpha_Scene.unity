@@ -1691,7 +1691,7 @@ MonoBehaviour:
   lookAtTransform: {fileID: 1643340021}
   cameraTransform: {fileID: 958565419}
   minDistance: 3
-  maxDistance: 5
+  maxDistance: 8
   yawRotationalSpeed: 120
   pitchRotationalSpeed: 120
   minPitch: -60
