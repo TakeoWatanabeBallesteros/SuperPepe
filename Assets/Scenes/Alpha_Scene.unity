@@ -1647,11 +1647,11 @@ MonoBehaviour:
   speed: 5
   playerStepEvent:
     Guid:
-      Data1: -1154367771
-      Data2: 1214684656
-      Data3: -465408867
-      Data4: 1113356063
-    Path: event:/Step
+      Data1: -10097931
+      Data2: 1229275629
+      Data3: -110360135
+      Data4: 2000158785
+    Path: event:/Player/Step
   <_fallTimeoutDelta>k__BackingField: 0
   _verticalVelocity: 0
   <crouch>k__BackingField: 0
