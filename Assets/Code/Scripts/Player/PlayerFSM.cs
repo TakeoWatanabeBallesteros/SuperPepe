@@ -113,7 +113,8 @@ public class PlayerFSM : MonoBehaviour, IReset
     private string lastState = "none";
 
     public bool pushWall = false;
-    private Rigidbody pushWallObj;
+    public Rigidbody pushWallObj;
+    public Vector3 pushFwd{ private set; get; }
     
     // Start is called before the first frame update
     void Start()
@@ -465,9 +466,8 @@ public class PlayerFSM : MonoBehaviour, IReset
         headWalling = Physics.Raycast(headWallChecker.position, transform.forward, wallDistance, groundLayers);
         chestWalling = Physics.Raycast(chestWallChecker.position, transform.forward, wallDistance, groundLayers);
         kneesWalling = Physics.Raycast(kneesWallChecker.position, transform.forward, out var hitInfo, wallDistance, groundLayers);
-        if (kneesWalling && hitInfo.transform.CompareTag("Box") && pushWallObj == null)
-        {
-            pushWallObj = hitInfo.transform.GetComponent<Rigidbody>();
-        }
+        if (!pushWall || pushWallObj != null) return;
+        pushWallObj = hitInfo.transform.GetComponent<Rigidbody>();
+        pushFwd = -hitInfo.normal;
     }
 }
