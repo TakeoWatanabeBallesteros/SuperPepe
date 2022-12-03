@@ -7,13 +7,13 @@ public class LifesDisplay : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI lifesText;
     private void OnEnable() {
-        HealthSystem.OnSetUI += UpdateLifes;
+        HealthSystem.OnLifesChanged += UpdateLifes;
     }
     private void OnDisable() {
-        HealthSystem.OnSetUI -= UpdateLifes;
+        HealthSystem.OnLifesChanged -= UpdateLifes;
     }
 
-    void UpdateLifes(int current,int max,int lifes)
+    void UpdateLifes(int lifes)
     {
         string lifesString = lifes.ToString();
         string finalText = "";

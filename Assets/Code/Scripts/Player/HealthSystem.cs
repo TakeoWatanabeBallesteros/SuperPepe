@@ -9,10 +9,12 @@ public class HealthSystem : MonoBehaviour, ITakeDamage, IReset
     int currentHealth;
     int currentLifes;
     bool isAlive;
-    public delegate void SetHealthUI(int health,int maxHealth, int lifes);
+    public delegate void SetHealth(int health,int maxHealth);
     public delegate void HealthChanged(int actualHealth,int previousHealth,bool damage);
-    public static event SetHealthUI OnSetUI;
+    public delegate void LifesChanged(int _currentLifes);
+    public static event SetHealth OnSetHealth;
     public static event HealthChanged OnHealthChanged;
+    public static event LifesChanged OnLifesChanged;
 
     
     void Start()
@@ -20,7 +22,8 @@ public class HealthSystem : MonoBehaviour, ITakeDamage, IReset
         isAlive = true;
         currentHealth = maxHealth;
         currentLifes = startingLifes;
-        OnSetUI?.Invoke(currentHealth,maxHealth,currentLifes);
+        OnSetHealth?.Invoke(currentHealth,maxHealth);
+        OnLifesChanged?.Invoke(currentLifes);
         GameManager.GetGameManager().AddResetObject(this);
     }
     private void Update() {
@@ -57,6 +60,14 @@ public class HealthSystem : MonoBehaviour, ITakeDamage, IReset
         //Logic
         currentHealth = Mathf.Clamp(currentHealth + amount,0,maxHealth);
     }
+    public void LifeUp()
+    {
+        if(!isAlive) return;
+        //Logic
+        currentLifes++;
+        //Update UI
+        OnLifesChanged?.Invoke(currentLifes);
+    }
     public bool CanHeal()
     {
         return currentHealth < maxHealth;
@@ -66,6 +77,7 @@ public class HealthSystem : MonoBehaviour, ITakeDamage, IReset
         currentHealth = maxHealth;
         currentLifes--;
         isAlive = true;
-        OnSetUI?.Invoke(currentHealth,maxHealth,currentLifes);
+        OnSetHealth?.Invoke(currentHealth,maxHealth);
+        OnLifesChanged?.Invoke(currentLifes);
     }
 }

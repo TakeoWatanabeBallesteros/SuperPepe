@@ -14,12 +14,12 @@ public class HealthDisplay : MonoBehaviour
     Animator anim;
     int maxHealth;
     private void OnEnable() {
-        HealthSystem.OnSetUI += InitializeAll;
+        HealthSystem.OnSetHealth += InitializeAll;
         HealthSystem.OnHealthChanged += UpdateHealthBar;
         anim = GetComponent<Animator>();
     }
     private void OnDisable() {
-        HealthSystem.OnSetUI -= InitializeAll;
+        HealthSystem.OnSetHealth -= InitializeAll;
         HealthSystem.OnHealthChanged -= UpdateHealthBar;
     }
     void SetHealth(int currentHealth)
@@ -30,7 +30,7 @@ public class HealthDisplay : MonoBehaviour
         healthImageBackDisplay.color = colors[colorIndex];
         //sound cambiando el pitch en base a la vida a la que estas
     }
-    void InitializeAll(int health,int maxHP,int lifes)
+    void InitializeAll(int health,int maxHP)
     {
         colorRange = (float)colors.Length/maxHP;
         maxHealth = maxHP;

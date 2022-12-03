@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemStar : Item
+public class ItemRedMushroom : Item
 {
     [SerializeField] int healAmount;
     public override void ItemExecution(Transform _player)
