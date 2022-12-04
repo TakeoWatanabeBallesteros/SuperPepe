@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Linq;
+using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour
 {
@@ -13,6 +14,9 @@ public class GameManager : MonoBehaviour
     private Vector3 currentCheckpointPos;
     private Quaternion currentCheckpointRot;
     private Transform player;
+    
+    // Input
+    private PlayerInput playerInput;
     public delegate void GameOverEvent(int hasLifes);
     public static event GameOverEvent OnGameOverEvent;
     private void OnEnable() {
@@ -40,9 +44,10 @@ public class GameManager : MonoBehaviour
         }
         return instance;
     }
-    void OnSceneLoaded(Scene a,LoadSceneMode b)
+    private void OnSceneLoaded(Scene a,LoadSceneMode b)
     {
         resetObjects = new List<IReset>();
+        playerInput = FindObjectOfType<PlayerInput>();
     }
     public void SetPlayer(Transform _player)
     {
@@ -55,6 +60,7 @@ public class GameManager : MonoBehaviour
     public void GameOver(int hasLifes)
     {
         OnGameOverEvent?.Invoke(hasLifes);
+        
     }
     public void ResetGame()
     {
@@ -62,6 +68,11 @@ public class GameManager : MonoBehaviour
         {
             other.Reset();
         }
+    }
+
+    public void ChangeActionMap(string map)
+    {
+        playerInput.currentActionMap = playerInput.actions.FindActionMap(map);
     }
 
     public void AddResetObject(IReset obj)

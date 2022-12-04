@@ -84,7 +84,7 @@ public class GameOver : MonoBehaviour, IReset
     {
         GameManager.GetGameManager().ResetGame();
         StopAllCoroutines();
-        //cambiar de action map a PLAYER
+        GameManager.GetGameManager().ChangeActionMap("Player");
     }
     public void ReturnMenuButton()
     {
@@ -102,7 +102,7 @@ public class GameOver : MonoBehaviour, IReset
     {
         yield return new WaitForSeconds(timeToFreezeGame);
         Time.timeScale = 0f;
-        //cambiar de action map a UI
+        GameManager.GetGameManager().ChangeActionMap("UI");
     }
     void UpdateLifes(int lifes)
     {

@@ -271,7 +271,7 @@ public class PlayerFSM : MonoBehaviour, IReset
                 _fallTimeoutDelta = fallTimeout;
             }
 
-            if(_verticalVelocity < -1.0f) _verticalVelocity = -1.0f;
+            if(_verticalVelocity < -5.0f) _verticalVelocity = -5.0f;
         }
         else
         {
