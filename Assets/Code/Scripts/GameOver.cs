@@ -22,12 +22,11 @@ public class GameOver : MonoBehaviour, IReset
     private void OnEnable() {
         anim = GetComponent<Animator>();
         GameManager.OnGameOverEvent += OpenGameOverMenu;
+        StarsManager.OnMaxStars += OpenWinMenu;
     }
     private void OnDisable() {
         GameManager.OnGameOverEvent -= OpenGameOverMenu;
-    }
-    private void Update() {
-        if(Input.GetKeyDown(KeyCode.Z))OpenWinMenu();
+        StarsManager.OnMaxStars -= OpenWinMenu;
     }
     void OpenGameOverMenu(int lifes)
     {

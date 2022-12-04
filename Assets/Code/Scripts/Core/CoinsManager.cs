@@ -12,14 +12,14 @@ public class CoinsManager : MonoBehaviour, IReset
         instance = this;
     }
     private void Start() {
-        OnCoinsChanged.Invoke(currentCoins);
+        OnCoinsChanged?.Invoke(currentCoins);
         GameManager.GetGameManager().AddResetObject(this);
     }
     
     public void AddCoin()
     {
         currentCoins++;
-        OnCoinsChanged.Invoke(currentCoins);
+        OnCoinsChanged?.Invoke(currentCoins);
     }
     private void Update() {
         if(Input.GetKeyDown(KeyCode.V))

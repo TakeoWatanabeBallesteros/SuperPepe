@@ -54,7 +54,7 @@ public class GameManager : MonoBehaviour
     }
     public void GameOver(int hasLifes)
     {
-        OnGameOverEvent.Invoke(hasLifes);
+        OnGameOverEvent?.Invoke(hasLifes);
     }
     public void ResetGame()
     {
