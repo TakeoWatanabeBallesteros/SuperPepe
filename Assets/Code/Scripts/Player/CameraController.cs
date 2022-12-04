@@ -25,6 +25,9 @@ public class CameraController : MonoBehaviour
     public LayerMask avoidObjectsLayerMask;
     public float avoidObjectsOffset;
 
+    [SerializeField] private Transform idlePos;
+    private float idleTimer;
+
     private Vector2 mouseInput;
 
     private void Start()
@@ -49,18 +52,20 @@ public class CameraController : MonoBehaviour
         Vector3 forwardCamera = new Vector3(Mathf.Sin(yaw * Mathf.Deg2Rad) * Mathf.Cos(pitch * Mathf.Deg2Rad), 
                                               Mathf.Sin(pitch * Mathf.Deg2Rad), 
                                               Mathf.Cos(yaw * Mathf.Deg2Rad) * Mathf.Cos(pitch * Mathf.Deg2Rad));
-        Vector3 desiredPosition = lookAtTransform.transform.position - forwardCamera * distance;
+        Vector3 desiredPosition = idleTimer < 5 ? lookAtTransform.transform.position - forwardCamera * distance : idlePos.position;
 
         Ray ray = new Ray(lookAtTransform.position, -forwardCamera);
         RaycastHit l_RaycastHit;
         if (Physics.Raycast(ray, out l_RaycastHit, distance, avoidObjectsLayerMask.value))
             desiredPosition = l_RaycastHit.point + forwardCamera * avoidObjectsOffset;
 
-        cameraTransform.position = desiredPosition;
+        cameraTransform.position = idleTimer < 5 ? desiredPosition : Vector3.Lerp(cameraTransform.position, desiredPosition, Time.deltaTime * 5);
         cameraTransform.LookAt(lookAtTransform.position);
         distance = Vector3.Distance(cameraTransform.position, lookAtTransform.position);
         // Set opacity of character based on how close the camera is
         RecursiveSetFloatProperty(thirdPersonCharacterBase, "_Opacity", distance > 1.0f ? 1.0f : Scale(0.6f, 1.0f, distance));
+
+        if (idleTimer < 5) idleTimer += Time.deltaTime;
     }
     
 #if UNITY_EDITOR
@@ -84,6 +89,7 @@ public class CameraController : MonoBehaviour
     public void ReadMouseInput(InputAction.CallbackContext context)
     {
         mouseInput = context.ReadValue<Vector2>();
+        idleTimer = 0;
     }
     
     /// <summary>

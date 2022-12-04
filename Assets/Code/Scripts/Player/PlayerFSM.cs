@@ -98,6 +98,9 @@ public class PlayerFSM : MonoBehaviour, IReset
     public int animIDLand { private set; get; }
     public int animIDBumDrop { private set; get; }
     public int animIDPushWall { private set; get; }
+    public int animIDHang { private set; get; }
+    public int animIDClimb { private set; get; }
+    public int animIDExtraIdle { private set; get; }
 
     private bool jump;
     [field: SerializeField] public bool crouch { private set; get; }
@@ -115,6 +118,10 @@ public class PlayerFSM : MonoBehaviour, IReset
     public bool pushWall = false;
     public Rigidbody pushWallObj;
     public Vector3 pushFwd{ private set; get; }
+
+    public bool hanging = false;
+    public Vector3 hangPos;
+    public Vector3 hangFwd;
     
     // Start is called before the first frame update
     void Start()
@@ -131,6 +138,7 @@ public class PlayerFSM : MonoBehaviour, IReset
         GameManager.GetGameManager().SetPlayer(transform);
 
         _fallTimeoutDelta = fallTimeout;
+        
     }
     
     // Update is called once per frame
@@ -164,37 +172,28 @@ public class PlayerFSM : MonoBehaviour, IReset
         fsm.AddState("Land", new Land(this));
         fsm.AddState("PushWall", new PushWall(this));
         fsm.AddState("WallJump", new WallJump(this));
+        fsm.AddState("WallHang", new WallHang(this));
     }
 
     private void AddTransitions()
     {
         fsm.AddTwoWayTransition("Idle", "Walk", t => moveInput != Vector2.zero);
         fsm.AddTwoWayTransition("Idle", "Crouch", t => crouch);
-        fsm.AddTransitionFromAny("Fall",t => !grounded && characterController.velocity.y < 0 && _fallTimeoutDelta <= 0 && fsm.ActiveStateName != "BumDrop");
+        fsm.AddTransitionFromAny("Fall",t => !grounded && _verticalVelocity < 0 && _fallTimeoutDelta <= 0 
+                                             && fsm.ActiveStateName != "BumDrop" && fsm.ActiveStateName != "WallHang");
+        //  && fsm.ActiveStateName != "WallJump"
         fsm.AddTransition("Fall", "Land", t => grounded);
+        fsm.AddTransition("WallJump", "Land", t => grounded);
+        fsm.AddTransition("Fall", "WallHang", t => hanging);
         fsm.AddTransition("BumDrop", "Land", t => grounded);
         fsm.AddTwoWayTransition("Walk", "PushWall", t => pushWall);
-        fsm.AddTriggerTransitionFromAny(
-            "Fall"
-            ,new Transition("", "Fall", t => true));
-        fsm.AddTriggerTransitionFromAny(
-            "LongJump"
-            ,new Transition("", "LongJump", t => true));
-        fsm.AddTriggerTransitionFromAny(
-            "Jump01"
-            ,new Transition("", "Jump01", t => fsm.ActiveStateName == "Walk" || fsm.ActiveStateName == "Idle"));
-        fsm.AddTriggerTransitionFromAny(
-            "Jump02"
-            ,new Transition("", "Jump02", t => fsm.ActiveStateName == "Land"));
-        fsm.AddTriggerTransitionFromAny(
-            "Jump03"
-            ,new Transition("", "Jump03", t => fsm.ActiveStateName == "Land"));
-        fsm.AddTriggerTransitionFromAny(
-            "BumDrop"
-            ,new Transition("", "BumDrop", t => true));
-        fsm.AddTriggerTransitionFromAny(
-            "CrouchJump"
-            ,new Transition("", "CrouchJump", t => fsm.ActiveStateName == "Crouch"));
+        fsm.AddTriggerTransition("LongJump", new Transition("Walk", "LongJump", t => true));
+        fsm.AddTriggerTransitionFromAny("Jump01", new Transition("", "Jump01", t => fsm.ActiveStateName == "Walk" || fsm.ActiveStateName == "Idle"));
+        fsm.AddTriggerTransition("Jump02", new Transition("Land", "Jump02", t => true));
+        fsm.AddTriggerTransition("Jump03", new Transition("Land", "Jump03", t => true));
+        fsm.AddTriggerTransition("BumDrop", new Transition("Fall", "BumDrop", t => true));
+        fsm.AddTriggerTransition("CrouchJump", new Transition("Crouch", "CrouchJump", t => true));
+        fsm.AddTriggerTransitionFromAny("WallJump", new Transition("", "WallJump", t => true));
         fsm.AddTriggerTransitionFromAny(
             "Reset"
             ,new Transition("", "Idle", t => true));
@@ -285,7 +284,7 @@ public class PlayerFSM : MonoBehaviour, IReset
             }
             
             // apply gravity over time if under terminal (multiply by delta time twice to linearly speed up over time)
-            _verticalVelocity += gravity * Time.deltaTime;
+            _verticalVelocity = hanging ? _verticalVelocity : _verticalVelocity + gravity * Time.deltaTime;
         }
         // jump timeout
         if (_jumpTimeoutDelta >= 0.0f)
@@ -328,7 +327,7 @@ public class PlayerFSM : MonoBehaviour, IReset
     {
         if (context.action.triggered && (!crouch && !pushWall && !longJump))
         {
-            if(fsm.ActiveStateName == "Fall") fsm.Trigger("BumDrop");
+            fsm.Trigger("BumDrop");
         }
         if ((!crouch && !pushWall && !longJump) && context.performed)
         {
@@ -355,12 +354,25 @@ public class PlayerFSM : MonoBehaviour, IReset
 
     public void ReadJumpInput(InputAction.CallbackContext context)
     {
-        if (!context.action.triggered || _jumpTimeoutDelta >= 0) return;
-        if(longJump && fsm.ActiveStateName == "Walk")
+        if (!context.action.triggered) return;
+        if (hanging || (headWalling && chestWalling && kneesWalling && !grounded))
+        {
+            fsm.Trigger("WallJump");
+            return;
+        }
+        if (_jumpTimeoutDelta >= 0) return;
+        if(longJump && grounded)
         {
             fsm.Trigger("LongJump");
             return;
         }
+
+        if (crouch)
+        {
+            fsm.Trigger("CrouchJump");
+            return;
+        }
+        
         switch (jumpCombo)
         {
             case 0:
@@ -373,7 +385,6 @@ public class PlayerFSM : MonoBehaviour, IReset
                 fsm.Trigger("Jump03");
                 break;
         }
-        fsm.Trigger("CrouchJump");
     }
     
     public void ReadPunchInput(InputAction.CallbackContext context)
@@ -408,6 +419,9 @@ public class PlayerFSM : MonoBehaviour, IReset
         animIDLand = Animator.StringToHash("Land");
         animIDBumDrop = Animator.StringToHash("BumDrop");
         animIDPushWall = Animator.StringToHash("PushWall");
+        animIDHang = Animator.StringToHash("Hang");
+        animIDClimb = Animator.StringToHash("Climb");
+        animIDExtraIdle = Animator.StringToHash("ExtraIdle");
     }
 
     public void OnDeviceChanged(PlayerInput playerInput)
@@ -463,11 +477,19 @@ public class PlayerFSM : MonoBehaviour, IReset
 
     private void WallCheckers()
     {
-        headWalling = Physics.Raycast(headWallChecker.position, transform.forward, wallDistance, groundLayers);
-        chestWalling = Physics.Raycast(chestWallChecker.position, transform.forward, wallDistance, groundLayers);
-        kneesWalling = Physics.Raycast(kneesWallChecker.position, transform.forward, out var hitInfo, wallDistance, groundLayers);
+        headWalling = Physics.Raycast(headWallChecker.position, transform.forward, out var headHitInfo, wallDistance, groundLayers);
+        chestWalling = Physics.Raycast(chestWallChecker.position, transform.forward, out var chestHitInfo, wallDistance, groundLayers);
+        kneesWalling = Physics.Raycast(kneesWallChecker.position, transform.forward, out var kneesHitInfo, wallDistance, groundLayers);
+
+        if (headWalling && headHitInfo.transform.CompareTag("Ledge") && chestWalling && kneesWalling && fsm.ActiveStateName == "Fall")
+        {
+            hanging = true;
+            hangPos = headHitInfo.point;
+            hangFwd = -headHitInfo.normal;
+        }
+        
         if (!pushWall || pushWallObj != null) return;
-        pushWallObj = hitInfo.transform.GetComponent<Rigidbody>();
-        pushFwd = -hitInfo.normal;
+        pushWallObj = kneesHitInfo.transform.GetComponent<Rigidbody>();
+        pushFwd = -kneesHitInfo.normal;
     }
 }

@@ -37,8 +37,6 @@ public class PushWall : StateBase
         _fsm.pushWallObj.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
         var pos = _fsm.transform.position;
         _fsm.transform.parent = null;
-        // _fsm.transform.position = _fsm.pushWallObj.position + _fsm.transform.forward.normalized * -0.55f;
-        _fsm.transform.position = pos;
         _fsm.pushWallObj = null;
         _fsm.animator.SetBool(_fsm.animIDPushWall, false);
         
