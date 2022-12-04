@@ -9,6 +9,11 @@ public class GameOver : MonoBehaviour, IReset
     Animator anim;
     [SerializeField] float timeToFreezeGame;
     [SerializeField] GameObject restartButton;
+    [SerializeField] GameObject lifesObject;
+    [SerializeField] GameObject bowserBackground;
+    [SerializeField] GameObject winBackground;
+    [SerializeField] GameObject winText;
+    [SerializeField] GameObject loseText;
     [SerializeField] TextMeshProUGUI lifesText;
     int lifesLeft;
     private void Start() {
@@ -21,12 +26,33 @@ public class GameOver : MonoBehaviour, IReset
     private void OnDisable() {
         GameManager.OnGameOverEvent -= OpenGameOverMenu;
     }
+    private void Update() {
+        if(Input.GetKeyDown(KeyCode.Z))OpenWinMenu();
+    }
     void OpenGameOverMenu(int lifes)
     {
         lifesLeft = lifes;
         anim.SetTrigger("Show");
         restartButton.SetActive(lifes > 0);
+        lifesObject.SetActive(true);
+        bowserBackground.SetActive(true);
+        loseText.SetActive(true);
+        winBackground.SetActive(false);
+        winText.SetActive(false);
         UpdateLifes(lifes);
+        StartCoroutine(StopTime());
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+    }
+    void OpenWinMenu()
+    {
+        anim.SetTrigger("Show");
+        restartButton.SetActive(false);
+        lifesObject.SetActive(false);
+        winBackground.SetActive(true);
+        winText.SetActive(true);
+        bowserBackground.SetActive(false);
+        loseText.SetActive(false);
         StartCoroutine(StopTime());
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
