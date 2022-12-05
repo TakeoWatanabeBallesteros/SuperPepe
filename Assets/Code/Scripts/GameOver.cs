@@ -20,17 +20,19 @@ public class GameOver : MonoBehaviour, IReset
     [SerializeField] TextMeshProUGUI lifesText;
     int lifesLeft;
     bool canExitMenu;
+    bool subscribeEnabled;
     private void Start() {
         GameManager.GetGameManager().AddResetObject(this);
+        subscribeEnabled = false;
     }
     private void OnEnable() {
         anim = GetComponent<Animator>();
         GameManager.OnGameOverEvent += OpenGameOverMenu;
-        StarsManager.OnMaxStars += OpenWinMenu;
+        GameManager.OnWin += OpenWinMenu;
     }
     private void OnDisable() {
         GameManager.OnGameOverEvent -= OpenGameOverMenu;
-        StarsManager.OnMaxStars -= OpenWinMenu;
+        GameManager.OnWin -= OpenWinMenu;
     }
     void OpenGameOverMenu(int lifes)
     {
@@ -46,10 +48,7 @@ public class GameOver : MonoBehaviour, IReset
         winBackground.SetActive(false);
         winText.SetActive(false);
         UpdateLifes(lifes);
-        StartCoroutine(StopTime());
-        Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.None;
-        if(lifes<=0) ;//suscribir metodo ReturnMenuSubscribed() al evento de input que toque
+        subscribeEnabled = lifes<=0;
     }
     void OpenWinMenu()
     {
@@ -63,10 +62,7 @@ public class GameOver : MonoBehaviour, IReset
         winText.SetActive(true);
         bowserBackground.SetActive(false);
         loseText.SetActive(false);
-        StartCoroutine(StopTime());
-        Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.None;
-        //suscribir metodo ReturnMenuSubscribed() al evento de input que toque
+        subscribeEnabled = true;
     }
     public void CanExitToMenu()
     {
@@ -93,15 +89,16 @@ public class GameOver : MonoBehaviour, IReset
     }
     public void ReturnMenuSubscribed()
     {
-        if(!canExitMenu) return;
-        //desuscribirse a si mismo del evento del input
+        if(!canExitMenu || !subscribeEnabled) return;
         Time.timeScale = 1f;
         SceneManager.LoadScene("MainMenu");
     }
-    IEnumerator StopTime()
+    public void StopTime()
     {
-        yield return new WaitForSeconds(timeToFreezeGame);
+        //method called by animation event
         Time.timeScale = 0f;
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
         GameManager.GetGameManager().ChangeActionMap("UI");
     }
     void UpdateLifes(int lifes)

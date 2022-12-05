@@ -19,6 +19,8 @@ public class GameManager : MonoBehaviour
     private PlayerInput playerInput;
     public delegate void GameOverEvent(int hasLifes);
     public static event GameOverEvent OnGameOverEvent;
+    public delegate void WinGame();
+    public static event WinGame OnWin;
     private void OnEnable() {
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
@@ -60,7 +62,10 @@ public class GameManager : MonoBehaviour
     public void GameOver(int hasLifes)
     {
         OnGameOverEvent?.Invoke(hasLifes);
-        
+    }
+    public void Win()
+    {
+        OnWin?.Invoke();
     }
     public void ResetGame()
     {

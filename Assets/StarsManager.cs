@@ -8,9 +8,7 @@ public class StarsManager : MonoBehaviour,IReset
     [SerializeField] int totalStars;
     int currentStars;
     public delegate void StarsChanged(int stars);
-    public delegate void MaxStars();
     public static event StarsChanged OnStarsChanged;
-    public static event MaxStars OnMaxStars;
     private void Awake() {
         instance = this;
     }
@@ -23,7 +21,7 @@ public class StarsManager : MonoBehaviour,IReset
     {
         currentStars++;
         OnStarsChanged?.Invoke(currentStars);
-        if(currentStars>=totalStars) OnMaxStars?.Invoke();
+        if(currentStars>=totalStars) GameManager.GetGameManager().Win();
     }
     public void Reset()
     {
