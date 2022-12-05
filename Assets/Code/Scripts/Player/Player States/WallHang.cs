@@ -14,12 +14,13 @@ using FSM;
         {
             _fsm.animator.SetTrigger(_fsm.animIDHang);
             _fsm.transform.forward = _fsm.hangFwd;
-            _fsm.transform.position = _fsm.hangPos + _fsm.transform.forward.normalized * -.25f + _fsm.transform.up * -.7f;
+            _fsm.transform.position = _fsm.hangPos + _fsm.transform.forward.normalized * -.125f + _fsm.transform.up * -.7f;
             base.OnEnter();
         }
 
         public override void OnLogic()
         {
+            if(_fsm.moveInput.y > .8f) fsm.RequestStateChange("ClimbWall");
             base.OnLogic();
         }
 

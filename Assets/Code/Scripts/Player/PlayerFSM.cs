@@ -173,6 +173,7 @@ public class PlayerFSM : MonoBehaviour, IReset
         fsm.AddState("PushWall", new PushWall(this));
         fsm.AddState("WallJump", new WallJump(this));
         fsm.AddState("WallHang", new WallHang(this));
+        fsm.AddState("ClimbWall", new ClimbWall(this));
     }
 
     private void AddTransitions()
@@ -180,7 +181,7 @@ public class PlayerFSM : MonoBehaviour, IReset
         fsm.AddTwoWayTransition("Idle", "Walk", t => moveInput != Vector2.zero);
         fsm.AddTwoWayTransition("Idle", "Crouch", t => crouch);
         fsm.AddTransitionFromAny("Fall",t => !grounded && _verticalVelocity < 0 && _fallTimeoutDelta <= 0 
-                                             && fsm.ActiveStateName != "BumDrop" && fsm.ActiveStateName != "WallHang");
+                                             && fsm.ActiveStateName != "BumDrop" && fsm.ActiveStateName != "WallHang" && fsm.ActiveStateName != "ClimbWall");
         //  && fsm.ActiveStateName != "WallJump"
         fsm.AddTransition("Fall", "Land", t => grounded);
         fsm.AddTransition("WallJump", "Land", t => grounded);
