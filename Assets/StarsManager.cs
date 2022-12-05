@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StarsManager : MonoBehaviour,IReset
+public class StarsManager : MonoBehaviour
 {
     public static StarsManager instance;
     [SerializeField] int totalStars;
@@ -13,7 +13,6 @@ public class StarsManager : MonoBehaviour,IReset
         instance = this;
     }
     private void Start() {
-        GameManager.GetGameManager().AddResetObject(this);
         currentStars = 0;
         OnStarsChanged?.Invoke(currentStars);
     }
@@ -23,10 +22,4 @@ public class StarsManager : MonoBehaviour,IReset
         OnStarsChanged?.Invoke(currentStars);
         if(currentStars>=totalStars) GameManager.GetGameManager().Win();
     }
-    public void Reset()
-    {
-        currentStars = 0;
-        OnStarsChanged?.Invoke(currentStars);
-    }
-
 }

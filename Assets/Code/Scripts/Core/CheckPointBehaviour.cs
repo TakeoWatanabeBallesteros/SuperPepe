@@ -10,13 +10,14 @@ public class CheckPointBehaviour : MonoBehaviour, IReset
     [SerializeField] Renderer flagRenderer;
     [SerializeField] Material marioFlagMaterial;
     [SerializeField] Material bowserFlagMaterial;
+    [SerializeField] Transform spawnPoint;
 
     private void Start() {
         GameManager.GetGameManager().AddResetObject(this);
     }
     private void OnTriggerEnter(Collider other)
     {
-        CheckpointManager.instance.SetCheckpoint(transform, checkpointNumber);
+        CheckpointManager.instance.SetCheckpoint(spawnPoint, checkpointNumber);
         anim.SetBool("Captured",true);
         flagRenderer.material = marioFlagMaterial; 
         gameObject.SetActive(false);

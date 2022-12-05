@@ -2,16 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Star : MonoBehaviour,IReset
+public class Star : MonoBehaviour
 {
     [SerializeField] bool spawned;
     Animator anim;
     private void Awake() {
         anim = GetComponent<Animator>();
         anim.SetBool("Spawned",spawned);
-    }
-    private void Start() {
-        GameManager.GetGameManager().AddResetObject(this);
     }
     private void OnTriggerEnter(Collider other) {
         anim.SetBool("Collected",true);
@@ -25,11 +22,5 @@ public class Star : MonoBehaviour,IReset
         //called through animation event
         StarsManager.instance.AddStar();
         gameObject.SetActive(false);
-    }
-    public void Reset()
-    {
-        anim.SetBool("Collected",false);
-        anim.Play("Idle");
-        gameObject.SetActive(true);
     }
 }
