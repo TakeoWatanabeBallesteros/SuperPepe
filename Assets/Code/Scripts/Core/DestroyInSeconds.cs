@@ -21,6 +21,7 @@ public class DestroyInSeconds : MonoBehaviour,IReset
     }
     public void Reset()
     {
+        StopAllCoroutines();
         GameManager.GetGameManager().RemoveResetObject(this);
         Destroy(gameObject);
     }

@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour
 {
     private static GameManager instance;
     private List<IReset> resetObjects;
+    private List<IReset> objectsToDelete;
+    Coroutine deleteObjectsCoroutine;
     private int checkpointReference;
     private Vector3 currentCheckpointPos;
     private Quaternion currentCheckpointRot;
@@ -43,13 +45,17 @@ public class GameManager : MonoBehaviour
         {
             instance = new GameObject("GameManager").AddComponent<GameManager>();
             instance.resetObjects = new List<IReset>();
+            instance.objectsToDelete = new List<IReset>();
+            instance.deleteObjectsCoroutine = null;
         }
         return instance;
     }
     private void OnSceneLoaded(Scene a,LoadSceneMode b)
     {
         resetObjects = new List<IReset>();
+        objectsToDelete = new List<IReset>();
         playerInput = FindObjectOfType<PlayerInput>();
+        deleteObjectsCoroutine = null;
     }
     public void SetPlayer(Transform _player)
     {
@@ -87,6 +93,20 @@ public class GameManager : MonoBehaviour
     
     public void RemoveResetObject(IReset obj)
     {
-        resetObjects.Remove(obj);
+        objectsToDelete.Add(obj);
+        if(deleteObjectsCoroutine == null)
+        {
+            deleteObjectsCoroutine = StartCoroutine(DeleteObjects());
+        }
+    }
+    IEnumerator DeleteObjects()
+    {
+        yield return new WaitForFixedUpdate();
+        foreach (var item in objectsToDelete)
+        {
+            resetObjects.Remove(item);
+        }
+        objectsToDelete = new List<IReset>();
+        deleteObjectsCoroutine = null;
     }
 }
