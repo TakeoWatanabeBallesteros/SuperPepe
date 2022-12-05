@@ -12,7 +12,6 @@ public class Bridge : MonoBehaviour
     public void AddForceToBridge(Vector3 direction,Vector3 pos)
     {
         rb.AddForceAtPosition(direction*force,pos);
-        Debug.Log("Aaaaa");
     }
 
 }

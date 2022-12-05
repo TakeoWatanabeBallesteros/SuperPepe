@@ -493,4 +493,10 @@ public class PlayerFSM : MonoBehaviour, IReset
         pushWallObj = kneesHitInfo.transform.GetComponent<Rigidbody>();
         pushFwd = -kneesHitInfo.normal;
     }
+    private void OnControllerColliderHit(ControllerColliderHit hit) {
+        if(hit.collider.tag == "Bridge")
+        {
+            hit.collider.GetComponent<Bridge>().AddForceToBridge(-hit.normal,hit.point);
+        }
+    }
 }
