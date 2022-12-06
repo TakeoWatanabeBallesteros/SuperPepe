@@ -126,6 +126,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37257e09fc6e9634b8130781adf5880a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  thisItemSoundEvent:
+    Guid:
+      Data1: 1228572133
+      Data2: 1246305662
+      Data3: 985311127
+      Data4: -947836989
+    Path: event:/Items/CoinBlock
 --- !u!95 &1917083551638996553
 Animator:
   serializedVersion: 3

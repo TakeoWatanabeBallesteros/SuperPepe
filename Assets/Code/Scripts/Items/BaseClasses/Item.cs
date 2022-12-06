@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using FMODUnity;
 
 public class Item : MonoBehaviour,IReset
 {
@@ -8,6 +9,8 @@ public class Item : MonoBehaviour,IReset
     [SerializeField] bool spawned;
     Vector3 initPos;
     bool collected = false;
+    [SerializeField] EventReference baseItemSoundEvent;
+    [SerializeField] EventReference thisItemSoundEvent;
     private void Awake() {
         anim = GetComponent<Animator>();
         anim.SetBool("Spawned",spawned);
@@ -21,6 +24,7 @@ public class Item : MonoBehaviour,IReset
         anim.SetTrigger("Collect");
         collected = true;
         StartCoroutine(FlyToPlayer(_player));
+        RuntimeManager.PlayOneShot(baseItemSoundEvent, transform.position);
     }
     public virtual bool ItemCondition(Transform _player){return true;}
     public virtual void ItemExecution(Transform _player){}
@@ -38,6 +42,7 @@ public class Item : MonoBehaviour,IReset
             yield return null;
         }
         ItemExecution(_player);
+        RuntimeManager.PlayOneShot(thisItemSoundEvent, transform.position);
         gameObject.SetActive(false);
     }
     public void Reset() 

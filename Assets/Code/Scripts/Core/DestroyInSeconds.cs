@@ -5,6 +5,7 @@ using UnityEngine;
 public class DestroyInSeconds : MonoBehaviour,IReset
 {
     [SerializeField] float timeToDestroy;
+    
     private void Start() {
         GameManager.GetGameManager().AddResetObject(this);
         StartCoroutine(DestroySec());

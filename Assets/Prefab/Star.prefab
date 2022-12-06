@@ -191,4 +191,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a850ddb3bfe00c4291f742fd45b9eb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  thisItemSoundEvent:
+    Guid:
+      Data1: 1306853238
+      Data2: 1137040510
+      Data3: 1760232359
+      Data4: -1268945975
+    Path: event:/Items/Star
   spawned: 1

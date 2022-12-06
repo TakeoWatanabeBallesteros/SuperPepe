@@ -79,6 +79,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawned: 1
+  baseItemSoundEvent:
+    Guid:
+      Data1: 2123552508
+      Data2: 1143703172
+      Data3: -228000833
+      Data4: -198969419
+    Path: event:/Items/ItemSpawn
+  thisItemSoundEvent:
+    Guid:
+      Data1: 881673694
+      Data2: 1194550908
+      Data3: 1425808544
+      Data4: -413996077
+    Path: event:/Items/Coin
 --- !u!1 &1792031499271896849
 GameObject:
   m_ObjectHideFlags: 0
