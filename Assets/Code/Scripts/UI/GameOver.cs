@@ -76,6 +76,9 @@ public class GameOver : MonoBehaviour, IReset
     {
         //method called by animation event
         canExitMenu = true;
+        if(subscribeEnabled) return;
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(restartButton);
     }
     public void UnfreezeTime()
     {
