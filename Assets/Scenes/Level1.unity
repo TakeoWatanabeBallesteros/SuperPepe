@@ -106,15 +106,15 @@ NavMeshSettings:
   m_BuildSettings:
     serializedVersion: 2
     agentTypeID: 0
-    agentRadius: 0.5
+    agentRadius: 0.08
     agentHeight: 0.6
-    agentSlope: 25
-    agentClimb: 0.2
+    agentSlope: 45
+    agentClimb: 0.6
     ledgeDropHeight: 2
     maxJumpAcrossDistance: 0
     minRegionArea: 2
     manualCellSize: 0
-    cellSize: 0.16666667
+    cellSize: 0.026666665
     manualTileSize: 0
     tileSize: 256
     accuratePlacement: 0
@@ -4732,17 +4732,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterController: {fileID: 866711508}
   currentState: 
-  animator: {fileID: 0}
+  animator: {fileID: 859407386}
   enemyEyes: {fileID: 867134456}
   playerHead: {fileID: 1361086323}
   m_PartolTargets:
   - {fileID: 775790902}
   - {fileID: 126823047}
   moveSpeed: 1
-  rangeDistance: 3
-  sightDistance: 3
-  maxChaseDistance: 5
-  sightAngle: 45
+  rangeDistance: 4
+  sightDistance: 4
+  maxChaseDistance: 8
+  sightAngle: 60
   rotationSpeed: 35
   playerLayerMask:
     serializedVersion: 2
@@ -5658,6 +5658,17 @@ MonoBehaviour:
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
+--- !u!114 &978542815 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4633781719638981979, guid: 2f0b9be97015ce8449ebc6fb1a363142, type: 3}
+  m_PrefabInstance: {fileID: 799040388}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97a28c1d43eb2884fae209255c606189, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &987961293
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14118,7 +14129,19 @@ MonoBehaviour:
     m_ActionId: 28714ce3-154e-464c-b2da-588324213c49
     m_ActionName: Player/Punch[/Mouse/leftButton,/XInputControllerWindows/buttonWest,/XInputControllerWindows/buttonNorth]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 978542815}
+        m_TargetAssemblyTypeName: GameOver, Assembly-CSharp
+        m_MethodName: ReturnMenuSubscribed
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 5e809b3e-74f8-4a9f-a42b-a3b3fae351ce
     m_ActionName: UI/GoToMenu[/Keyboard/space]
   m_NeverAutoSwitchControlSchemes: 0

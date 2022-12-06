@@ -6,11 +6,13 @@ using FMODUnity;
 public class Star : MonoBehaviour
 {
     [SerializeField] EventReference thisItemSoundEvent;
+    [SerializeField] private EventReference itemSpawnSoundEvent;
     [SerializeField] bool spawned;
     Animator anim;
     private void Awake() {
         anim = GetComponent<Animator>();
         anim.SetBool("Spawned",spawned);
+        if(spawned) RuntimeManager.PlayOneShot(itemSpawnSoundEvent, transform.position);
     }
     private void OnTriggerEnter(Collider other) {
         anim.SetBool("Collected",true);

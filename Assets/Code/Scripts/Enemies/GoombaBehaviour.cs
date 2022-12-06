@@ -101,13 +101,12 @@ public class GoombaBehaviour : MonoBehaviour
             },
             onLogic: (state) =>
             {
-                if (state.timer.Elapsed >= 1.0f)
-                {
-                    NavMesh.CalculatePath(transform.position, GameManager.GetGameManager().GetPlayer().transform.position,
-                        NavMesh.AllAreas, path);
-                    state.timer.Reset();
-                }
- 
+                NavMesh.CalculatePath(transform.position, GameManager.GetGameManager().GetPlayer().transform.position,
+                    NavMesh.AllAreas, path);
+                
+                for (int i = 0; i < path.corners.Length - 1; i++)
+                    Debug.DrawLine(path.corners[i], path.corners[i + 1], Color.red);
+
                 var aPos = transform.position;
                 aPos.y = 0;
                 var dPos = path.corners[currentCornerId];
@@ -117,7 +116,7 @@ public class GoombaBehaviour : MonoBehaviour
                 Quaternion lookRotation = Quaternion.LookRotation(direction.normalized);
                 transform.rotation = Quaternion.Lerp(transform.rotation, lookRotation, rotationSpeed * Time.deltaTime);
  
-                characterController.Move(transform.forward.normalized * moveSpeed * Time.deltaTime 
+                characterController.Move(transform.forward.normalized * moveSpeed * 2 * Time.deltaTime 
                                          + new Vector3(0, -7, 0) * Time.deltaTime);
                 
                 if(PathCornerPositionArrived())

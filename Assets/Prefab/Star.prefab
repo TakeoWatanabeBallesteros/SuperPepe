@@ -198,4 +198,11 @@ MonoBehaviour:
       Data3: 1760232359
       Data4: -1268945975
     Path: event:/Items/Star
+  itemSpawnSoundEvent:
+    Guid:
+      Data1: 2123552508
+      Data2: 1143703172
+      Data3: -228000833
+      Data4: -198969419
+    Path: event:/Items/ItemSpawn
   spawned: 1
