@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 using UnityEngine.InputSystem;
+using UnityEngine.EventSystems;
 
 public class GameOver : MonoBehaviour, IReset
 {
@@ -37,18 +38,25 @@ public class GameOver : MonoBehaviour, IReset
     void OpenGameOverMenu(int lifes)
     {
         lifesLeft = lifes;
+        restartButton.SetActive(true);
+        menuButton.SetActive(true);
+        pressImage.SetActive(false);
+        subscribeEnabled = false;
+        if(lifes < 0)
+        {
+            restartButton.SetActive(false);
+            menuButton.SetActive(false);
+            pressImage.SetActive(true);
+            subscribeEnabled = true;
+        }
         anim.SetTrigger("Show");
         canExitMenu = false;
-        restartButton.SetActive(lifes > 0);
-        menuButton.SetActive(lifes > 0);
-        pressImage.SetActive(lifes <= 0);
         lifesObject.SetActive(true);
         bowserBackground.SetActive(true);
         loseText.SetActive(true);
         winBackground.SetActive(false);
         winText.SetActive(false);
         UpdateLifes(lifes);
-        subscribeEnabled = lifes<=0;
     }
     void OpenWinMenu()
     {

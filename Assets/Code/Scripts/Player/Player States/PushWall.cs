@@ -21,7 +21,7 @@ public class PushWall : StateBase
         _fsm.transform.parent = _fsm.pushWallObj.transform;
         _fsm.transform.forward = _fsm.pushFwd;
         var forward = _fsm.transform.forward;
-        _fsm.transform.localPosition = forward.normalized * -0.95f;
+        _fsm.transform.localPosition = forward.normalized * -0.55f;
         _fsm.pushWallObj.constraints = RigidbodyConstraints.FreezeRotation;
     }
 
