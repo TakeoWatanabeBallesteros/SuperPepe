@@ -427,7 +427,6 @@ public class PlayerFSM : MonoBehaviour, IReset
 
     public void OnDeviceChanged(PlayerInput playerInput)
     {
-        Debug.Log("Go");
         foreach (var device in playerInput.devices)
         {
             if (device.GetType() != typeof(Keyboard) && device.GetType() != typeof(Mouse))
