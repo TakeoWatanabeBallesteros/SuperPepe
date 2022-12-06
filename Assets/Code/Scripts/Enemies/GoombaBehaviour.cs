@@ -66,6 +66,7 @@ public class GoombaBehaviour : MonoBehaviour
                 {
                     NavMesh.CalculatePath(transform.position, m_PartolTargets[m_CurrentPatrolTargetId].position,
                         NavMesh.AllAreas, path);
+                    currentCornerId = 0;
                     state.timer.Reset();
                 }
  
@@ -101,14 +102,21 @@ public class GoombaBehaviour : MonoBehaviour
             },
             onLogic: (state) =>
             {
-                NavMesh.CalculatePath(transform.position, GameManager.GetGameManager().GetPlayer().transform.position,
-                    NavMesh.AllAreas, path);
+                if (state.timer.Elapsed >= 1.0f)
+                {
+                    NavMesh.CalculatePath(transform.position,
+                        GameManager.GetGameManager().GetPlayer().transform.position,
+                        NavMesh.AllAreas, path);
+                    currentCornerId = 0;
+                    state.timer.Reset();
+                }
                 
                 for (int i = 0; i < path.corners.Length - 1; i++)
                     Debug.DrawLine(path.corners[i], path.corners[i + 1], Color.red);
 
                 var aPos = transform.position;
                 aPos.y = 0;
+                if (currentCornerId >= path.corners.Length) currentCornerId = 0;
                 var dPos = path.corners[currentCornerId];
                 dPos.y = 0;
                 

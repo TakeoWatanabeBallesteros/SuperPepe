@@ -47,7 +47,7 @@ public class Item : MonoBehaviour,IReset
     }
     public void Reset() 
     {
-        if(spawned)
+        if(spawned || collected)
         {
             Destroy(gameObject);
             return;

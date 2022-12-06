@@ -75,7 +75,7 @@ public class GameManager : MonoBehaviour
     }
     public void ResetGame()
     {
-        foreach (var other in resetObjects)
+        foreach (var other in resetObjects.ToList())
         {
             other.Reset();
         }
@@ -93,20 +93,6 @@ public class GameManager : MonoBehaviour
     
     public void RemoveResetObject(IReset obj)
     {
-        objectsToDelete.Add(obj);
-        if(deleteObjectsCoroutine == null)
-        {
-            deleteObjectsCoroutine = StartCoroutine(DeleteObjects());
-        }
-    }
-    IEnumerator DeleteObjects()
-    {
-        yield return new WaitForFixedUpdate();
-        foreach (var item in objectsToDelete)
-        {
-            resetObjects.Remove(item);
-        }
-        objectsToDelete = new List<IReset>();
-        deleteObjectsCoroutine = null;
+        resetObjects.Remove(obj);
     }
 }
