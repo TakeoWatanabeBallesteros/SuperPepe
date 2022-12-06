@@ -210,3 +210,10 @@ MonoBehaviour:
   blockRenderer: {fileID: 244773584259049146}
   blockOnMaterial: {fileID: 2100000, guid: 1f8b2ca2d8cb66d4a9116284511bc40e, type: 2}
   blockOffMaterial: {fileID: 2100000, guid: ce12d77c37b930145bc59a8815b1750a, type: 2}
+  blockSoundEvent:
+    Guid:
+      Data1: -170500893
+      Data2: 1103470704
+      Data3: 948728204
+      Data4: -1824241049
+    Path: event:/Items/Block

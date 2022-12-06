@@ -1,16 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using FMODUnity;
 
 public class Block : MonoBehaviour
 {
     [SerializeField] int uses;
     int currentUses;
-    [SerializeField] GameObject item;
-    [SerializeField] Transform spawnPoint;
-    [SerializeField] Renderer blockRenderer;
-    [SerializeField] Material blockOnMaterial;
-    [SerializeField] Material blockOffMaterial;
+    [SerializeField] private GameObject item;
+    [SerializeField] private Transform spawnPoint;
+    [SerializeField] private Renderer blockRenderer;
+    [SerializeField] private Material blockOnMaterial;
+    [SerializeField] private Material blockOffMaterial;
+    [SerializeField] private EventReference blockSoundEvent;
     Animator anim;
 
     
@@ -26,6 +28,7 @@ public class Block : MonoBehaviour
             anim.SetTrigger("Pop");
             currentUses--;
             if(currentUses<=0) blockRenderer.material = blockOffMaterial;
+            RuntimeManager.PlayOneShot(blockSoundEvent, transform.position);
         }
     }
 }

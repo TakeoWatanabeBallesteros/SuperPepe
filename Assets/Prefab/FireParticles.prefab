@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 1288611893061435186}
   - component: {fileID: 6554417410594524917}
   - component: {fileID: 7497043390333546108}
-  - component: {fileID: 7745755777803532309}
   m_Layer: 0
   m_Name: FireParticles
   m_TagString: Untagged
@@ -4878,19 +4877,6 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
---- !u!114 &7745755777803532309
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8019633877795833347}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff205d00e1e3b96408e9177eb7c29025, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  timeToDestroy: 2
 --- !u!1001 &1290325576965449891
 PrefabInstance:
   m_ObjectHideFlags: 0
