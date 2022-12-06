@@ -69,10 +69,14 @@ public class GameOver : MonoBehaviour, IReset
         //method called by animation event
         canExitMenu = true;
     }
+    public void UnfreezeTime()
+    {
+        //method called by animation event
+        Time.timeScale = 1f;
+    }
     public void Reset()
     {
         anim.SetTrigger("Hide");
-        Time.timeScale = 1f;
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
     }
