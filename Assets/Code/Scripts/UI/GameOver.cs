@@ -38,19 +38,19 @@ public class GameOver : MonoBehaviour, IReset
     void OpenGameOverMenu(int lifes)
     {
         lifesLeft = lifes;
+        anim.SetTrigger("Show");
+        canExitMenu = false;
         restartButton.SetActive(true);
         menuButton.SetActive(true);
         pressImage.SetActive(false);
         subscribeEnabled = false;
-        if(lifes < 0)
+        if(lifes <= 0)
         {
             restartButton.SetActive(false);
             menuButton.SetActive(false);
             pressImage.SetActive(true);
             subscribeEnabled = true;
         }
-        anim.SetTrigger("Show");
-        canExitMenu = false;
         lifesObject.SetActive(true);
         bowserBackground.SetActive(true);
         loseText.SetActive(true);

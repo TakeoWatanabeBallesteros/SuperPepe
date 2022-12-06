@@ -571,15 +571,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400098, guid: 2c49a169fa02b2545921fcc829011ecb, type: 3}
       propertyPath: m_LocalRotation.w
-      value: -0.28239992
+      value: -0.2461532
       objectReference: {fileID: 0}
     - target: {fileID: 400098, guid: 2c49a169fa02b2545921fcc829011ecb, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400098, guid: 2c49a169fa02b2545921fcc829011ecb, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.95929676
+      value: 0.96923095
       objectReference: {fileID: 0}
     - target: {fileID: 400098, guid: 2c49a169fa02b2545921fcc829011ecb, type: 3}
       propertyPath: m_LocalRotation.z
@@ -591,7 +591,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400098, guid: 2c49a169fa02b2545921fcc829011ecb, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 212.807
+      value: 208.5
       objectReference: {fileID: 0}
     - target: {fileID: 400098, guid: 2c49a169fa02b2545921fcc829011ecb, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -839,16 +839,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 1670890955}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
+  m_Script: {fileID: 11500000, guid: 01614664b831546d2ae94a42149d80ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_HorizontalAxis: Horizontal
-  m_VerticalAxis: Vertical
-  m_SubmitButton: Submit
-  m_CancelButton: Cancel
-  m_InputActionsPerSecond: 10
-  m_RepeatDelay: 0.5
-  m_ForceModuleActive: 0
+  m_MoveRepeatDelay: 0.5
+  m_MoveRepeatRate: 0.1
+  m_ActionsAsset: {fileID: -944628639613478452, guid: 072f8763a5198914385a70f7aa12c39a, type: 3}
+  m_PointAction: {fileID: 3367101946890717985, guid: 072f8763a5198914385a70f7aa12c39a, type: 3}
+  m_MoveAction: {fileID: -307424754437218563, guid: 072f8763a5198914385a70f7aa12c39a, type: 3}
+  m_SubmitAction: {fileID: -5311298852430063574, guid: 072f8763a5198914385a70f7aa12c39a, type: 3}
+  m_CancelAction: {fileID: 0}
+  m_LeftClickAction: {fileID: -2362483838269644402, guid: 072f8763a5198914385a70f7aa12c39a, type: 3}
+  m_MiddleClickAction: {fileID: 5278173575564425398, guid: 072f8763a5198914385a70f7aa12c39a, type: 3}
+  m_RightClickAction: {fileID: -6178336325687425428, guid: 072f8763a5198914385a70f7aa12c39a, type: 3}
+  m_ScrollWheelAction: {fileID: -7488414455339657299, guid: 072f8763a5198914385a70f7aa12c39a, type: 3}
+  m_TrackedDevicePositionAction: {fileID: -8744628688011088238, guid: 072f8763a5198914385a70f7aa12c39a, type: 3}
+  m_TrackedDeviceOrientationAction: {fileID: -8822090747999447430, guid: 072f8763a5198914385a70f7aa12c39a, type: 3}
+  m_DeselectOnBackgroundClick: 1
+  m_PointerBehavior: 0
 --- !u!114 &1670890957
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -861,7 +869,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_FirstSelected: {fileID: 0}
+  m_FirstSelected: {fileID: 2146297620}
   m_sendNavigationEvents: 1
   m_DragThreshold: 10
 --- !u!4 &1670890958
@@ -927,19 +935,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400098, guid: 2c49a169fa02b2545921fcc829011ecb, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.32355845
+      value: 0.21856909
       objectReference: {fileID: 0}
     - target: {fileID: 400098, guid: 2c49a169fa02b2545921fcc829011ecb, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400098, guid: 2c49a169fa02b2545921fcc829011ecb, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.94620824
+      value: 0.9758215
       objectReference: {fileID: 0}
     - target: {fileID: 400098, guid: 2c49a169fa02b2545921fcc829011ecb, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400098, guid: 2c49a169fa02b2545921fcc829011ecb, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -947,7 +955,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400098, guid: 2c49a169fa02b2545921fcc829011ecb, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 142.243
+      value: 154.75
       objectReference: {fileID: 0}
     - target: {fileID: 400098, guid: 2c49a169fa02b2545921fcc829011ecb, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
