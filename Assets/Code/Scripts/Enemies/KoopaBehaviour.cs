@@ -4,7 +4,7 @@ using UnityEngine;
 using FSM;
 using Pathfinding;
 
-public class GoombaBehaviour : MonoBehaviour
+public class KoopaBehaviour : MonoBehaviour
 {
     private IAstarAI agent;
     [SerializeField] private string currentState;
