@@ -304,11 +304,6 @@ public class PlayerFSM : MonoBehaviour, IReset
         // the square root of H * -2 * G = how much velocity needed to reach desired height
         _verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * gravity);
     }
-
-    public void Reset()
-    {
-        fsm.Trigger("Reset");
-    }
     
     public void ReadMoveInput(InputAction.CallbackContext context)
     {
@@ -498,5 +493,12 @@ public class PlayerFSM : MonoBehaviour, IReset
         if (!pushWall || pushWallObj != null) return;
         pushWallObj = kneesHitInfo.transform.GetComponent<Rigidbody>();
         pushFwd = -kneesHitInfo.normal;
+    }
+
+    public void Reset()
+    {
+        fsm.Trigger("Reset");
+        transform.position = CheckpointManager.instance.GetCheckPointPosition();
+        transform.rotation = CheckpointManager.instance.GetCheckPointRotation();
     }
 }

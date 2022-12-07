@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CheckPointBehaviour : MonoBehaviour, IReset
+public class CheckPointBehaviour : MonoBehaviour
 {
     [SerializeField] int checkpointNumber;
     [SerializeField] Animator anim;
@@ -11,23 +11,15 @@ public class CheckPointBehaviour : MonoBehaviour, IReset
     [SerializeField] Material marioFlagMaterial;
     [SerializeField] Material bowserFlagMaterial;
     [SerializeField] Transform spawnPoint;
+    private bool captured = false;
 
-    private void Start() {
-        GameManager.GetGameManager().AddResetObject(this);
-    }
     private void OnTriggerEnter(Collider other)
     {
+        if (!other.CompareTag("Player") || captured) return;
+        captured = true;
         CheckpointManager.instance.SetCheckpoint(spawnPoint, checkpointNumber);
-        anim.SetBool("Captured",true);
-        flagRenderer.material = marioFlagMaterial; 
+        anim.SetBool("Captured", captured);
+        flagRenderer.material = marioFlagMaterial;
         gameObject.SetActive(false);
-    }
-
-    public void Reset()
-    {
-        gameObject.SetActive(true);
-        anim.SetBool("Captured",false);
-        anim.Play("Idle");
-        flagRenderer.material = bowserFlagMaterial;
     }
 }

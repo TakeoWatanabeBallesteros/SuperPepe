@@ -12,9 +12,6 @@ public class GameManager : MonoBehaviour
     private List<IReset> resetObjects;
     private List<IReset> objectsToDelete;
     Coroutine deleteObjectsCoroutine;
-    private int checkpointReference;
-    private Vector3 currentCheckpointPos;
-    private Quaternion currentCheckpointRot;
     private Transform player;
     
     // Input
@@ -95,8 +92,4 @@ public class GameManager : MonoBehaviour
     {
         resetObjects.Remove(obj);
     }
-
-    public Vector3 GetCheckPointPosition() => currentCheckpointPos;
-
-    public Quaternion GetCheckPointRotation() => currentCheckpointRot;
 }
