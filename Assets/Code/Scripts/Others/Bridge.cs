@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,7 +10,16 @@ public class Bridge : MonoBehaviour
     private void Start() {
         rb = GetComponent<Rigidbody>();
     }
-    public void AddForceToBridge(Vector3 direction,Vector3 pos)
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            AddForceToBridge(-other.transform.up, other.transform.position);
+        }
+    }
+
+    private void AddForceToBridge(Vector3 direction,Vector3 pos)
     {
         rb.AddForceAtPosition(direction*force,pos);
     }

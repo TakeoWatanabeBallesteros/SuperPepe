@@ -95,4 +95,8 @@ public class GameManager : MonoBehaviour
     {
         resetObjects.Remove(obj);
     }
+
+    public Vector3 GetCheckPointPosition() => currentCheckpointPos;
+
+    public Quaternion GetCheckPointRotation() => currentCheckpointRot;
 }
