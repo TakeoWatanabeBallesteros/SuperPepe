@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Platform : MonoBehaviour
 {
-    [SerializeField] LayerMask[] attachableLayers;
+    [SerializeField] LayerMask attachableLayers;
     List<Transform> attachedObjects = new List<Transform>();
     private void OnTriggerEnter(Collider other) {
         if(!FacingUpwards()) return;
@@ -35,11 +35,7 @@ public class Platform : MonoBehaviour
     }
     bool IsAttachable(LayerMask objectLayer)
     {
-        foreach (LayerMask layer in attachableLayers)
-        {
-            if(objectLayer == layer) return true;
-        }
-        return false;
+        return objectLayer == attachableLayers;
     }
     bool ObjectAttached(Transform target)
     {
