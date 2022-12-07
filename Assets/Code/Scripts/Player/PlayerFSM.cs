@@ -94,6 +94,12 @@ public class PlayerFSM : MonoBehaviour, IReset
     [SerializeField] private EventReference playerPunch03Event;
     [SerializeField] private EventReference playerHangEvent;
     [SerializeField] private EventReference playerClimbEvent;
+    [SerializeField] private EventReference playerLandEvent;
+    [SerializeField] private EventReference playerBumpEvent;
+    [SerializeField] private EventReference playerBumpLandEvent;
+    [SerializeField] private EventReference playerLongJumpEvent;
+    [SerializeField] private EventReference playerWallJumpEvent;
+    [SerializeField] private EventReference playerHipHopEvent;
 
     // timeout deltatime
     private float _jumpTimeoutDelta;
@@ -549,6 +555,46 @@ public class PlayerFSM : MonoBehaviour, IReset
     public void Climb()
     {
         RuntimeManager.PlayOneShot(playerClimbEvent, transform.position);
+    }
+
+    public void Hit()
+    {
+        RuntimeManager.PlayOneShot(playerHitEvent, transform.position);
+    }
+
+    public void Dead()
+    {
+        RuntimeManager.PlayOneShot(playerDieEvent, transform.position);
+    }
+    
+    public void Land()
+    {
+        RuntimeManager.PlayOneShot(playerLandEvent, transform.position);
+    }
+    
+    public void Bump()
+    {
+        RuntimeManager.PlayOneShot(playerBumpEvent, transform.position);
+    }
+    
+    public void BumpLand()
+    {
+        RuntimeManager.PlayOneShot(playerBumpLandEvent, transform.position);
+    }
+    
+    public void LongJump()
+    {
+        RuntimeManager.PlayOneShot(playerLongJumpEvent, transform.position);
+    }
+    
+    public void WallJump()
+    {
+        RuntimeManager.PlayOneShot(playerWallJumpEvent, transform.position);
+    }
+    
+    public void HipHop()
+    {
+        RuntimeManager.PlayOneShot(playerHipHopEvent, transform.position);
     }
 
     private void OnDrawGizmosSelected()
