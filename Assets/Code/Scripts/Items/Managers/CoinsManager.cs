@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CoinsManager : MonoBehaviour, IReset
+public class CoinsManager : MonoBehaviour
 {
     public static CoinsManager instance;
     int currentCoins;
@@ -13,7 +13,6 @@ public class CoinsManager : MonoBehaviour, IReset
     }
     private void Start() {
         OnCoinsChanged?.Invoke(currentCoins);
-        GameManager.GetGameManager().AddResetObject(this);
     }
     
     public void AddCoin()
@@ -26,9 +25,5 @@ public class CoinsManager : MonoBehaviour, IReset
         {
             AddCoin();
         }
-    }
-    public void Reset()
-    {
-        
     }
 }

@@ -1,19 +1,17 @@
 using UnityEngine;
 using FSM;
 
-public class Punch : StateBase
+public class HipHop : StateBase
 {
     private PlayerFSM _fsm;
 
-    public Punch(PlayerFSM fsm) : base(needsExitTime: false)
+    public HipHop(PlayerFSM fsm) : base(needsExitTime: false)
     {
         this._fsm = fsm;
     }
 
     public override void OnEnter()
     {
-        _fsm.animator.SetTrigger(_fsm.animIDPunch);
-        _fsm.attacking = true;
         base.OnEnter();
     }
 
@@ -24,9 +22,6 @@ public class Punch : StateBase
 
     public override void OnExit()
     {
-        _fsm.punchCombo = 0;
-        _fsm.animator.SetInteger(_fsm.animIDPunchCombo, _fsm.punchCombo);
-        _fsm.attacking = false;
         base.OnExit();
     }
 }

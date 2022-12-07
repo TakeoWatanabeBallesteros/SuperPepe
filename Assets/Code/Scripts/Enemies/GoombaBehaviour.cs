@@ -1,10 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using FSM;
 using Pathfinding;
 
-public class GoombaBehaviour : MonoBehaviour
+public class GoombaBehaviour : MonoBehaviour, IReset
 {
     private IAstarAI agent;
     [SerializeField] private string currentState;
@@ -24,7 +25,6 @@ public class GoombaBehaviour : MonoBehaviour
     private float health;
     private StateMachine fsm;
     private bool canBeDamaged = true;
-    private string lastState;
     private int chaseAnimID;
     private int dieAnimID;
     private Vector3 resetPos;
@@ -35,6 +35,7 @@ public class GoombaBehaviour : MonoBehaviour
         chaseAnimID = Animator.StringToHash("Chase");
         dieAnimID = Animator.StringToHash("Death");
         resetPos = transform.position;
+        GameManager.GetGameManager().AddResetObject(this);
     }
     
     // Start is called before the first frame update
@@ -65,7 +66,6 @@ public class GoombaBehaviour : MonoBehaviour
             },
             onExit: (state) =>
             {
-                lastState = fsm.ActiveState.name;
             }
             ));
         fsm.AddState("Chase", new State(
@@ -82,17 +82,40 @@ public class GoombaBehaviour : MonoBehaviour
             },
             onExit: (state) =>
             {
-                lastState = fsm.ActiveState.name;
                 animator.SetBool(chaseAnimID, false);
             }
             ));
+        fsm.AddState("Hit", new State(
+            onEnter: (state) =>
+            {
+                agent.isStopped = true;
+                canBeDamaged = false;
+            },
+            onLogic: (state) =>
+            { 
+                transform.position += -transform.forward.normalized * 3 * Time.deltaTime;
+                if(state.timer.Elapsed > .4f) fsm.RequestStateChange("Chase");
+            },
+            onExit: (state) =>
+            {
+                agent.isStopped = false;
+                canBeDamaged = true;
+            }
+        ));
         fsm.AddState("Die", new CoState(
             this,
             onEnter: (state) =>
             {
+                agent.isStopped = true;
                 canBeDamaged = false;
+                animator.SetTrigger(dieAnimID);
             },
-            onLogic: Die
+            onLogic: Die,
+            
+            onExit: (state) =>
+            {
+                
+            }
             ));
         
         fsm.AddTransition(new Transition(
@@ -105,12 +128,17 @@ public class GoombaBehaviour : MonoBehaviour
             "Patrol",
             (transition) => !CanChase()
         ));
-        // fsm.AddTransitionFromAny(
-        //     new Transition("", "Die", t => (health <= 0))
-        // );
-        // fsm.AddTriggerTransitionFromAny(
-        //     "Reset"
-        //     ,new Transition("", "Idle", t => true));
+        
+        fsm.AddTriggerTransition(
+            "Hit"
+            ,new Transition("Chase", "Hit", t => true));
+        fsm.AddTriggerTransitionFromAny(
+            "Die"
+            , new Transition("", "Die", t => true)
+        );
+        fsm.AddTriggerTransitionFromAny(
+            "Reset"
+            ,new Transition("", "Idle", t => true));
         
         fsm.SetStartState("Idle");
         fsm.Init();
@@ -165,30 +193,12 @@ public class GoombaBehaviour : MonoBehaviour
             health -= damage * 0.6f;
         }
     }
-
-    private IEnumerator Hit()
-    {
-        yield return new WaitForSeconds(1f);
-    }
     
     private IEnumerator Die(CoState<string, string> state)
     {
         animator.SetTrigger(dieAnimID);
 
-        yield return new WaitForSeconds(1f);
-        
-
-        yield return new WaitForSeconds(0.5f);
-        
-        state.timer.Reset();
-        while (state.timer.Elapsed < 1f)
-        {
-            enemyEyes.transform.position += Vector3.down*Time.deltaTime*.70f/1f;
-            yield return null;
-        }
-        
-        yield return new WaitForSeconds(3f);
-        
+        yield return new WaitForSeconds(.2f);
         gameObject.SetActive(false);
     }
 
@@ -200,10 +210,28 @@ public class GoombaBehaviour : MonoBehaviour
 
     public void Reset()
     {
+        if (fsm.ActiveStateName == "Die")
+        {
+            GameManager.GetGameManager().RemoveResetObject(this);
+            Destroy(gameObject);
+        }
         gameObject.SetActive(true);
         transform.position = resetPos;
         fsm.Trigger("Reset");
         StopAllCoroutines();
-        health = maxHealth;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(!other.CompareTag("Player") || !canBeDamaged) return;
+        if(other.transform.position.y - transform.position.y < .04f){
+            fsm.Trigger("Hit");
+            other.GetComponent<PlayerFSM>().Hit(transform.forward);
+        }
+        else
+        {
+            fsm.Trigger("Die");
+            other.GetComponent<PlayerFSM>().Jump(2);
+        }
     }
 }

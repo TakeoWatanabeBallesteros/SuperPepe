@@ -45,18 +45,11 @@ public class Item : MonoBehaviour,IReset
         ItemExecution(_player); 
         gameObject.SetActive(false);
     }
-    public void Reset() 
+    public void Reset()
     {
-        if(spawned || collected)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        gameObject.SetActive(true);
-        anim.Play("Idle");
-        collected = false;
-        transform.position = initPos;
-        transform.localScale = new Vector3(1,1,1);
+        if (!spawned && !collected) return;
+        GameManager.GetGameManager().RemoveResetObject(this);
+        Destroy(gameObject);
     }
     public void SetSpawned(bool _spawned)
     {

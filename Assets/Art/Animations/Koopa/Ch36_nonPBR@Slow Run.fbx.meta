@@ -42,12 +42,12 @@ ModelImporter:
       lastFrame: 43
       wrapMode: 0
       orientationOffsetY: 0
-      level: -0.22
+      level: -0.34
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 0
-      loopBlend: 0
+      loopTime: 1
+      loopBlend: 1
       loopBlendOrientation: 1
       loopBlendPositionY: 1
       loopBlendPositionXZ: 1

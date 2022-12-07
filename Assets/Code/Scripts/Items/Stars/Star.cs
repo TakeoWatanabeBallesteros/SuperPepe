@@ -15,6 +15,8 @@ public class Star : MonoBehaviour
         if(spawned) RuntimeManager.PlayOneShot(itemSpawnSoundEvent, transform.position);
     }
     private void OnTriggerEnter(Collider other) {
+        if(!other.CompareTag("Player")) return;
+        RuntimeManager.PlayOneShot(thisItemSoundEvent, transform.position);
         anim.SetBool("Collected",true);
     }
     public void SetSpawned(bool _spawned)
@@ -24,7 +26,6 @@ public class Star : MonoBehaviour
     public void Collect()
     {
         //called through animation event
-        RuntimeManager.PlayOneShot(thisItemSoundEvent, transform.position);
         StarsManager.instance.AddStar();
         gameObject.SetActive(false);
     }

@@ -1901,8 +1901,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 321470528}
-  - component: {fileID: 321470534}
-  - component: {fileID: 321470533}
   - component: {fileID: 321470532}
   - component: {fileID: 321470531}
   - component: {fileID: 321470530}
@@ -2007,55 +2005,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1.0925994}
   m_Center: {x: -1.3874657e-10, y: 0, z: 0.00050847675}
---- !u!23 &321470533
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 321470527}
-  m_Enabled: 0
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!33 &321470534
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 321470527}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1001 &345694035
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4740,6 +4689,7 @@ GameObject:
   - component: {fileID: 866711509}
   - component: {fileID: 866711505}
   - component: {fileID: 866711507}
+  - component: {fileID: 866711510}
   m_Layer: 0
   m_Name: Goomba
   m_TagString: Untagged
@@ -4877,6 +4827,20 @@ MonoBehaviour:
   slowWhenNotFacingTarget: 1
   whenCloseToDestination: 0
   constrainInsideGraph: 0
+--- !u!136 &866711510
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 866711504}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.22272396
+  m_Height: 0.53519535
+  m_Direction: 1
+  m_Center: {x: -0.000096321106, y: 0.26639032, z: 0.00029277802}
 --- !u!1 &866711512
 GameObject:
   m_ObjectHideFlags: 0
@@ -8740,12 +8704,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   version: 1
   data:
-    dataString: UEsDBBQAAAgIAAAIIewAHTTpZQIAACQFAAALACQAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQFlVMlyozAU/BWXzuMUXvAytxniOHNI4opnKhcuAj2MykKitMR2Uv73kYQMhJyA7n5P/RbxiShXNeRayK2k5EkQQD9HyL2jH6OOfIQzPgi+px9w07xRoksnwl7zijUVFp+4MCUq0JLmv/iBOXFkQcNpIWS1IQdIhNLKwgVmCiwlhXbR3EKfI3QOAZfw/HDP0dW+5cA1yE41ju6idRRFk8U86OO76ewWcjdbrtfr1XwZ+2DDc4arGogrosuxmoTQ1cTLuC0vKByTC8aoCt6QvtS+9gTXytjKrIBQbGv1rpy+BHoo9TD4pSgU6FCPxJd7Km3Lmqzot2j6WGF1bHy9Y2bcOdN44T01SZ++8ePGciFF9diea/thMV3S/PiKLzlWutfpPnz/1bnhJ8yOOGPwVgJ/FlspDCe9WKNget/7bqtLSsidMy0NtG4HoKm/D3fSDffq6z8njFZZYOznngnf71lsv0Hayfyxfv2qqJDHos7CPwV/8aG/U4F4oFJpS4Wk3HnLhJFOija+Z64UoxMhOXg4OK6BY6YvO5tGD0c44HrHDpgH7G5PODxwt0sxCPFwp4+iAbUTp3ZWqhSnJ1Dli9GMcuhMO+LZ9ikRnDcb1u/JLWxvZIHzXtjBUPJ1tdA0wziL8TSar2NMsvk4JniWZ9GqWC6yyXIRIb97lNs6Mds1RkN77NR4l5zbNbv9VEZbiWu/7UTi05Z+VKLXcsoLsc8lAH9pMrTGQdpD7K0kG0Jtg/agNeV+3ugzRUzkRyBpmyj1lW7OWuK0y5Kimr4L7ZAUJf5XkiIHt4u8k/BO4eQOvyW7out/UEsDBBQAAAgIAAAIIewHqmgIbQAAAHgAAAAJACQAbWV0YS5qc29uCgAgAAAAAAABABgAAIA+1d6xnQEAgD7V3rGdAQCAPtXesZ0Bq1YqSy0qzszPU7JSMNEz0jM011FQSi9KLMgoBooYgjilmSkgdrSSUVJiYpJpopGBiaVpYkqSia5pSqJxcpKBRZq5WZKhuZmBUixQfUllQapfYm4qRE9AYklGWmZeSmZeup57UWaKO8hopdhaAFBLAQItABQAAAgIAAAIIewAHTTpZQIAACQFAAALACQAAAAAAAAAAAAAAAAAAABncmFwaDAuanNvbgoAIAAAAAAAAQAYAACAPtXesZ0BAIA+1d6xnQEAgD7V3rGdAVBLAQItABQAAAgIAAAIIewHqmgIbQAAAHgAAAAJACQAAAAAAAAAAAAAALICAABtZXRhLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQFQSwUGAAAAAAIAAgC4AAAAagMAAAAA
+    dataString: UEsDBBQAAAgIAAAIIewrYW68aQIAACQFAAALACQAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQFlVMtyozAQ/BWXzusU2MaPve0Sx9lDEle8W7lwEWgwKguJ0iO2k/K/rySEIc4J1N0z6nnAJ6JcNVBoITeSkidBAP0cIfeOfox68hFOeC/4jn5Ap3mjRFdOhL3mFWsqLB67MCVq0JIWv/ieOXFkQcNpKWS9JntIhdLKwiVmCiwlhXbR3EKfI3QKAefw/HDP0cW+FcA1yF41ju6iVRRF8XwW9MndZNqF3E0Xq9VqOVskPtjwguG6AeKK6HMs4xC6jL2M2/KCwjGFYIyq4A3pc+NrT3GjjK3MCgjFtlbvyukroPtK28NkGPxSlgp0qEfi8z2VtmVtVvRbtH2ssTq0vt4xM+6eSTL3ntqkT9/4cWu5lKJ+7O6NbT8spitaHF7xucBKDzo9hO+/Ojf8iNkB5wzeKuDPYiOF4WQQaxRM7gfna3VpBYVzpqWBq9sb0DTfhxv3w734+k8po3UeGHvcMeH7PU3sGaSdzB/r16+KCnks6iz8U/AX74c7FYgHKpW2VEjKnbdcGOmkaO175koxOhWSg4eD4wY4Zvq8tWn07QhvuMG1N8wDdl9PuDxw3UdxE+LhXh9FN9RWHK+zUpU4PoGqXoxmlENv2hHPtk+p4LzdsGFPurCdkSUuBmF7Q8nX1UKTHOM8wZNotkowyWfjhOBpkUfLcjHP48U8Qn73KLd1YrZtjYb22KnxPjm3a9b9VEYbiRu/7UTi44Z+1GLQcspLsSskAH9pM1yNg7SX2K+SrAm1DdqB1pT7eaPPDDFRHIBk10SZr3R90hJnfZYMNfRdaIdkKPW/kgw5+LrIWwnvFI7u8i7ZBV3+A1BLAwQUAAAICAAACCHsB6poCG0AAAB4AAAACQAkAG1ldGEuanNvbgoAIAAAAAAAAQAYAACAPtXesZ0BAIA+1d6xnQEAgD7V3rGdAatWKkstKs7Mz1OyUjDRM9IzNNdRUEovSizIKAaKGII4pZkpIHa0klFSYmKSaaKRgYmlaWJKkomuaUqicXKSgUWauVmSobmZgVIsUH1JZUGqX2JuKkRPQGJJRlpmXkpmXrqee1FmijvIaKXYWgBQSwECLQAUAAAICAAACCHsK2FuvGkCAAAkBQAACwAkAAAAAAAAAAAAAAAAAAAAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQFQSwECLQAUAAAICAAACCHsB6poCG0AAAB4AAAACQAkAAAAAAAAAAAAAAC2AgAAbWV0YS5qc29uCgAgAAAAAAABABgAAIA+1d6xnQEAgD7V3rGdAQCAPtXesZ0BUEsFBgAAAAACAAIAuAAAAG4DAAAAAA==
     upgradeData: 
     file_cachedStartup: {fileID: 0}
     data_cachedStartup: 
     cacheStartup: 0
-  showNavGraphs: 1
+  showNavGraphs: 0
   showUnwalkableNodes: 1
   debugMode: 0
   debugFloor: 0
@@ -12293,6 +12257,24 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1792031497610416827, guid: d520c8048fd59414dbdc695751e1f16a, type: 3}
   m_PrefabInstance: {fileID: 2098986207}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2127843094 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100000, guid: 7c0c5ddd8aaaf0648a5624fc561b3af4, type: 3}
+  m_PrefabInstance: {fileID: 1082038353}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &2127843095
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2127843094}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 38.121433, y: 7.5876164, z: 0.916085}
+  m_Center: {x: -0.0000019073486, y: -0.0000013113023, z: -0.43}
 --- !u!4 &25635316737135984
 Transform:
   m_ObjectHideFlags: 0
@@ -12656,9 +12638,10 @@ GameObject:
   - component: {fileID: 6300831952990515062}
   - component: {fileID: 782202739070578618}
   - component: {fileID: 782202739070578617}
-  - component: {fileID: 782202739070578616}
   - component: {fileID: 782202739070578619}
   - component: {fileID: 782202739070578615}
+  - component: {fileID: 782202739070578616}
+  - component: {fileID: 782202739070578620}
   m_Layer: 0
   m_Name: Koopa
   m_TagString: Untagged
@@ -12681,24 +12664,20 @@ MonoBehaviour:
   version: 1
   unwrap: 1
   splitAtEveryPortal: 0
---- !u!143 &782202739070578616
-CharacterController:
+--- !u!136 &782202739070578616
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 782202739070578614}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
-  serializedVersion: 2
-  m_Height: 0.74
-  m_Radius: 0.2
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.0001
-  m_MinMoveDistance: 0
-  m_Center: {x: 0, y: 0.36, z: 0}
+  m_Radius: 0.2390976
+  m_Height: 0.7393913
+  m_Direction: 1
+  m_Center: {x: -0.00057792664, y: 0.3684883, z: -0.0021152496}
 --- !u!114 &782202739070578617
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12796,8 +12775,24 @@ MonoBehaviour:
   playerLayerMask:
     serializedVersion: 2
     m_Bits: 1015
-  maxHealth: 1
   damage: 1
+  shell: {fileID: 3915095379744776630, guid: 2f87c9d74b3ca464b8c9f0fa65116c60, type: 3}
+--- !u!54 &782202739070578620
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 782202739070578614}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 3
 --- !u!137 &813527290752467968
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 0
@@ -14080,8 +14075,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1086166099221169073}
   m_LocalRotation: {x: 0.000000012701788, y: -0.00000011707631, z: -0.01839588, w: 0.9998308}
-  m_LocalPosition: {x: -0.055355772, y: 0.000000024032591, z: -0.0000000072003448}
-  m_LocalScale: {x: 1, y: 1, z: 1.0000001}
+  m_LocalPosition: {x: -0.055355772, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 25635316737135984}
   - {fileID: 6701800321452061057}
@@ -14205,7 +14200,7 @@ GameObject:
   - component: {fileID: 5054645070857423102}
   m_Layer: 3
   m_Name: =====SuperMario=====
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -14530,6 +14525,8 @@ MonoBehaviour:
   hanging: 0
   hangPos: {x: 0, y: 0, z: 0}
   hangFwd: {x: 0, y: 0, z: 0}
+  hitDirection: {x: 0, y: 0, z: 0}
+  attacking: 0
 --- !u!114 &5054645070857423101
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15118,7 +15115,7 @@ GameObject:
   - component: {fileID: 5054645070857423169}
   m_Layer: 3
   m_Name: bn_R_hand
-  m_TagString: Untagged
+  m_TagString: Punch
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -15134,7 +15131,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.14
+  m_Radius: 0.5
   m_Center: {x: -0.11, y: -0.01, z: -0.01}
 --- !u!1 &5054645070857423170
 GameObject:
@@ -15148,7 +15145,7 @@ GameObject:
   - component: {fileID: 5054645070857423171}
   m_Layer: 3
   m_Name: bn_R_foot
-  m_TagString: Untagged
+  m_TagString: Punch
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -15163,10 +15160,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 0.11119475
-  m_Height: 0.3949825
+  m_Radius: 0.11747007
+  m_Height: 0.5088342
   m_Direction: 0
-  m_Center: {x: -0.055114396, y: -0.015469082, z: -0.0025214476}
+  m_Center: {x: -0.11203966, y: -0.00919377, z: -0.0025214576}
 --- !u!1 &5054645070857423172
 GameObject:
   m_ObjectHideFlags: 0
@@ -15443,7 +15440,7 @@ GameObject:
   - component: {fileID: 5054645070857423191}
   m_Layer: 3
   m_Name: bn_L_hand
-  m_TagString: Untagged
+  m_TagString: Punch
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -15459,7 +15456,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.14
+  m_Radius: 0.5
   m_Center: {x: -0.11, y: -0.01, z: -0.01}
 --- !u!1 &5054645070857423192
 GameObject:

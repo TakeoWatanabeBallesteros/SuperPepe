@@ -21,7 +21,7 @@ public class CheckpointManager : MonoBehaviour
     private void Awake() {
         instance = this;
     }
-    public void SetCheckpoint(Transform checkpoint,int number)
+    public void SetCheckpoint(Transform checkpoint, int number)
     {
         if(checkpointNumber > number) return;
         checkpointNumber = number;

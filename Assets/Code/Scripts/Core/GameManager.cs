@@ -11,7 +11,6 @@ public class GameManager : MonoBehaviour
     private static GameManager instance;
     private List<IReset> resetObjects;
     private List<IReset> objectsToDelete;
-    Coroutine deleteObjectsCoroutine;
     private Transform player;
     
     // Input
@@ -43,7 +42,6 @@ public class GameManager : MonoBehaviour
             instance = new GameObject("GameManager").AddComponent<GameManager>();
             instance.resetObjects = new List<IReset>();
             instance.objectsToDelete = new List<IReset>();
-            instance.deleteObjectsCoroutine = null;
         }
         return instance;
     }
@@ -52,7 +50,6 @@ public class GameManager : MonoBehaviour
         resetObjects = new List<IReset>();
         objectsToDelete = new List<IReset>();
         playerInput = FindObjectOfType<PlayerInput>();
-        deleteObjectsCoroutine = null;
     }
     public void SetPlayer(Transform player)
     {
