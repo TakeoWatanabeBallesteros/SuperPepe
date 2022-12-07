@@ -50,7 +50,11 @@ public class HealthSystem : MonoBehaviour, ITakeDamage, IReset
         OnHealthChanged?.Invoke(currentHealth,previousHealth,true);
         //Comprobación de posible final de partida
         isAlive = currentHealth > 0;
-        if(!isAlive)GameManager.GetGameManager().GameOver(currentLifes);
+        if(!isAlive)
+        {
+            GameManager.GetGameManager().GameOver(currentLifes);
+            GetComponent<PlayerFSM>().Die();
+        }
     }
     public void Heal(int amount)
     {

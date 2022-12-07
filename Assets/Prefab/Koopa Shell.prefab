@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5420877320053902589}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: vision
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3293878010467408270}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.1413, z: 0}
+  m_LocalPosition: {x: -0, y: 0.1036, z: 0.1723}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4404210569276930828}
@@ -41,9 +41,9 @@ GameObject:
   - component: {fileID: 4404210569276930828}
   - component: {fileID: 5577200214148943581}
   - component: {fileID: 7268176388319767469}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Koopa Shell
-  m_TagString: Untagged
+  m_TagString: Shell
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -108,7 +108,7 @@ GameObject:
   - component: {fileID: 3850245762424801876}
   - component: {fileID: 2142021563278078750}
   - component: {fileID: 3214522721791219594}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: default
   m_TagString: Untagged
   m_Icon: {fileID: 0}

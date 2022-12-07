@@ -83,6 +83,17 @@ public class PlayerFSM : MonoBehaviour, IReset
     [SerializeField] private float speed = 0.0f;
 
     [Header("Audios")] [SerializeField] private EventReference playerStepEvent;
+    [SerializeField] private EventReference playerJump01Event;
+    [SerializeField] private EventReference playerJump02Event;
+    [SerializeField] private EventReference playerJump03Event;
+    [SerializeField] private EventReference playerBackflipEvent;
+    [SerializeField] private EventReference playerHitEvent;
+    [SerializeField] private EventReference playerDieEvent;
+    [SerializeField] private EventReference playerPunch01Event;
+    [SerializeField] private EventReference playerPunch02Event;
+    [SerializeField] private EventReference playerPunch03Event;
+    [SerializeField] private EventReference playerHangEvent;
+    [SerializeField] private EventReference playerClimbEvent;
 
     // timeout deltatime
     private float _jumpTimeoutDelta;
@@ -114,6 +125,7 @@ public class PlayerFSM : MonoBehaviour, IReset
     public int animIDClimb { private set; get; }
     public int animIDExtraIdle { private set; get; }
     public int animIDHit { private set; get; }
+    public int animIDDie { private set; get; }
 
     private bool jump;
     [field: SerializeField] public bool crouch { private set; get; }
@@ -139,9 +151,15 @@ public class PlayerFSM : MonoBehaviour, IReset
 
     public bool attacking = false;
 
+    public Transform shell;
+    
+    public HealthSystem healthSystem { private set; get; }
+    
     // Start is called before the first frame update
     void Start()
     {
+        healthSystem = GetComponent<HealthSystem>();
+        
         fsm = new StateMachine();
 
         AddStates();
@@ -193,6 +211,8 @@ public class PlayerFSM : MonoBehaviour, IReset
         fsm.AddState("WallHang", new WallHang(this));
         fsm.AddState("ClimbWall", new ClimbWall(this));
         fsm.AddState("Hit", new Hit(this));
+        fsm.AddState("HipHop", new HipHop(this));
+        fsm.AddState("Die", new Die(this));
     }
 
     private void AddTransitions()
@@ -215,13 +235,17 @@ public class PlayerFSM : MonoBehaviour, IReset
         fsm.AddTriggerTransition("Jump03", new Transition("Land", "Jump03", t => true));
         fsm.AddTriggerTransition("BumDrop", new Transition("Fall", "BumDrop", t => true));
         fsm.AddTriggerTransition("CrouchJump", new Transition("Crouch", "CrouchJump", t => true));
+        fsm.AddTriggerTransition("HipHop", new Transition("Crouch", "HipHop", t => true));
         fsm.AddTriggerTransitionFromAny("WallJump", new Transition("", "WallJump", t => true));
         fsm.AddTriggerTransitionFromAny(
             "Reset"
             , new Transition("", "Idle", t => true));
         fsm.AddTriggerTransitionFromAny(
             "Hit"
-            , new Transition("", "Hit", t => true));
+            , new Transition("", "Hit", t => fsm.ActiveStateName != "Die"));
+        fsm.AddTriggerTransitionFromAny(
+            "Die"
+            , new Transition("", "Die", t => true));
         fsm.AddTriggerTransitionFromAny(
             "Punch"
             , new Transition("", "Punch", t => fsm.ActiveStateName == "Walk" || fsm.ActiveStateName == "Idle"));
@@ -420,6 +444,11 @@ public class PlayerFSM : MonoBehaviour, IReset
     {
         if (!context.action.triggered) return;
 
+        if (fsm.ActiveStateName == "Crouch")
+        {
+            fsm.RequestStateChange("HipHop");
+        }
+
         switch (punchCombo)
         {
             case 0 when fsm.ActiveStateName == "Idle" || fsm.ActiveStateName == "Walk":
@@ -453,6 +482,7 @@ public class PlayerFSM : MonoBehaviour, IReset
         animIDClimb = Animator.StringToHash("Climb");
         animIDExtraIdle = Animator.StringToHash("ExtraIdle");
         animIDHit = Animator.StringToHash("Hit");
+        animIDDie = Animator.StringToHash("Death");
     }
 
     public void OnDeviceChanged(PlayerInput playerInput)
@@ -474,6 +504,51 @@ public class PlayerFSM : MonoBehaviour, IReset
     {
         if (moveInput.magnitude > velocity && velocity > 0) return;
         RuntimeManager.PlayOneShot(playerStepEvent, transform.position);
+    }
+
+    public void Jump1()
+    {
+        RuntimeManager.PlayOneShot(playerJump01Event, transform.position);
+    }
+    
+    public void Jump2()
+    {
+        RuntimeManager.PlayOneShot(playerJump02Event, transform.position);
+    }
+    
+    public void Jump3()
+    {
+        RuntimeManager.PlayOneShot(playerJump03Event, transform.position);
+    }
+    
+    public void Backflip()
+    {
+        RuntimeManager.PlayOneShot(playerBackflipEvent, transform.position);
+    }
+
+    public void PunchSound1()
+    {
+        RuntimeManager.PlayOneShot(playerPunch01Event, transform.position);
+    }
+    
+    public void PunchSound2()
+    {
+        RuntimeManager.PlayOneShot(playerPunch02Event, transform.position);
+    }
+    
+    public void PunchSound3()
+    {
+        RuntimeManager.PlayOneShot(playerPunch03Event, transform.position);
+    }
+
+    public void Hang()
+    {
+        RuntimeManager.PlayOneShot(playerHangEvent, transform.position);
+    }
+
+    public void Climb()
+    {
+        RuntimeManager.PlayOneShot(playerClimbEvent, transform.position);
     }
 
     private void OnDrawGizmosSelected()
@@ -523,12 +598,18 @@ public class PlayerFSM : MonoBehaviour, IReset
         kneesWalling = Physics.Raycast(kneesWallChecker.position, transform.forward, out var kneesHitInfo, wallDistance,
             groundLayers);
 
-        if (headWalling && headHitInfo.transform.CompareTag("Ledge") && chestWalling && kneesWalling &&
-            fsm.ActiveStateName == "Fall")
+        switch (headWalling)
         {
-            hanging = true;
-            hangPos = headHitInfo.point;
-            hangFwd = -headHitInfo.normal;
+            case true when headHitInfo.transform.CompareTag("Ledge") && chestWalling && kneesWalling &&
+                           fsm.ActiveStateName == "Fall":
+                hanging = true;
+                hangPos = headHitInfo.point;
+                hangFwd = -headHitInfo.normal;
+                break;
+            case false when !chestWalling && kneesWalling && kneesHitInfo.transform.CompareTag("Shell"):
+                kneesHitInfo.transform.GetComponent<KoopaShellBehaviour>().free = true;
+                kneesHitInfo.transform.forward = transform.forward;
+                break;
         }
 
         if (!pushWall || pushWallObj != null) return;
@@ -540,6 +621,7 @@ public class PlayerFSM : MonoBehaviour, IReset
     {
         characterController.enabled = false;
         fsm.Trigger("Reset");
+        animator.SetTrigger("Reset");
         transform.position = CheckpointManager.instance.GetCheckPointPosition();
         transform.rotation = CheckpointManager.instance.GetCheckPointRotation();
         characterController.enabled = true;
@@ -550,4 +632,6 @@ public class PlayerFSM : MonoBehaviour, IReset
         hitDirection = direction;
         fsm.Trigger("Hit");
     }
+
+    public void Die() => fsm.Trigger("Die");
 }

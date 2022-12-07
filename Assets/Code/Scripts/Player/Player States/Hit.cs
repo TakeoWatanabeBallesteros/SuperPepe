@@ -15,6 +15,7 @@ public class Hit : StateBase
     {
         timer = 0;
         _fsm.animator.SetTrigger(_fsm.animIDHit);
+        _fsm.healthSystem.TakeDamage(1);
         base.OnEnter();
     }
 

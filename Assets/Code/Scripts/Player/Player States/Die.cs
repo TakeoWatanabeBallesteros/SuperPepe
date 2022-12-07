@@ -12,11 +12,13 @@ public class Die : StateBase
 
     public override void OnEnter()
     {
+        _fsm.animator.SetTrigger(_fsm.animIDDie);
         base.OnEnter();
     }
 
     public override void OnLogic()
     {
+        _fsm.ApplyGravity();
         base.OnLogic();
     }
 

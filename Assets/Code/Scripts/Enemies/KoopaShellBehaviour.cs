@@ -14,9 +14,9 @@ public class KoopaShellBehaviour : MonoBehaviour
         if(!free) return;
         if (Physics.Raycast(shellFront.position, transform.forward, 0.1f, mask))
         {
-            transform.LookAt(-transform.forward);
+            transform.localRotation *= Quaternion.Euler(0, 180, 0);
         }
 
-        characterController.Move(transform.forward * 3 * Time.deltaTime);
+        characterController.Move(transform.forward * 3 * Time.deltaTime + Vector3.down * 5 * Time.deltaTime);
     }
 }
