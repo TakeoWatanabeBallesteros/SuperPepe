@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{2e13bab8-b5ea-4041-bb7d-4d659a792616}">
+		<property name="assetPath">
+			<value>Music/Bob-omb-Battlefield-Funk-Big-Band-Jazz-Version-_The-8-Bit-Big-Band_.wav</value>
+		</property>
+		<property name="isStreaming">
+			<value>true</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>243.22902494331066</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{83ab7f96-f3a5-492c-9418-f12d58ccdc3e}</destination>
+		</relationship>
+	</object>
+</objects>
