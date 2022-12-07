@@ -57,9 +57,9 @@ public class GameManager : MonoBehaviour
         playerInput = FindObjectOfType<PlayerInput>();
         deleteObjectsCoroutine = null;
     }
-    public void SetPlayer(Transform _player)
+    public void SetPlayer(Transform player)
     {
-        this.player = _player;
+        this.player = player;
     }
     public Transform GetPlayer()
     {
